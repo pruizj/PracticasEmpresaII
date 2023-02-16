@@ -8,14 +8,11 @@ import { json } from "body-parser";
 import { startMongoConnection } from "./lib";
 import exSchema from "./schemas/modules/allSchemas";
 
-const {
-  PORT,
-  MONGO_URL,
-} = process.env;
+const { PORT, MONGO_URL } = process.env;
 
 export interface Context {
   //user: User | undefined;
-  user:String
+  user: string;
 }
 
 const app = express();
@@ -29,10 +26,7 @@ const server = new ApolloServer<Context>({
 const main = async () => {
   console.info("Starting api", process.env);
 
-  if (
-    !PORT ||
-    !MONGO_URL
-  ) {
+  if (!PORT || !MONGO_URL) {
     console.error("ERROR WITH ENV");
     return;
   }
@@ -46,7 +40,7 @@ const main = async () => {
       json(),
       expressMiddleware(server, {
         context: async ctx => {
-          let user = "hola"
+          const user = "hola";
           return { user };
         }
       })

@@ -2,7 +2,7 @@ import { loadSchemaSync } from "@graphql-tools/load";
 import { GraphQLFileLoader } from "@graphql-tools/graphql-file-loader";
 import * as path from "path";
 import { makeExecutableSchema } from "@graphql-tools/schema";
-import { mergeResolvers } from "@graphql-tools/merge"
+import { mergeResolvers } from "@graphql-tools/merge";
 import { GraphQLSchema } from "graphql";
 import { allResolvers } from "../../resolvers/allResolvers";
 
@@ -13,7 +13,7 @@ export const typeDefs = loadSchemaSync(
   }
 );
 
-let exSchema: GraphQLSchema = makeExecutableSchema({
+const exSchema: GraphQLSchema = makeExecutableSchema({
   typeDefs,
   resolvers: mergeResolvers(allResolvers)
 });

@@ -1,5 +1,1 @@
-
-
-export const allResolvers = [
-  
-];
+export const allResolvers = [];
