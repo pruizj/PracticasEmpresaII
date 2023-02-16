@@ -19,9 +19,8 @@ module.exports = {
     "plugin:prettier/recommended"
   ],
   ignorePatterns: [
-    "**/api/src/types.ts",
+    "**/api/src/gql/types.ts",
     "**/node_modules",
-    "**/gql/types.ts",
     "node_modules"
   ],
   rules: {
