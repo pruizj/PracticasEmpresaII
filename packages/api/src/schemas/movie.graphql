@@ -1,0 +1,9 @@
+# import * from "./scalars.graphql"
+
+type Query {
+  hello: String!
+}
+
+type Mutation {
+  create(input: String!): String!
+}

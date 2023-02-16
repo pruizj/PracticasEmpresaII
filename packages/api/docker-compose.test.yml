@@ -1,0 +1,33 @@
+version: "3.7"
+
+services:
+  api-test:
+    profiles:
+      - run-api
+    image: node:18.12.1
+    environment:
+      - MONGO_URL=mongodb://test-db/cinema_listings_test
+      - MONGO_DB_NAME=cinema_listings_test
+      - PORT=4000
+    depends_on:
+      - test-db
+    volumes:
+      - type: bind
+        source: ../../../../
+        target: /usr/src
+    ports:
+      - 8007:4000
+    command: >
+      bash -c "cd /usr/src/packages/api
+      && yarn run dev-inspect"
+  
+  test-db:
+    image: mongo:5
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+    volumes:
+      - ./data/test/db:/data/db
+    ports:
+      - 4003:27017
+    command: mongod --logpath=/dev/null 

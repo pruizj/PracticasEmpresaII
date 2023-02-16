@@ -1,0 +1,55 @@
+{
+  "name": "practicasempresa2",
+  "version": "1.0.0",
+  "repository": "https://github.com/pruizj/PracticasEmpresaII.git",
+  "author": "Paula Ruiz",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "packages/api",
+    "packages/front"
+  ],
+  "scripts": {
+    "api-types": "cd packages/api && yarn run generate-types",
+    "front-types": "cd packages/front && yarn run generate-types",
+    "docker": "docker-compose",
+    "docker:api": "docker-compose --profile api",
+    "docker:front": "docker-compose --profile front",
+    "lint": "eslint \"packages/*/**/src/**/*.{js,jsx,ts,tsx}\" --fix --quiet",
+    "tsc:front": "cd packages/front && yarn run tsc",
+    "tsc:api": "cd packages/api && yarn run tsc",
+    "tsc": "yarn run tsc:front && yarn run tsc:api",
+    "unit-tests": "cd packages/api && yarn run test"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.52.0",
+    "@typescript-eslint/parser": "^5.52.0",
+    "eslint": "^8.34.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.1.2",
+    "prettier": "^2.8.4",
+    "typescript": "^4.9.5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && yarn run tsc"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "prettier": {
+    "trailingComma": "none",
+    "arrowParens": "avoid"
+  }
+}

@@ -1,0 +1,2 @@
+# import Mutation.*, Query.*, * from "../movie.graphql"
+# import * from "../scalars.graphql"
