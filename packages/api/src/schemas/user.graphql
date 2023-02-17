@@ -1,0 +1,29 @@
+# import * from "./scalars.graphql"
+type Query {
+  me: User! @auth(requires: [USER, ADMIN])
+  users: [User!]! @auth(requires: [ADMIN])
+}
+
+type Mutation {
+  register(input: UserIn!): User!
+  login(email:String!, password:String!): String!
+  giveAdminRole(id: ID!): User! @auth(requires: [ADMIN])
+  deleteUser(id: ID!): User! @auth(requires: [ADMIN])
+}
+
+type User {
+    id: ID!
+    name: String!
+    surname: String
+    email: String!
+    password: String!
+    role: Role!
+    authToken: String!
+}
+
+input UserIn {
+    name: String!
+    surname: String
+    email: String!
+    password: String!
+}

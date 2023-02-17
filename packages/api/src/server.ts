@@ -5,14 +5,14 @@ import express from "express";
 import http from "http";
 import cors from "cors";
 import { json } from "body-parser";
-import { startMongoConnection } from "./lib";
+import { startMongoConnection } from "./lib/mongoose-connection";
 import exSchema from "./schemas/modules/allSchemas";
-
-const { PORT, MONGO_URL } = process.env;
+import { User } from "./gql/types";
+import { checkToken } from "./lib/login";
+import { MONGO_URL, PORT } from "./config";
 
 export interface Context {
-  //user: User | undefined;
-  user: string;
+  user: User | undefined;
 }
 
 const app = express();
@@ -20,7 +20,8 @@ const httpServer = http.createServer(app);
 
 const server = new ApolloServer<Context>({
   schema: exSchema,
-  plugins: [ApolloServerPluginDrainHttpServer({ httpServer })]
+  plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+  introspection: true
 });
 
 const main = async () => {
@@ -40,8 +41,17 @@ const main = async () => {
       json(),
       expressMiddleware(server, {
         context: async ctx => {
-          const user = "hola";
-          return { user };
+          let user;
+          try {
+            const authorization = ctx.req.headers.authorization || "";
+            const [type, token] = authorization.split(" ");
+            if (type === "Bearer" && token && token !== null) {
+              user = await checkToken(token);
+            }
+            return { user };
+          } catch (e) {
+            throw new Error(e.message);
+          }
         }
       })
     );

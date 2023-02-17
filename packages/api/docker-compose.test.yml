@@ -9,6 +9,8 @@ services:
       - MONGO_URL=mongodb://test-db/cinema_listings_test
       - MONGO_DB_NAME=cinema_listings_test
       - PORT=4000
+      - BCRYPT_SALT
+      - JWT_SECRET
     depends_on:
       - test-db
     volumes:
@@ -16,7 +18,7 @@ services:
         source: ../../../../
         target: /usr/src
     ports:
-      - 8007:4000
+      - 8009:4000
     command: >
       bash -c "cd /usr/src/packages/api
       && yarn run dev-inspect"

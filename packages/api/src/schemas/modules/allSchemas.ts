@@ -5,6 +5,7 @@ import { makeExecutableSchema } from "@graphql-tools/schema";
 import { mergeResolvers } from "@graphql-tools/merge";
 import { GraphQLSchema } from "graphql";
 import { allResolvers } from "../../resolvers/allResolvers";
+import { authDirectiveTransformer } from "../../directives/auth";
 
 export const typeDefs = loadSchemaSync(
   path.join(__dirname, "./allSchemas.graphql"),
@@ -13,9 +14,11 @@ export const typeDefs = loadSchemaSync(
   }
 );
 
-const exSchema: GraphQLSchema = makeExecutableSchema({
+let exSchema: GraphQLSchema = makeExecutableSchema({
   typeDefs,
   resolvers: mergeResolvers(allResolvers)
 });
+
+exSchema = authDirectiveTransformer(exSchema);
 
 export default exSchema;

@@ -1,1 +1,4 @@
-export const allResolvers = [];
+import { movieResolver } from "./movie";
+import { userResolver } from "./user";
+
+export const allResolvers = [movieResolver, userResolver];
