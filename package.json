@@ -14,12 +14,12 @@
     "api-types": "cd packages/api && yarn run generate-types",
     "front-types": "cd packages/front && yarn run generate-types",
     "docker": "docker-compose",
-    "docker:api": "docker-compose --profile api",
-    "docker:front": "docker-compose --profile front",
     "lint:api": "eslint \"packages/api/src/**/*.{js,ts,tsx,jsx,json,scss}\" --fix --quiet",
-    "lint": "yarn run lint:api",
+    "lint:front": "eslint \"packages/front/src/**/*.{js,ts,tsx,jsx,json,scss}\" --fix --quiet",
+    "lint": "yarn run lint:api && yarn run lint:front",
     "tsc:api": "cd packages/api && yarn run tsc",
-    "tsc": "yarn run tsc:api",
+    "tsc:front": "cd packages/front && yarn run tsc",
+    "tsc": "yarn run tsc:api && yarn run tsc:front",
     "unit-tests": "cd packages/api && yarn run test"
   },
   "devDependencies": {

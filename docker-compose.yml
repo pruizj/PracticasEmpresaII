@@ -3,8 +3,6 @@ version: "3.2"
 services:
   api:
     image: node:18.12.1
-    profiles:
-      - api
     environment:
       - MONGO_URL=mongodb://mongodb/cinema_listings
       - MONGO_DB_NAME=cinema_listings
@@ -20,13 +18,11 @@ services:
     ports:
       - 8009:4000
     command: >
-      bash -c "cd /usr/src/packages//api
+      bash -c "cd /usr/src/packages/api
       && yarn run dev-inspect"
 
   front:
     image: node:18.12.1
-    profiles:
-      - front
     environment:
       - NEXT_PUBLIC_API_CLIENT_URL=http://localhost:8009/graphql
       - API_SERVER_URL=http://api:4000/graphql
