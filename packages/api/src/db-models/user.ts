@@ -1,5 +1,8 @@
-import { Schema, Model, model, ObjectId } from "mongoose";
+import mongoose, { Schema, Model, model, ObjectId } from "mongoose";
 import { Role, User } from "../gql/types";
+
+mongoose.set("strictQuery", false);
+
 const UserSchema: Schema = new Schema(
   {
     name: { type: String, required: true },

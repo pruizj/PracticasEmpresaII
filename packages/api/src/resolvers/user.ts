@@ -5,8 +5,7 @@ import {
   MutationDeleteUserArgs,
   MutationGiveAdminRoleArgs,
   MutationLoginArgs,
-  MutationRegisterArgs,
-  User
+  MutationRegisterArgs
 } from "../gql/types";
 import { checkPasswordSecure } from "../lib/login";
 import bcrypt from "bcrypt";
@@ -123,7 +122,7 @@ export const userResolver = {
       args: MutationGiveAdminRoleArgs
     ): Promise<Omit<UserModelType, "_id">> => {
       try {
-        const user = UserModel.findOne({ _id: args.id });
+        const user = await UserModel.findById(args.id).exec();
 
         if (!user) {
           throw new Error("USER_NOT_FOUND");
