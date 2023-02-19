@@ -9,7 +9,7 @@ const Input = styled.input`
 
   &:focus {
     outline: none;
-    border-color: blue;
+    border-color: #b604ff;
   }
 `;
 

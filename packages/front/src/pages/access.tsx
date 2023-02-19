@@ -4,7 +4,7 @@ import Button from "../components/Button";
 import Input from "../components/Input";
 import Alert from "../components/Alert";
 import styled from "@emotion/styled";
-import { useLoginMutation } from "../generated/graphql";
+import { Role, useLoginMutation, useMeQuery } from "../generated/graphql";
 import { ErrorType, ERROR } from "../../../api/src/errors";
 
 const Access = () => {
@@ -14,14 +14,7 @@ const Access = () => {
   const [error, setError] = useState<boolean>(false);
   const router = useRouter();
   const [login] = useLoginMutation();
-
-  const handleEmailChange = event => {
-    setEmail(event.target.value);
-  };
-
-  const handlePasswordChange = event => {
-    setPassword(event.target.value);
-  };
+  const me = useMeQuery();
 
   const callLogin = async () => {
     const result = await login({ variables: { email, password } }).catch(e => {
@@ -35,14 +28,18 @@ const Access = () => {
     }
   };
 
-  const handleRegister = () => {
-    router.push("/register");
+  const redirectByRole = async () => {
+    const result = await me;
+    console.log(result.data.me.role);
+    window.location.replace(
+      result.data.me.role === Role.Admin ? "/adminDashboard" : "/dashboard"
+    );
   };
 
   useEffect(() => {
     if (accessToken !== "") {
       document.cookie = `token=${accessToken};path=/;`;
-      window.location.replace("/dashboard");
+      redirectByRole();
     }
   }, [accessToken]);
 
@@ -51,12 +48,22 @@ const Access = () => {
       <Form>
         <h1>INICIAR SESIÓN</h1>
         <Label>Correo electrónico</Label>
-        <Input type="email" value={email} onChange={handleEmailChange} />
+        <Input
+          type="email"
+          value={email}
+          onChange={event => {
+            setEmail(event.target.value);
+          }}
+          required
+        />
         <Label>Contraseña</Label>
         <Input
           type="password"
           value={password}
-          onChange={handlePasswordChange}
+          onChange={event => {
+            setPassword(event.target.value);
+          }}
+          required
         />
         {error && (
           <ErrorAlert type="error" onClose={() => setError(false)}>
@@ -64,13 +71,16 @@ const Access = () => {
           </ErrorAlert>
         )}
         <Button type="button" onClick={callLogin}>
-          {" "}
-          Entrar{" "}
+          Entrar
         </Button>
         <Text> ¿No tienes una cuenta? Registrate aquí </Text>
-        <Button type="button" onClick={handleRegister}>
-          {" "}
-          Crear una cuenta{" "}
+        <Button
+          type="button"
+          onClick={() => {
+            router.push("/register");
+          }}
+        >
+          Crear una cuenta
         </Button>
       </Form>
     </Container>
