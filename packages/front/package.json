@@ -37,6 +37,8 @@
     "@graphql-codegen/introspection": "2.2.3",
     "@graphql-codegen/typescript": "2.8.5",
     "@graphql-codegen/typescript-operations": "2.5.10",
-    "@graphql-codegen/typescript-react-apollo": "3.3.7"
+    "@graphql-codegen/typescript-react-apollo": "3.3.7",
+    "babel-loader": "^9.1.2",
+    "ts-loader": "^9.4.2"
   }
 }

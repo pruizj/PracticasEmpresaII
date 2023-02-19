@@ -1,0 +1,11 @@
+mutation GiveAdminRole($giveAdminRoleId: ID!) {
+  giveAdminRole(id: $giveAdminRoleId) {
+    id
+    name
+    surname
+    password
+    email
+    role
+    authToken
+  }
+}

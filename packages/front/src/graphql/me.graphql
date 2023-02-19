@@ -1,0 +1,11 @@
+query Me {
+  me {
+    id
+    name
+    surname
+    password
+    email
+    role
+    authToken
+  }
+}
