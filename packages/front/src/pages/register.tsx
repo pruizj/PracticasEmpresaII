@@ -6,6 +6,7 @@ import Button from "../components/Button";
 import Input from "../components/Input";
 import { ERROR } from "../../../api/src/errors";
 import Modal from "../components/Modal";
+import router from "next/router";
 
 const RegisterPage = () => {
   const [name, setName] = useState("");
@@ -40,83 +41,99 @@ const RegisterPage = () => {
       });
     } catch (err) {
       if (err.message === ERROR.USER_ALREADY_EXISTS.message) {
+        setShowModal(false);
         setErrorExists(true);
       } else if (err.message === ERROR.PASSWORD_NOT_SECURE.message) {
+        setShowModal(false);
         setErrorNotSecure(true);
       }
     }
   };
 
   return (
-    <Container>
-      <Form onSubmit={handleSubmit}>
-        <h1>REGISTRO</h1>
-        <Label>Nombre</Label>
-        <Input
-          type="text"
-          value={name}
-          onChange={event => {
-            setName(event.target.value);
-          }}
-          required
-        />
-        <Label>Apellido</Label>
-        <Input
-          type="text"
-          value={surname}
-          onChange={event => {
-            setSurname(event.target.value);
-          }}
-          required
-        />
-        <Label>Correo electrónico</Label>
-        <Input
-          type="email"
-          value={email}
-          onChange={event => {
-            setEmail(event.target.value);
-          }}
-          required
-        />
-        <Label>Contraseña</Label>
-        {errorNotSecure && (
-          <ErrorAlert type="error" onClose={() => setErrorNotSecure(false)}>
-            {
-              "La contraseña debe tener al menos 8 caracteres y contener como mínimo una letra minúscula, una mayúscula, un número y un carácter especial."
+    <Page>
+      <Header>
+        <Logo src="/images/icon.jpg" alt="icon" />
+        <Title>CARTELERA</Title>
+      </Header>
+      <Container>
+        <Form onSubmit={handleSubmit}>
+          <h1>REGISTRO</h1>
+          <Label>Nombre</Label>
+          <Input
+            type="text"
+            value={name}
+            onChange={event => {
+              setName(event.target.value);
+            }}
+            required
+          />
+          <Label>Apellido</Label>
+          <Input
+            type="text"
+            value={surname}
+            onChange={event => {
+              setSurname(event.target.value);
+            }}
+            required
+          />
+          <Label>Correo electrónico</Label>
+          <Input
+            type="email"
+            value={email}
+            onChange={event => {
+              setEmail(event.target.value);
+            }}
+            required
+          />
+          <Label>Contraseña</Label>
+          {errorNotSecure && (
+            <ErrorAlert type="error" onClose={() => setErrorNotSecure(false)}>
+              {
+                "La contraseña debe tener al menos 8 caracteres y contener como mínimo una letra minúscula, una mayúscula, un número y un carácter especial."
+              }
+            </ErrorAlert>
+          )}
+          <Input
+            type="password"
+            value={password}
+            onChange={event => {
+              setPassword(event.target.value);
+            }}
+            required
+          />
+          <Label>Confirmar contraseña</Label>
+          <Input
+            type="password"
+            value={confirmPassword}
+            onChange={event => {
+              setConfirmPassword(event.target.value);
+            }}
+            required
+          />
+          {errorExists && (
+            <ErrorAlert type="error" onClose={() => setErrorExists(false)}>
+              {"Este usuario ya existe"}
+            </ErrorAlert>
+          )}
+          {!passwordsMatch && (
+            <ErrorAlert type="error" onClose={() => setPasswordsMatch(true)}>
+              {"Las contraseñas no coinciden"}
+            </ErrorAlert>
+          )}
+          <Button
+            type="submit"
+            onClick={() => {
+              setShowModal(true);
+            }}
+            disabled={
+              !(name && surname && email && password && confirmPassword)
             }
-          </ErrorAlert>
-        )}
-        <Input
-          type="password"
-          value={password}
-          onChange={event => {
-            setPassword(event.target.value);
-          }}
-          required
-        />
-        <Label>Confirmar contraseña</Label>
-        <Input
-          type="password"
-          value={confirmPassword}
-          onChange={event => {
-            setConfirmPassword(event.target.value);
-          }}
-          required
-        />
-        {errorExists && (
-          <ErrorAlert type="error" onClose={() => setErrorExists(false)}>
-            {"Este usuario ya existe"}
-          </ErrorAlert>
-        )}
-        {!passwordsMatch && (
-          <ErrorAlert type="error" onClose={() => setPasswordsMatch(true)}>
-            {"Las contraseñas no coinciden"}
-          </ErrorAlert>
-        )}
-        <Button type="submit" onClick={() => setShowModal(true)}>
-          Registrarse
-        </Button>
-      </Form>
+          >
+            Registrarse
+          </Button>
+        </Form>
+      </Container>
       <Modal show={showModal} title="Registro exitoso">
         <ModalContainer>
           <p>
@@ -125,16 +142,41 @@ const RegisterPage = () => {
           <Button
             onClick={() => {
               setShowModal(false);
-              window.location.replace("/access");
+              router.push("/access");
             }}
           >
             Volver al inicio
           </Button>
         </ModalContainer>
       </Modal>
-    </Container>
+    </Page>
   );
 };
+
+const Page = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+`;
+
+const Header = styled.div`
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid #2f0139;
+`;
+
+const Logo = styled.img`
+  height: 100px;
+  margin-right: 16px;
+`;
+
+const Title = styled.h1`
+  color: #2f0139;
+  font-size: 24px;
+  font-family: "Courier New";
+  font-weight: 500;
+  margin-top: 40px;
+`;
 
 const Container = styled.div`
   display: flex;
@@ -146,6 +188,7 @@ const Container = styled.div`
 const Form = styled.form`
   display: flex;
   color: white;
+  font-family: "Courier New";
   flex-direction: column;
   align-items: center;
   background-color: #2f0139;
@@ -158,6 +201,7 @@ const Form = styled.form`
 
 const Label = styled.label`
   font-size: 14px;
+  font-family: "Courier New";
   margin: 0 43px 8px;
   align-self: flex-start;
 `;
@@ -173,6 +217,7 @@ const ModalContainer = styled.div`
   align-items: center;
   p {
     font-size: 18px;
+    font-family: "Courier New";
     line-height: 1.33;
   }
 `;

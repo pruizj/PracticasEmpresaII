@@ -27,7 +27,7 @@ export type Mutation = {
   create: Scalars["String"];
   deleteUser: User;
   giveAdminRole: User;
-  login: Scalars["String"];
+  login: ResultLogin;
   register: User;
 };
 
@@ -57,6 +57,12 @@ export type Query = {
   hello: Scalars["String"];
   me: User;
   users: Array<User>;
+};
+
+export type ResultLogin = {
+  __typename?: "ResultLogin";
+  role: Role;
+  token: Scalars["String"];
 };
 
 export enum Role {
@@ -123,7 +129,10 @@ export type LoginMutationVariables = Exact<{
   password: Scalars["String"];
 }>;
 
-export type LoginMutation = { __typename?: "Mutation"; login: string };
+export type LoginMutation = {
+  __typename?: "Mutation";
+  login: { __typename?: "ResultLogin"; token: string; role: Role };
+};
 
 export type MeQueryVariables = Exact<{ [key: string]: never }>;
 
@@ -289,7 +298,10 @@ export type GiveAdminRoleMutationOptions = Apollo.BaseMutationOptions<
 >;
 export const LoginDocument = gql`
   mutation Login($email: String!, $password: String!) {
-    login(email: $email, password: $password)
+    login(email: $email, password: $password) {
+      token
+      role
+    }
   }
 `;
 export type LoginMutationFn = Apollo.MutationFunction<

@@ -1,20 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import Alert from "../components/Alert";
 import styled from "@emotion/styled";
-import { Role, useLoginMutation, useMeQuery } from "../generated/graphql";
-import { ErrorType, ERROR } from "../../../api/src/errors";
+import { Role, useLoginMutation } from "../generated/graphql";
+import { ERROR } from "../../../api/src/errors";
 
 const Access = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [accessToken, setAccessToken] = useState("");
   const [error, setError] = useState<boolean>(false);
   const router = useRouter();
   const [login] = useLoginMutation();
-  const me = useMeQuery();
 
   const callLogin = async () => {
     const result = await login({ variables: { email, password } }).catch(e => {
@@ -24,68 +22,89 @@ const Access = () => {
     });
 
     if (result && result.data) {
-      setAccessToken(result.data.login);
+      document.cookie = `token=${result.data.login.token};path=/;`;
+      if (result.data.login.role === Role.Admin) {
+        router.push("/adminDashboard");
+      } else {
+        router.push("/userDashboard");
+      }
     }
   };
-
-  const redirectByRole = async () => {
-    const result = await me;
-    console.log(result.data.me.role);
-    window.location.replace(
-      result.data.me.role === Role.Admin ? "/adminDashboard" : "/dashboard"
-    );
-  };
-
-  useEffect(() => {
-    if (accessToken !== "") {
-      document.cookie = `token=${accessToken};path=/;`;
-      redirectByRole();
-    }
-  }, [accessToken]);
 
   return (
-    <Container>
-      <Form>
-        <h1>INICIAR SESIÓN</h1>
-        <Label>Correo electrónico</Label>
-        <Input
-          type="email"
-          value={email}
-          onChange={event => {
-            setEmail(event.target.value);
-          }}
-          required
-        />
-        <Label>Contraseña</Label>
-        <Input
-          type="password"
-          value={password}
-          onChange={event => {
-            setPassword(event.target.value);
-          }}
-          required
-        />
-        {error && (
-          <ErrorAlert type="error" onClose={() => setError(false)}>
-            El correo o la contraseña son incorrectos
-          </ErrorAlert>
-        )}
-        <Button type="button" onClick={callLogin}>
-          Entrar
-        </Button>
-        <Text> ¿No tienes una cuenta? Registrate aquí </Text>
-        <Button
-          type="button"
-          onClick={() => {
-            router.push("/register");
-          }}
-        >
-          Crear una cuenta
-        </Button>
-      </Form>
-    </Container>
+    <Page>
+      <Header>
+        <Logo src="/images/icon.jpg" alt="icon" />
+        <Title>CARTELERA</Title>
+      </Header>
+      <Container>
+        <Form>
+          <h1>INICIAR SESIÓN</h1>
+          <Label>Correo electrónico</Label>
+          <Input
+            type="email"
+            value={email}
+            onChange={event => {
+              setEmail(event.target.value);
+            }}
+            required
+          />
+          <Label>Contraseña</Label>
+          <Input
+            type="password"
+            value={password}
+            onChange={event => {
+              setPassword(event.target.value);
+            }}
+            required
+          />
+          {error && (
+            <ErrorAlert type="error" onClose={() => setError(false)}>
+              El correo o la contraseña son incorrectos
+            </ErrorAlert>
+          )}
+          <Button type="button" onClick={callLogin}>
+            Entrar
+          </Button>
+          <Text> ¿No tienes una cuenta? Registrate aquí </Text>
+          <Button
+            type="button"
+            onClick={() => {
+              router.push("/register");
+            }}
+          >
+            Crear una cuenta
+          </Button>
+        </Form>
+      </Container>
+    </Page>
   );
 };
+
+const Page = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+`;
+
+const Header = styled.div`
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid #2f0139;
+`;
+
+const Logo = styled.img`
+  height: 100px;
+  margin-right: 16px;
+`;
+
+const Title = styled.h1`
+  color: #2f0139;
+  font-size: 24px;
+  font-family: "Courier New";
+  font-weight: 500;
+  margin-top: 40px;
+`;
 
 const Container = styled.div`
   display: flex;

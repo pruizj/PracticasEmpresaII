@@ -46,6 +46,7 @@ const CloseButton = styled.div`
   background-position: center center;
   background-repeat: no-repeat;
   background-size: 32px 32px;
+  font-family: "Courier New";
   cursor: pointer;
   height: 32px;
   position: absolute;
@@ -81,6 +82,7 @@ const Container = styled.div<{ show: boolean }>`
 const Content = styled.div`
   background-color: white;
   border-radius: 10px;
+  font-family: "Courier New";
   box-sizing: border-box;
   padding: 24px 40px 20px;
   position: relative;

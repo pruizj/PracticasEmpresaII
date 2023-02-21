@@ -13,7 +13,12 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       /(?:(?:^|.*;\s*)token\s*\=\s*([^;]*).*$)|^.*$/,
       "$1"
     );
-  if (!token && isBrowser && window.location.pathname !== "/access") {
+  if (
+    !token &&
+    isBrowser &&
+    window.location.pathname !== "/access" &&
+    window.location.pathname !== "/register"
+  ) {
     window.location.replace("/access");
   }
 

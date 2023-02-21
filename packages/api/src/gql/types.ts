@@ -32,7 +32,7 @@ export type Mutation = {
   create: Scalars["String"];
   deleteUser: User;
   giveAdminRole: User;
-  login: Scalars["String"];
+  login: ResultLogin;
   register: User;
 };
 
@@ -62,6 +62,12 @@ export type Query = {
   hello: Scalars["String"];
   me: User;
   users: Array<User>;
+};
+
+export type ResultLogin = {
+  __typename?: "ResultLogin";
+  role: Role;
+  token: Scalars["String"];
 };
 
 export enum Role {
@@ -199,6 +205,7 @@ export type ResolversTypes = {
   ID: ResolverTypeWrapper<Scalars["ID"]>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
+  ResultLogin: ResolverTypeWrapper<ResultLogin>;
   Role: Role;
   String: ResolverTypeWrapper<Scalars["String"]>;
   User: ResolverTypeWrapper<User>;
@@ -212,6 +219,7 @@ export type ResolversParentTypes = {
   ID: Scalars["ID"];
   Mutation: {};
   Query: {};
+  ResultLogin: ResultLogin;
   String: Scalars["String"];
   User: User;
   UserIn: UserIn;
@@ -256,7 +264,7 @@ export type MutationResolvers<
     RequireFields<MutationGiveAdminRoleArgs, "id">
   >;
   login?: Resolver<
-    ResolversTypes["String"],
+    ResolversTypes["ResultLogin"],
     ParentType,
     ContextType,
     RequireFields<MutationLoginArgs, "email" | "password">
@@ -278,6 +286,15 @@ export type QueryResolvers<
   users?: Resolver<Array<ResolversTypes["User"]>, ParentType, ContextType>;
 };
 
+export type ResultLoginResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ResultLogin"] = ResolversParentTypes["ResultLogin"]
+> = {
+  role?: Resolver<ResolversTypes["Role"], ParentType, ContextType>;
+  token?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type UserResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes["User"] = ResolversParentTypes["User"]
@@ -296,6 +313,7 @@ export type Resolvers<ContextType = any> = {
   Date?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  ResultLogin?: ResultLoginResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };
 

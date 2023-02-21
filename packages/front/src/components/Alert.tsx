@@ -16,6 +16,7 @@ const Alert: FC<AlertProps> = ({ children, onClose, ...props }) => (
 );
 
 const Content = styled.div<{ type: string }>`
+  font-family: "Courier New"
   align-items: center;
   display: flex;
   line-height: 1.25;

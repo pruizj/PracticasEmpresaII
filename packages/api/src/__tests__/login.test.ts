@@ -1,6 +1,6 @@
 import { Mongoose } from "mongoose";
 import { UserModel } from "../db-models/user";
-import { User } from "../gql/types";
+import { ResultLogin, User } from "../gql/types";
 import { user } from "./data/user";
 import { AfterAll, BeforeAll } from "./functions";
 import { graphQLHelper } from "./graphqlHelper";
@@ -36,16 +36,15 @@ describe("Login", () => {
       { user: undefined }
     );
 
-    const { login } = result1.data as { login: User };
-
-    // check user is in database
-    const userDB = await UserModel.findOne({ email: user.email });
-    expect(userDB).toMatchObject({
-      ...user,
-      password: expect.any(String),
-      role: "USER",
-      authToken: login
+    const { login } = result1.data as { login: ResultLogin };
+    expect(login).toMatchObject({
+      token: expect.any(String),
+      role: "USER"
     });
+
+    // check user is updated in database
+    const userDB = await UserModel.findOne({ email: user.email });
+    expect(userDB?.authToken).toMatch(login.token);
 
     // check password is valid
     const isPasswordCorrect = await bcrypt.compare(

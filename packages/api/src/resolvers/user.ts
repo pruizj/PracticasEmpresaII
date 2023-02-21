@@ -5,7 +5,8 @@ import {
   MutationDeleteUserArgs,
   MutationGiveAdminRoleArgs,
   MutationLoginArgs,
-  MutationRegisterArgs
+  MutationRegisterArgs,
+  ResultLogin
 } from "../gql/types";
 import { checkPasswordSecure } from "../lib/login";
 import bcrypt from "bcrypt";
@@ -84,7 +85,10 @@ export const userResolver = {
       }
     },
 
-    login: async (_parent: any, args: MutationLoginArgs): Promise<string> => {
+    login: async (
+      _parent: any,
+      args: MutationLoginArgs
+    ): Promise<ResultLogin> => {
       try {
         const user = await UserModel.findOne({ email: args.email }).exec();
         const valid =
@@ -109,7 +113,10 @@ export const userResolver = {
           { $set: { authToken: token } }
         ).exec();
 
-        return token;
+        return {
+          token,
+          role: user.role
+        };
       } catch (e) {
         throw new GraphQLError(ERROR[e.message]?.message || e.message, {
           extensions: { code: ERROR[e.message]?.code || "500" }

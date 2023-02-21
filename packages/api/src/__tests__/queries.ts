@@ -13,7 +13,10 @@ mutation Register($input: UserIn!) {
 
 export const LOGIN = `
 mutation Mutation($email: String!, $password: String!) {
-  login(email: $email, password: $password)
+  login(email: $email, password: $password){
+    token
+    role
+  }
 }`;
 
 export const GIVE_ADMIN_ROLE = `
