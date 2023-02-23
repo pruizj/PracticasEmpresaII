@@ -7,7 +7,7 @@ type Query {
 type Mutation {
   register(input: UserIn!): User!
   login(email:String!, password:String!): ResultLogin!
-  giveAdminRole(id: ID!): User! @auth(requires: [ADMIN])
+  changeRole(id: ID!, role:Role!): User! @auth(requires: [ADMIN])
   deleteUser(id: ID!): User! @auth(requires: [ADMIN])
 }
 

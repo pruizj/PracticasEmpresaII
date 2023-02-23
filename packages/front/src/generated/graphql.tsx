@@ -24,11 +24,16 @@ export type Scalars = {
 
 export type Mutation = {
   __typename?: "Mutation";
+  changeRole: User;
   create: Scalars["String"];
   deleteUser: User;
-  giveAdminRole: User;
   login: ResultLogin;
   register: User;
+};
+
+export type MutationChangeRoleArgs = {
+  id: Scalars["ID"];
+  role: Role;
 };
 
 export type MutationCreateArgs = {
@@ -36,10 +41,6 @@ export type MutationCreateArgs = {
 };
 
 export type MutationDeleteUserArgs = {
-  id: Scalars["ID"];
-};
-
-export type MutationGiveAdminRoleArgs = {
   id: Scalars["ID"];
 };
 
@@ -88,13 +89,14 @@ export type UserIn = {
   surname?: InputMaybe<Scalars["String"]>;
 };
 
-export type DeleteUserMutationVariables = Exact<{
-  deleteUserId: Scalars["ID"];
+export type ChangeRoleMutationVariables = Exact<{
+  changeRoleId: Scalars["ID"];
+  role: Role;
 }>;
 
-export type DeleteUserMutation = {
+export type ChangeRoleMutation = {
   __typename?: "Mutation";
-  deleteUser: {
+  changeRole: {
     __typename?: "User";
     id: string;
     name: string;
@@ -106,13 +108,13 @@ export type DeleteUserMutation = {
   };
 };
 
-export type GiveAdminRoleMutationVariables = Exact<{
-  giveAdminRoleId: Scalars["ID"];
+export type DeleteUserMutationVariables = Exact<{
+  deleteUserId: Scalars["ID"];
 }>;
 
-export type GiveAdminRoleMutation = {
+export type DeleteUserMutation = {
   __typename?: "Mutation";
-  giveAdminRole: {
+  deleteUser: {
     __typename?: "User";
     id: string;
     name: string;
@@ -184,6 +186,63 @@ export type UsersQuery = {
   }>;
 };
 
+export const ChangeRoleDocument = gql`
+  mutation ChangeRole($changeRoleId: ID!, $role: Role!) {
+    changeRole(id: $changeRoleId, role: $role) {
+      id
+      name
+      surname
+      password
+      email
+      role
+      authToken
+    }
+  }
+`;
+export type ChangeRoleMutationFn = Apollo.MutationFunction<
+  ChangeRoleMutation,
+  ChangeRoleMutationVariables
+>;
+
+/**
+ * __useChangeRoleMutation__
+ *
+ * To run a mutation, you first call `useChangeRoleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useChangeRoleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [changeRoleMutation, { data, loading, error }] = useChangeRoleMutation({
+ *   variables: {
+ *      changeRoleId: // value for 'changeRoleId'
+ *      role: // value for 'role'
+ *   },
+ * });
+ */
+export function useChangeRoleMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    ChangeRoleMutation,
+    ChangeRoleMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<ChangeRoleMutation, ChangeRoleMutationVariables>(
+    ChangeRoleDocument,
+    options
+  );
+}
+export type ChangeRoleMutationHookResult = ReturnType<
+  typeof useChangeRoleMutation
+>;
+export type ChangeRoleMutationResult =
+  Apollo.MutationResult<ChangeRoleMutation>;
+export type ChangeRoleMutationOptions = Apollo.BaseMutationOptions<
+  ChangeRoleMutation,
+  ChangeRoleMutationVariables
+>;
 export const DeleteUserDocument = gql`
   mutation DeleteUser($deleteUserId: ID!) {
     deleteUser(id: $deleteUserId) {
@@ -239,62 +298,6 @@ export type DeleteUserMutationResult =
 export type DeleteUserMutationOptions = Apollo.BaseMutationOptions<
   DeleteUserMutation,
   DeleteUserMutationVariables
->;
-export const GiveAdminRoleDocument = gql`
-  mutation GiveAdminRole($giveAdminRoleId: ID!) {
-    giveAdminRole(id: $giveAdminRoleId) {
-      id
-      name
-      surname
-      password
-      email
-      role
-      authToken
-    }
-  }
-`;
-export type GiveAdminRoleMutationFn = Apollo.MutationFunction<
-  GiveAdminRoleMutation,
-  GiveAdminRoleMutationVariables
->;
-
-/**
- * __useGiveAdminRoleMutation__
- *
- * To run a mutation, you first call `useGiveAdminRoleMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useGiveAdminRoleMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [giveAdminRoleMutation, { data, loading, error }] = useGiveAdminRoleMutation({
- *   variables: {
- *      giveAdminRoleId: // value for 'giveAdminRoleId'
- *   },
- * });
- */
-export function useGiveAdminRoleMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    GiveAdminRoleMutation,
-    GiveAdminRoleMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    GiveAdminRoleMutation,
-    GiveAdminRoleMutationVariables
-  >(GiveAdminRoleDocument, options);
-}
-export type GiveAdminRoleMutationHookResult = ReturnType<
-  typeof useGiveAdminRoleMutation
->;
-export type GiveAdminRoleMutationResult =
-  Apollo.MutationResult<GiveAdminRoleMutation>;
-export type GiveAdminRoleMutationOptions = Apollo.BaseMutationOptions<
-  GiveAdminRoleMutation,
-  GiveAdminRoleMutationVariables
 >;
 export const LoginDocument = gql`
   mutation Login($email: String!, $password: String!) {

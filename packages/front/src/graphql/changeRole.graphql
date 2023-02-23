@@ -1,0 +1,11 @@
+mutation ChangeRole($changeRoleId: ID!, $role: Role!) {
+  changeRole(id: $changeRoleId, role: $role) {
+    id
+    name
+    surname
+    password
+    email
+    role
+    authToken
+  }
+}

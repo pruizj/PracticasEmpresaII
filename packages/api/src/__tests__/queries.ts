@@ -19,9 +19,9 @@ mutation Mutation($email: String!, $password: String!) {
   }
 }`;
 
-export const GIVE_ADMIN_ROLE = `
-mutation Mutation($giveAdminRoleId: ID!) {
-  giveAdminRole(id: $giveAdminRoleId) {
+export const CHANGE_ROLE = `
+mutation ChangeRole($changeRoleId: ID!, $role: Role!) {
+  changeRole(id: $changeRoleId, role: $role) {
     id
     name
     surname

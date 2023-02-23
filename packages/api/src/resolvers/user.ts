@@ -3,7 +3,7 @@ import { ERROR } from "../errors";
 import { UserModel, UserModelType } from "../db-models/user";
 import {
   MutationDeleteUserArgs,
-  MutationGiveAdminRoleArgs,
+  MutationChangeRoleArgs,
   MutationLoginArgs,
   MutationRegisterArgs,
   ResultLogin
@@ -124,9 +124,9 @@ export const userResolver = {
       }
     },
 
-    giveAdminRole: async (
+    changeRole: async (
       _parent: any,
-      args: MutationGiveAdminRoleArgs
+      args: MutationChangeRoleArgs
     ): Promise<Omit<UserModelType, "_id">> => {
       try {
         const user = await UserModel.findById(args.id).exec();
@@ -137,7 +137,7 @@ export const userResolver = {
 
         const updatedUser = (await UserModel.findOneAndUpdate(
           { _id: args.id },
-          { role: "ADMIN" },
+          { role: args.role },
           { new: true }
         ).exec()) as Omit<UserModelType, "_id">;
 

@@ -29,11 +29,16 @@ export type Scalars = {
 
 export type Mutation = {
   __typename?: "Mutation";
+  changeRole: User;
   create: Scalars["String"];
   deleteUser: User;
-  giveAdminRole: User;
   login: ResultLogin;
   register: User;
+};
+
+export type MutationChangeRoleArgs = {
+  id: Scalars["ID"];
+  role: Role;
 };
 
 export type MutationCreateArgs = {
@@ -41,10 +46,6 @@ export type MutationCreateArgs = {
 };
 
 export type MutationDeleteUserArgs = {
-  id: Scalars["ID"];
-};
-
-export type MutationGiveAdminRoleArgs = {
   id: Scalars["ID"];
 };
 
@@ -245,6 +246,12 @@ export type MutationResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes["Mutation"] = ResolversParentTypes["Mutation"]
 > = {
+  changeRole?: Resolver<
+    ResolversTypes["User"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationChangeRoleArgs, "id" | "role">
+  >;
   create?: Resolver<
     ResolversTypes["String"],
     ParentType,
@@ -256,12 +263,6 @@ export type MutationResolvers<
     ParentType,
     ContextType,
     RequireFields<MutationDeleteUserArgs, "id">
-  >;
-  giveAdminRole?: Resolver<
-    ResolversTypes["User"],
-    ParentType,
-    ContextType,
-    RequireFields<MutationGiveAdminRoleArgs, "id">
   >;
   login?: Resolver<
     ResolversTypes["ResultLogin"],

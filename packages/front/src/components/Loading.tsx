@@ -16,8 +16,10 @@ export default Loading;
 
 const Container = styled.div`
   align-items: center;
-  display: flex;
-  height: 100vh;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
   justify-content: center;
-  width: 100vw;
 `;

@@ -7,6 +7,7 @@ import Input from "../components/Input";
 import { ERROR } from "../../../api/src/errors";
 import Modal from "../components/Modal";
 import router from "next/router";
+import MainHeader from "../components/MainHeader";
 
 const RegisterPage = () => {
   const [name, setName] = useState("");
@@ -52,10 +53,7 @@ const RegisterPage = () => {
 
   return (
     <Page>
-      <Header>
-        <Logo src="/images/icon.jpg" alt="icon" />
-        <Title>CARTELERA</Title>
-      </Header>
+      <MainHeader />
       <Container>
         <Form onSubmit={handleSubmit}>
           <h1>REGISTRO</h1>
@@ -154,35 +152,17 @@ const RegisterPage = () => {
 };
 
 const Page = styled.div`
+  width: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  height: 100vh;
-`;
-
-const Header = styled.div`
-  display: flex;
-  flex-direction: row;
-  border-bottom: 1px solid #2f0139;
-`;
-
-const Logo = styled.img`
-  height: 100px;
-  margin-right: 16px;
-`;
-
-const Title = styled.h1`
-  color: #2f0139;
-  font-size: 24px;
-  font-family: "Courier New";
-  font-weight: 500;
-  margin-top: 40px;
 `;
 
 const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 90vh;
 `;
 
 const Form = styled.form`
