@@ -1,4 +1,5 @@
 import { Mongoose } from "mongoose";
+import { MovieModel } from "../db-models/movie";
 import { UserModel } from "../db-models/user";
 import { startMongoConnection } from "../lib/mongoose-connection";
 const { MONGO_URL_TEST } = process.env;
@@ -12,6 +13,7 @@ export const BeforeAll = async <T>(db: Mongoose): Promise<Mongoose> => {
 
   // clean database before starting tests
   await UserModel.deleteMany({});
+  await MovieModel.deleteMany({});
 
   return db;
 };
@@ -19,6 +21,7 @@ export const BeforeAll = async <T>(db: Mongoose): Promise<Mongoose> => {
 export const AfterAll = async <T>(db: Mongoose): Promise<Mongoose> => {
   // clean database after tests
   await UserModel.deleteMany({});
+  await MovieModel.deleteMany({});
 
   db.disconnect();
   return db;

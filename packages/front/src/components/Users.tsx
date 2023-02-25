@@ -11,13 +11,13 @@ import Loading from "./Loading";
 import UserIndex from "./UserIndex";
 
 const Users: FC = () => {
-  const { loading, data } = useUsersQuery();
+  const { loading, data, refetch } = useUsersQuery();
   const { data: datame } = useMeQuery();
   const [changeRole] = useChangeRoleMutation();
-  const [filteredUsers, setFilteredUsers] = useState<any>([]);
 
   const giveRole = async (id, role) => {
     try {
+      if (id === datame.me.id) return alert("NO PUEDES CAMIBIAR TU PROPIO ROL");
       await changeRole({
         variables: {
           changeRoleId: id,
@@ -29,20 +29,17 @@ const Users: FC = () => {
     }
   };
 
-  if (loading) return <Loading />;
-
-  // filtrar los usuarios para excluir al usuario actual
   useEffect(() => {
-    setFilteredUsers(
-      data && data.users.filter(user => user.id !== datame.me.id)
-    );
-  }, []);
+    refetch();
+  }, [refetch]);
+
+  if (loading) return <Loading />;
 
   return (
     <Content>
       <UserIndex />
-      {filteredUsers &&
-        filteredUsers.map(user => {
+      {data &&
+        data.users.map(user => {
           return (
             <User key={user.id}>
               <Item>

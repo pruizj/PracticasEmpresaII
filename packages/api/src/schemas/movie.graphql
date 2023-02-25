@@ -1,9 +1,76 @@
 # import * from "./scalars.graphql"
 
+type Movie {
+  id: ID!
+  title: String!
+  synopsis: String!
+  gender: String!
+  duration: Int!
+  director: String!
+  cast: [String!]!
+  release: Date!
+  rating: Int!
+  image: String
+  trailer: String
+  createdAt: Date!
+  updatedAt: Date!
+}
+
+type MovieData {
+  id: ID!
+  title: String!
+  release: Date!
+  rating: Int!
+  image: String
+}
+
+input MovieIn {
+  title: String!
+  synopsis: String!
+  gender: String!
+  duration: Int!
+  director: String!
+  cast: [String!]!
+  release: Int!
+  rating: Float!
+  image: String
+  trailer: String
+}
+
+input UpdateMovieIn {
+  title: String
+  synopsis: String
+  gender: String
+  duration: Int
+  director: String
+  cast: [String!]
+  release: Int
+  rating: Float
+  image: String
+  trailer: String
+}
+
+type PaginatedMovies {
+  totalNumber: Int!
+  page: Int!
+  pageSize: Int!
+  totalPages: Int!
+  data: [MovieData!]!
+}
+
 type Query {
-  hello: String!
+  movie(id: ID!): Movie! @auth(requires: [ADMIN, USER])
+  movies: [Movie!]! @auth(requires: [ADMIN, USER])
+  paginatedMovies(
+    page: Int
+    pageSize: Int
+    order: GeneralOrderType
+    searchTitle: String
+  ): PaginatedMovies! @auth(requires: [ADMIN, USER])
 }
 
 type Mutation {
-  create(input: String!): String!
+  createMovie(input: MovieIn!): Movie! @auth(requires: [ADMIN])
+  updateMovie(id: ID!, input: UpdateMovieIn!): Movie! @auth(requires: [ADMIN])
+  deleteMovie(id: ID!): Movie! @auth(requires: [ADMIN])
 }

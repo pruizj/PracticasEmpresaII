@@ -7,3 +7,20 @@ enum Role {
     ADMIN
     USER
 }
+
+enum GeneralOrderType {
+  RecentFirst
+  RecentLast
+  NameAZ
+  NameZA
+}
+
+enum Days {
+  Monday
+  Tuesday
+  Wednesday
+  Thursday
+  Friday
+  Saturday
+  Sunday
+}

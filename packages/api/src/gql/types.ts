@@ -24,16 +24,103 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  Date: any;
+  Date: Date;
+};
+
+export type Cinema = {
+  __typename?: "Cinema";
+  address: Scalars["String"];
+  createdAt: Scalars["Date"];
+  id: Scalars["ID"];
+  movies: Array<Movie>;
+  name: Scalars["String"];
+  rooms: Room;
+  schedule: Array<Schedule>;
+  updatedAt: Scalars["Date"];
+};
+
+export type CinemaData = {
+  __typename?: "CinemaData";
+  address: Scalars["String"];
+  id: Scalars["ID"];
+  name: Scalars["String"];
+};
+
+export type CinemaIn = {
+  address: Scalars["String"];
+  name: Scalars["String"];
+  rooms: RoomIn;
+  schedule?: InputMaybe<Array<ScheduleIn>>;
+};
+
+export enum Days {
+  Friday = "Friday",
+  Monday = "Monday",
+  Saturday = "Saturday",
+  Sunday = "Sunday",
+  Thursday = "Thursday",
+  Tuesday = "Tuesday",
+  Wednesday = "Wednesday"
+}
+
+export enum GeneralOrderType {
+  NameAz = "NameAZ",
+  NameZa = "NameZA",
+  RecentFirst = "RecentFirst",
+  RecentLast = "RecentLast"
+}
+
+export type Movie = {
+  __typename?: "Movie";
+  cast: Array<Scalars["String"]>;
+  createdAt: Scalars["Date"];
+  director: Scalars["String"];
+  duration: Scalars["Int"];
+  gender: Scalars["String"];
+  id: Scalars["ID"];
+  image?: Maybe<Scalars["String"]>;
+  rating: Scalars["Int"];
+  release: Scalars["Date"];
+  synopsis: Scalars["String"];
+  title: Scalars["String"];
+  trailer?: Maybe<Scalars["String"]>;
+  updatedAt: Scalars["Date"];
+};
+
+export type MovieData = {
+  __typename?: "MovieData";
+  id: Scalars["ID"];
+  image?: Maybe<Scalars["String"]>;
+  rating: Scalars["Int"];
+  release: Scalars["Date"];
+  title: Scalars["String"];
+};
+
+export type MovieIn = {
+  cast: Array<Scalars["String"]>;
+  director: Scalars["String"];
+  duration: Scalars["Int"];
+  gender: Scalars["String"];
+  image?: InputMaybe<Scalars["String"]>;
+  rating: Scalars["Float"];
+  release: Scalars["Int"];
+  synopsis: Scalars["String"];
+  title: Scalars["String"];
+  trailer?: InputMaybe<Scalars["String"]>;
 };
 
 export type Mutation = {
   __typename?: "Mutation";
   changeRole: User;
-  create: Scalars["String"];
+  createCinema: Cinema;
+  createMovie: Movie;
+  deleteCinema: Cinema;
+  deleteMovie: Movie;
   deleteUser: User;
   login: ResultLogin;
   register: User;
+  updateCinema: Cinema;
+  updateMovie: Movie;
 };
 
 export type MutationChangeRoleArgs = {
@@ -41,8 +128,20 @@ export type MutationChangeRoleArgs = {
   role: Role;
 };
 
-export type MutationCreateArgs = {
-  input: Scalars["String"];
+export type MutationCreateCinemaArgs = {
+  input: CinemaIn;
+};
+
+export type MutationCreateMovieArgs = {
+  input: MovieIn;
+};
+
+export type MutationDeleteCinemaArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteMovieArgs = {
+  id: Scalars["ID"];
 };
 
 export type MutationDeleteUserArgs = {
@@ -58,11 +157,66 @@ export type MutationRegisterArgs = {
   input: UserIn;
 };
 
+export type MutationUpdateCinemaArgs = {
+  id: Scalars["ID"];
+  input: UpdateCinemaIn;
+};
+
+export type MutationUpdateMovieArgs = {
+  id: Scalars["ID"];
+  input: UpdateMovieIn;
+};
+
+export type PaginatedCinemas = {
+  __typename?: "PaginatedCinemas";
+  data: Array<CinemaData>;
+  page: Scalars["Int"];
+  pageSize: Scalars["Int"];
+  totalNumber: Scalars["Int"];
+  totalPages: Scalars["Int"];
+};
+
+export type PaginatedMovies = {
+  __typename?: "PaginatedMovies";
+  data: Array<MovieData>;
+  page: Scalars["Int"];
+  pageSize: Scalars["Int"];
+  totalNumber: Scalars["Int"];
+  totalPages: Scalars["Int"];
+};
+
 export type Query = {
   __typename?: "Query";
-  hello: Scalars["String"];
+  cinema: Cinema;
+  cinemas: Array<Cinema>;
   me: User;
+  movie: Movie;
+  movies: Array<Movie>;
+  paginatedCinemas: PaginatedCinemas;
+  paginatedMovies: PaginatedMovies;
   users: Array<User>;
+};
+
+export type QueryCinemaArgs = {
+  id: Scalars["ID"];
+};
+
+export type QueryMovieArgs = {
+  id: Scalars["ID"];
+};
+
+export type QueryPaginatedCinemasArgs = {
+  order?: InputMaybe<GeneralOrderType>;
+  page?: InputMaybe<Scalars["Int"]>;
+  pageSize?: InputMaybe<Scalars["Int"]>;
+  searchName?: InputMaybe<Scalars["String"]>;
+};
+
+export type QueryPaginatedMoviesArgs = {
+  order?: InputMaybe<GeneralOrderType>;
+  page?: InputMaybe<Scalars["Int"]>;
+  pageSize?: InputMaybe<Scalars["Int"]>;
+  searchTitle?: InputMaybe<Scalars["String"]>;
 };
 
 export type ResultLogin = {
@@ -75,6 +229,50 @@ export enum Role {
   Admin = "ADMIN",
   User = "USER"
 }
+
+export type Room = {
+  __typename?: "Room";
+  capacity: Scalars["Int"];
+  number: Scalars["Int"];
+};
+
+export type RoomIn = {
+  capacity: Scalars["Int"];
+  number: Scalars["Int"];
+};
+
+export type Schedule = {
+  __typename?: "Schedule";
+  day: Days;
+  movie: Movie;
+  time: Scalars["String"];
+};
+
+export type ScheduleIn = {
+  day: Days;
+  movie: Scalars["ID"];
+  time: Scalars["String"];
+};
+
+export type UpdateCinemaIn = {
+  address?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]>;
+  rooms: RoomIn;
+  schedule?: InputMaybe<Array<ScheduleIn>>;
+};
+
+export type UpdateMovieIn = {
+  cast?: InputMaybe<Array<Scalars["String"]>>;
+  director?: InputMaybe<Scalars["String"]>;
+  duration?: InputMaybe<Scalars["Int"]>;
+  gender?: InputMaybe<Scalars["String"]>;
+  image?: InputMaybe<Scalars["String"]>;
+  rating?: InputMaybe<Scalars["Float"]>;
+  release?: InputMaybe<Scalars["Int"]>;
+  synopsis?: InputMaybe<Scalars["String"]>;
+  title?: InputMaybe<Scalars["String"]>;
+  trailer?: InputMaybe<Scalars["String"]>;
+};
 
 export type User = {
   __typename?: "User";
@@ -202,13 +400,31 @@ export type DirectiveResolverFn<
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
+  Cinema: ResolverTypeWrapper<Cinema>;
+  CinemaData: ResolverTypeWrapper<CinemaData>;
+  CinemaIn: CinemaIn;
   Date: ResolverTypeWrapper<Scalars["Date"]>;
+  Days: Days;
+  Float: ResolverTypeWrapper<Scalars["Float"]>;
+  GeneralOrderType: GeneralOrderType;
   ID: ResolverTypeWrapper<Scalars["ID"]>;
+  Int: ResolverTypeWrapper<Scalars["Int"]>;
+  Movie: ResolverTypeWrapper<Movie>;
+  MovieData: ResolverTypeWrapper<MovieData>;
+  MovieIn: MovieIn;
   Mutation: ResolverTypeWrapper<{}>;
+  PaginatedCinemas: ResolverTypeWrapper<PaginatedCinemas>;
+  PaginatedMovies: ResolverTypeWrapper<PaginatedMovies>;
   Query: ResolverTypeWrapper<{}>;
   ResultLogin: ResolverTypeWrapper<ResultLogin>;
   Role: Role;
+  Room: ResolverTypeWrapper<Room>;
+  RoomIn: RoomIn;
+  Schedule: ResolverTypeWrapper<Schedule>;
+  ScheduleIn: ScheduleIn;
   String: ResolverTypeWrapper<Scalars["String"]>;
+  UpdateCinemaIn: UpdateCinemaIn;
+  UpdateMovieIn: UpdateMovieIn;
   User: ResolverTypeWrapper<User>;
   UserIn: UserIn;
 };
@@ -216,12 +432,28 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars["Boolean"];
+  Cinema: Cinema;
+  CinemaData: CinemaData;
+  CinemaIn: CinemaIn;
   Date: Scalars["Date"];
+  Float: Scalars["Float"];
   ID: Scalars["ID"];
+  Int: Scalars["Int"];
+  Movie: Movie;
+  MovieData: MovieData;
+  MovieIn: MovieIn;
   Mutation: {};
+  PaginatedCinemas: PaginatedCinemas;
+  PaginatedMovies: PaginatedMovies;
   Query: {};
   ResultLogin: ResultLogin;
+  Room: Room;
+  RoomIn: RoomIn;
+  Schedule: Schedule;
+  ScheduleIn: ScheduleIn;
   String: Scalars["String"];
+  UpdateCinemaIn: UpdateCinemaIn;
+  UpdateMovieIn: UpdateMovieIn;
   User: User;
   UserIn: UserIn;
 };
@@ -237,10 +469,71 @@ export type AuthDirectiveResolver<
   Args = AuthDirectiveArgs
 > = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
+export type CinemaResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Cinema"] = ResolversParentTypes["Cinema"]
+> = {
+  address?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes["Date"], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
+  movies?: Resolver<Array<ResolversTypes["Movie"]>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  rooms?: Resolver<ResolversTypes["Room"], ParentType, ContextType>;
+  schedule?: Resolver<
+    Array<ResolversTypes["Schedule"]>,
+    ParentType,
+    ContextType
+  >;
+  updatedAt?: Resolver<ResolversTypes["Date"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CinemaDataResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CinemaData"] = ResolversParentTypes["CinemaData"]
+> = {
+  address?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export interface DateScalarConfig
   extends GraphQLScalarTypeConfig<ResolversTypes["Date"], any> {
   name: "Date";
 }
+
+export type MovieResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Movie"] = ResolversParentTypes["Movie"]
+> = {
+  cast?: Resolver<Array<ResolversTypes["String"]>, ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes["Date"], ParentType, ContextType>;
+  director?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  duration?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  gender?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
+  image?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  rating?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  release?: Resolver<ResolversTypes["Date"], ParentType, ContextType>;
+  synopsis?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  title?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  trailer?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes["Date"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type MovieDataResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["MovieData"] = ResolversParentTypes["MovieData"]
+> = {
+  id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
+  image?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  rating?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  release?: Resolver<ResolversTypes["Date"], ParentType, ContextType>;
+  title?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
 
 export type MutationResolvers<
   ContextType = any,
@@ -252,11 +545,29 @@ export type MutationResolvers<
     ContextType,
     RequireFields<MutationChangeRoleArgs, "id" | "role">
   >;
-  create?: Resolver<
-    ResolversTypes["String"],
+  createCinema?: Resolver<
+    ResolversTypes["Cinema"],
     ParentType,
     ContextType,
-    RequireFields<MutationCreateArgs, "input">
+    RequireFields<MutationCreateCinemaArgs, "input">
+  >;
+  createMovie?: Resolver<
+    ResolversTypes["Movie"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateMovieArgs, "input">
+  >;
+  deleteCinema?: Resolver<
+    ResolversTypes["Cinema"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteCinemaArgs, "id">
+  >;
+  deleteMovie?: Resolver<
+    ResolversTypes["Movie"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteMovieArgs, "id">
   >;
   deleteUser?: Resolver<
     ResolversTypes["User"],
@@ -276,14 +587,75 @@ export type MutationResolvers<
     ContextType,
     RequireFields<MutationRegisterArgs, "input">
   >;
+  updateCinema?: Resolver<
+    ResolversTypes["Cinema"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateCinemaArgs, "id" | "input">
+  >;
+  updateMovie?: Resolver<
+    ResolversTypes["Movie"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateMovieArgs, "id" | "input">
+  >;
+};
+
+export type PaginatedCinemasResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PaginatedCinemas"] = ResolversParentTypes["PaginatedCinemas"]
+> = {
+  data?: Resolver<Array<ResolversTypes["CinemaData"]>, ParentType, ContextType>;
+  page?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  pageSize?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  totalNumber?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  totalPages?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PaginatedMoviesResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PaginatedMovies"] = ResolversParentTypes["PaginatedMovies"]
+> = {
+  data?: Resolver<Array<ResolversTypes["MovieData"]>, ParentType, ContextType>;
+  page?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  pageSize?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  totalNumber?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  totalPages?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type QueryResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes["Query"] = ResolversParentTypes["Query"]
 > = {
-  hello?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  cinema?: Resolver<
+    ResolversTypes["Cinema"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryCinemaArgs, "id">
+  >;
+  cinemas?: Resolver<Array<ResolversTypes["Cinema"]>, ParentType, ContextType>;
   me?: Resolver<ResolversTypes["User"], ParentType, ContextType>;
+  movie?: Resolver<
+    ResolversTypes["Movie"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryMovieArgs, "id">
+  >;
+  movies?: Resolver<Array<ResolversTypes["Movie"]>, ParentType, ContextType>;
+  paginatedCinemas?: Resolver<
+    ResolversTypes["PaginatedCinemas"],
+    ParentType,
+    ContextType,
+    Partial<QueryPaginatedCinemasArgs>
+  >;
+  paginatedMovies?: Resolver<
+    ResolversTypes["PaginatedMovies"],
+    ParentType,
+    ContextType,
+    Partial<QueryPaginatedMoviesArgs>
+  >;
   users?: Resolver<Array<ResolversTypes["User"]>, ParentType, ContextType>;
 };
 
@@ -293,6 +665,25 @@ export type ResultLoginResolvers<
 > = {
   role?: Resolver<ResolversTypes["Role"], ParentType, ContextType>;
   token?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type RoomResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Room"] = ResolversParentTypes["Room"]
+> = {
+  capacity?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  number?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ScheduleResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Schedule"] = ResolversParentTypes["Schedule"]
+> = {
+  day?: Resolver<ResolversTypes["Days"], ParentType, ContextType>;
+  movie?: Resolver<ResolversTypes["Movie"], ParentType, ContextType>;
+  time?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -311,10 +702,18 @@ export type UserResolvers<
 };
 
 export type Resolvers<ContextType = any> = {
+  Cinema?: CinemaResolvers<ContextType>;
+  CinemaData?: CinemaDataResolvers<ContextType>;
   Date?: GraphQLScalarType;
+  Movie?: MovieResolvers<ContextType>;
+  MovieData?: MovieDataResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
+  PaginatedCinemas?: PaginatedCinemasResolvers<ContextType>;
+  PaginatedMovies?: PaginatedMoviesResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   ResultLogin?: ResultLoginResolvers<ContextType>;
+  Room?: RoomResolvers<ContextType>;
+  Schedule?: ScheduleResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };
 

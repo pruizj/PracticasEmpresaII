@@ -16,12 +16,14 @@ const Dashboard = styled.div`
   flex-direction: row;
   margin-left: 30px;
   width: 80%;
+  height: 50px;
   justify-content: space-between;
+  align-items: center;
   h4 {
     margin-left: 30px;
     color: #9f67ad;
     width: 20%;
-    height: 10%;
+    font-size: 16px; /* Se reduce el tamaño de fuente */
     font-family: "Courier New";
   }
 `;

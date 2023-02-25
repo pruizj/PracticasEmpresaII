@@ -71,3 +71,115 @@ query Query {
   }
 }
 `;
+
+export const CREATE_MOVIE = `
+mutation CreateMovie($input: MovieIn!) {
+  createMovie(input: $input) {
+    id
+    title
+    synopsis
+    gender
+    duration
+    director
+    cast
+    release
+    rating
+    image
+    trailer
+    createdAt
+    updatedAt
+  }
+} `;
+
+export const UPDATE_MOVIE = `
+mutation UpdateMovie($updateMovieId: ID!, $input: UpdateMovieIn!) {
+  updateMovie(id: $updateMovieId, input: $input) {
+    id
+    title
+    synopsis
+    gender
+    duration
+    director
+    cast
+    release
+    rating
+    image
+    trailer
+    createdAt
+    updatedAt
+  }
+} `;
+
+export const DELETE_MOVIE = `
+mutation DeleteMovie($deleteMovieId: ID!) {
+  deleteMovie(id: $deleteMovieId) {
+    id
+    title
+    synopsis
+    gender
+    duration
+    director
+    cast
+    release
+    rating
+    image
+    trailer
+    createdAt
+    updatedAt
+  }
+} `;
+
+export const MOVIE = `
+query Movie($movieId: ID!) {
+  movie(id: $movieId) {
+    id
+    title
+    synopsis
+    gender
+    duration
+    director
+    cast
+    release
+    rating
+    image
+    trailer
+    createdAt
+    updatedAt
+  }
+} `;
+
+export const MOVIES = `
+query Movies {
+  movies {
+    id
+    title
+    synopsis
+    gender
+    duration
+    director
+    cast
+    release
+    rating
+    image
+    trailer
+    createdAt
+    updatedAt
+  }
+} `;
+
+export const PAGINATED_MOVIES = `
+query PaginatedMovies($page: Int, $pageSize: Int, $order: GeneralOrderType, $searchTitle: String) {
+  paginatedMovies(page: $page, pageSize: $pageSize, order: $order, searchTitle: $searchTitle) {
+    page
+    pageSize
+    totalNumber
+    totalPages
+    data {
+      id
+      image
+      title
+      release
+      rating
+    }
+  }
+} `;
