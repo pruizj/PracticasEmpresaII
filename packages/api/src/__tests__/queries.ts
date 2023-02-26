@@ -183,3 +183,22 @@ query PaginatedMovies($page: Int, $pageSize: Int, $order: GeneralOrderType, $sea
     }
   }
 } `;
+
+export const ADD_RATING_TO_MOVIE = `
+mutation AddRatingToMovie($addRatingToMovieId: ID!, $rating: Int!) {
+  addRatingToMovie(id: $addRatingToMovieId, rating: $rating) {
+    id
+    title
+    synopsis
+    gender
+    duration
+    director
+    cast
+    release
+    rating
+    image
+    trailer
+    createdAt
+    updatedAt
+  }
+}`;

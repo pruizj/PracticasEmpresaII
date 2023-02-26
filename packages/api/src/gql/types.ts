@@ -30,11 +30,12 @@ export type Scalars = {
 export type Cinema = {
   __typename?: "Cinema";
   address: Scalars["String"];
+  capacity: Scalars["Int"];
   createdAt: Scalars["Date"];
   id: Scalars["ID"];
   movies: Array<Movie>;
   name: Scalars["String"];
-  rooms: Room;
+  rooms: Scalars["Int"];
   schedule: Array<Schedule>;
   updatedAt: Scalars["Date"];
 };
@@ -48,8 +49,9 @@ export type CinemaData = {
 
 export type CinemaIn = {
   address: Scalars["String"];
+  capacity: Scalars["Int"];
   name: Scalars["String"];
-  rooms: RoomIn;
+  rooms: Scalars["Int"];
   schedule?: InputMaybe<Array<ScheduleIn>>;
 };
 
@@ -103,7 +105,7 @@ export type MovieIn = {
   gender: Scalars["String"];
   image?: InputMaybe<Scalars["String"]>;
   rating: Scalars["Float"];
-  release: Scalars["Int"];
+  release: Scalars["Date"];
   synopsis: Scalars["String"];
   title: Scalars["String"];
   trailer?: InputMaybe<Scalars["String"]>;
@@ -111,6 +113,7 @@ export type MovieIn = {
 
 export type Mutation = {
   __typename?: "Mutation";
+  addRatingToMovie: Movie;
   changeRole: User;
   createCinema: Cinema;
   createMovie: Movie;
@@ -121,6 +124,11 @@ export type Mutation = {
   register: User;
   updateCinema: Cinema;
   updateMovie: Movie;
+};
+
+export type MutationAddRatingToMovieArgs = {
+  id: Scalars["ID"];
+  rating: Scalars["Int"];
 };
 
 export type MutationChangeRoleArgs = {
@@ -230,17 +238,6 @@ export enum Role {
   User = "USER"
 }
 
-export type Room = {
-  __typename?: "Room";
-  capacity: Scalars["Int"];
-  number: Scalars["Int"];
-};
-
-export type RoomIn = {
-  capacity: Scalars["Int"];
-  number: Scalars["Int"];
-};
-
 export type Schedule = {
   __typename?: "Schedule";
   day: Days;
@@ -256,8 +253,9 @@ export type ScheduleIn = {
 
 export type UpdateCinemaIn = {
   address?: InputMaybe<Scalars["String"]>;
+  capacity?: InputMaybe<Scalars["Int"]>;
   name?: InputMaybe<Scalars["String"]>;
-  rooms: RoomIn;
+  rooms?: InputMaybe<Scalars["Int"]>;
   schedule?: InputMaybe<Array<ScheduleIn>>;
 };
 
@@ -268,7 +266,7 @@ export type UpdateMovieIn = {
   gender?: InputMaybe<Scalars["String"]>;
   image?: InputMaybe<Scalars["String"]>;
   rating?: InputMaybe<Scalars["Float"]>;
-  release?: InputMaybe<Scalars["Int"]>;
+  release?: InputMaybe<Scalars["Date"]>;
   synopsis?: InputMaybe<Scalars["String"]>;
   title?: InputMaybe<Scalars["String"]>;
   trailer?: InputMaybe<Scalars["String"]>;
@@ -418,8 +416,6 @@ export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>;
   ResultLogin: ResolverTypeWrapper<ResultLogin>;
   Role: Role;
-  Room: ResolverTypeWrapper<Room>;
-  RoomIn: RoomIn;
   Schedule: ResolverTypeWrapper<Schedule>;
   ScheduleIn: ScheduleIn;
   String: ResolverTypeWrapper<Scalars["String"]>;
@@ -447,8 +443,6 @@ export type ResolversParentTypes = {
   PaginatedMovies: PaginatedMovies;
   Query: {};
   ResultLogin: ResultLogin;
-  Room: Room;
-  RoomIn: RoomIn;
   Schedule: Schedule;
   ScheduleIn: ScheduleIn;
   String: Scalars["String"];
@@ -474,11 +468,12 @@ export type CinemaResolvers<
   ParentType extends ResolversParentTypes["Cinema"] = ResolversParentTypes["Cinema"]
 > = {
   address?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  capacity?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes["Date"], ParentType, ContextType>;
   id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
   movies?: Resolver<Array<ResolversTypes["Movie"]>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  rooms?: Resolver<ResolversTypes["Room"], ParentType, ContextType>;
+  rooms?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   schedule?: Resolver<
     Array<ResolversTypes["Schedule"]>,
     ParentType,
@@ -539,6 +534,12 @@ export type MutationResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes["Mutation"] = ResolversParentTypes["Mutation"]
 > = {
+  addRatingToMovie?: Resolver<
+    ResolversTypes["Movie"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationAddRatingToMovieArgs, "id" | "rating">
+  >;
   changeRole?: Resolver<
     ResolversTypes["User"],
     ParentType,
@@ -668,15 +669,6 @@ export type ResultLoginResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type RoomResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes["Room"] = ResolversParentTypes["Room"]
-> = {
-  capacity?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
-  number?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
 export type ScheduleResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes["Schedule"] = ResolversParentTypes["Schedule"]
@@ -712,7 +704,6 @@ export type Resolvers<ContextType = any> = {
   PaginatedMovies?: PaginatedMoviesResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   ResultLogin?: ResultLoginResolvers<ContextType>;
-  Room?: RoomResolvers<ContextType>;
   Schedule?: ScheduleResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };

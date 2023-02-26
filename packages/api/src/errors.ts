@@ -4,6 +4,10 @@ export type ErrorType = {
 };
 
 export const ERROR: Record<string, ErrorType> = {
+  INVALID_RATING: {
+    message: "INVALID_RATING",
+    code: "400"
+  },
   CINEMA_NOT_FOUND: {
     message: "CINEMA_NOT_FOUND",
     code: "404"

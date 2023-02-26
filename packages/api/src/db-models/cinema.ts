@@ -9,10 +9,8 @@ const CinemaSchema: Schema = new Schema(
   {
     name: { type: String, required: true },
     address: { type: String, required: true },
-    rooms: {
-      number: { type: Number, required: true },
-      capacity: { type: Number, required: true }
-    },
+    rooms: { type: Number, required: true },
+    capacity: { type: Number, required: true },
     schedule: [
       {
         day: { type: String, required: true },
@@ -35,7 +33,7 @@ CinemaSchema.pre("validate", async function (next) {
     throw new Error(ERROR.CINEMA_ALREADY_EXISTS.message);
   }
 
-  if (this.rooms.number < 0 || this.rooms.capacity < 0) {
+  if (this.rooms < 0 || this.capacity < 0) {
     throw new Error(ERROR.INVALID_NUMBER.message);
   }
 
@@ -74,10 +72,8 @@ CinemaSchema.pre("findOneAndUpdate", async function (next) {
   const cinema = {
     name: update?.name || query.name,
     address: update?.address || query.address,
-    rooms: {
-      number: update?.rooms.number || query.rooms.number,
-      capacity: update?.rooms.capacity || query.rooms.capacity
-    },
+    rooms: update?.rooms || query.rooms,
+    capacity: update?.capacity || query.capacity,
     schedule: update?.schedule || query.schedule
   };
 
@@ -94,7 +90,7 @@ CinemaSchema.pre("findOneAndUpdate", async function (next) {
     }
   }
 
-  if (cinema.rooms.number < 0 || cinema.rooms.capacity < 0) {
+  if (cinema.rooms < 0 || cinema.capacity < 0) {
     throw new Error(ERROR.INVALID_NUMBER.message);
   }
 

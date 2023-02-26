@@ -1,7 +1,6 @@
 import { Model } from "mongoose";
-import { MovieModel } from "../db-models/movie";
 import { ERROR } from "../errors";
-import { GeneralOrderType } from "../gql/types";
+import { GeneralOrderType, PaginatedMovies } from "../gql/types";
 
 type OrderFilter = Record<string, 1 | -1>;
 
@@ -15,7 +14,7 @@ export const paginator = async <T>(
 ) => {
   try {
     const itemsPerPage: number =
-      itemsPerPageArgs || (await DBModel.countDocuments({ filter }));
+      itemsPerPageArgs || (await DBModel.countDocuments(filter));
     const currentPage: number = currentPageArgs || 1;
 
     const sortFilter: OrderFilter = {};
@@ -74,10 +73,10 @@ export const paginator = async <T>(
         ...commonStage,
         {
           $project: {
+            image: "$image",
             title: "$title",
             release: "$release",
-            rating: "$rating",
-            image: "$image"
+            rating: "$rating"
           }
         },
         { $addFields: { id: "$_id" } },

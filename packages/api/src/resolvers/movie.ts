@@ -1,6 +1,7 @@
 import { MovieModel, MovieModelType } from "../db-models/movie";
 import { ERROR } from "../errors";
 import {
+  MutationAddRatingToMovieArgs,
   MutationCreateMovieArgs,
   MutationDeleteMovieArgs,
   MutationUpdateMovieArgs,
@@ -33,10 +34,10 @@ export const movieResolver = {
       args: QueryPaginatedMoviesArgs
     ): Promise<PaginatedMovies> => {
       const filter = {
-        title: { $regex: args.searchTitle, $options: "i" }
+        title: { $regex: `.*${args.searchTitle || ""}.*`, $options: "i" }
       };
 
-      const movies: PaginatedMovies = await paginator(
+      const movies: PaginatedMovies = await paginator<MovieModelType>(
         MovieModel,
         "movies",
         filter,
@@ -56,6 +57,30 @@ export const movieResolver = {
     ): Promise<Omit<MovieModelType, "_id">> => {
       const movie = await MovieModel.create(args.input);
       return movie;
+    },
+
+    addRatingToMovie: async (
+      _parent: unknown,
+      args: MutationAddRatingToMovieArgs
+    ): Promise<Omit<MovieModelType, "_id">> => {
+      const movie = await MovieModel.findById(args.id).exec();
+      if (!movie) {
+        throw new Error(ERROR.MOVIE_NOT_FOUND.message);
+      }
+
+      if (args.rating < 1 || args.rating > 5) {
+        throw new Error(ERROR.INVALID_RATING.message);
+      }
+
+      const newRating = Math.round((movie.rating + args.rating) / 2);
+
+      const updatedMovie = (await MovieModel.findByIdAndUpdate(
+        { _id: args.id },
+        { rating: newRating },
+        { new: true }
+      ).exec()) as Omit<MovieModelType, "_id">;
+
+      return updatedMovie;
     },
 
     updateMovie: async (

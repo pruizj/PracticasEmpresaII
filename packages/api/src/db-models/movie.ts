@@ -27,12 +27,8 @@ const MovieSchema: Schema = new Schema(
   { timestamps: true }
 );
 
-const validateMovie = async (release, duration, trailer) => {
-  if (release && !moment(release).isValid()) {
-    throw new Error(ERROR.INVALID_DATE.message);
-  }
-
-  if (duration && duration < 0) {
+const validateMovie = async (duration, rating, trailer?: string) => {
+  if (duration <= 0) {
     throw new Error(ERROR.INVALID_DURATION.message);
   }
 
@@ -42,24 +38,24 @@ const validateMovie = async (release, duration, trailer) => {
       throw new Error(ERROR.INVALID_VIDEO_ID.message);
     }
   }
+
+  if (rating < 1 || rating > 5) {
+    throw new Error(ERROR.INVALID_RATING.message);
+  }
 };
 
 MovieSchema.pre("validate", async function (next) {
-  const existingMovie = await this.model
-    .findOne({
-      title: this.title
-    })
-    .exec();
+  const existingMovie = await MovieModel.findOne({
+    title: this.title
+  }).exec();
 
   if (existingMovie) {
     throw new Error(ERROR.MOVIE_ALREADY_EXISTS.message);
   }
 
-  await validateMovie(
-    this.release || null,
-    this.duration || null,
-    this.trailer || null
-  );
+  this.trailer
+    ? await validateMovie(this.duration, this.rating, this.trailer)
+    : await validateMovie(this.duration, this.rating);
 
   next();
 });
@@ -76,30 +72,30 @@ MovieSchema.pre("findOneAndUpdate", async function (next) {
 
   const movie = {
     title: update.title || query.title,
-    release: update.release || query.release,
     duration: update.duration || query.duration,
-    trailer: update.trailer || query.trailer
+    trailer: update.trailer || query.trailer,
+    rating: update.rating || query.rating
   };
   //check if movie to update exists
-  const exists = await this.model.findOne({ _id: query._id }).exec();
+  const exists = await MovieModel.findOne({ _id: query._id }).exec();
   if (!exists) {
     throw new Error(ERROR.MOVIE_NOT_FOUND.message);
   }
 
   if (movie.title) {
-    const existingMovie = await this.model
-      .findOne({
-        title: movie.title,
-        _id: { $ne: exists._id }
-      })
-      .exec();
+    const existingMovie = await MovieModel.findOne({
+      title: movie.title,
+      _id: { $ne: exists._id }
+    }).exec();
 
     if (existingMovie) {
       throw new Error(ERROR.MOVIE_ALREADY_EXISTS.message);
     }
   }
 
-  await validateMovie(movie.release, movie.duration, movie.trailer);
+  movie.trailer
+    ? await validateMovie(movie.duration, movie.rating, movie.trailer)
+    : await validateMovie(movie.duration, movie.rating);
 
   return next();
 });

@@ -5,16 +5,12 @@ type Cinema {
   id: ID!
   name: String!
   address: String!
-  rooms: Room!
+  rooms: Int!
+  capacity:Int!
   schedule: [Schedule!]!
   movies: [Movie!]!
   createdAt: Date!
   updatedAt: Date!
-}
-
-type Room {
-  number: Int!
-  capacity: Int!
 }
 
 type Schedule {
@@ -37,11 +33,6 @@ type PaginatedCinemas {
   data: [CinemaData!]!
 }
 
-input RoomIn {
-  number: Int!
-  capacity: Int!
-}
-
 input ScheduleIn {
   day: Days!
   time: String!
@@ -51,30 +42,32 @@ input ScheduleIn {
 input CinemaIn {
   name: String!
   address: String!
-  rooms: RoomIn!
+  rooms: Int!
+  capacity:Int!
   schedule: [ScheduleIn!]
 }
 
 input UpdateCinemaIn {
   name: String
   address: String
-  rooms: RoomIn!
+  rooms: Int
+  capacity: Int
   schedule: [ScheduleIn!]
 }
 
 type Query {
-  cinema(id: ID!): Cinema!
-  cinemas: [Cinema!]!
+  cinema(id: ID!): Cinema! @auth(requires: [ADMIN, USER])
+  cinemas: [Cinema!]! @auth(requires: [ADMIN, USER])
   paginatedCinemas(
     page: Int
     pageSize: Int
     order: GeneralOrderType
     searchName: String
-  ): PaginatedCinemas!
+  ): PaginatedCinemas! @auth(requires: [ADMIN, USER])
 }
 
 type Mutation {
-  createCinema(input: CinemaIn!): Cinema!
-  updateCinema(id: ID!, input: UpdateCinemaIn!): Cinema!
-  deleteCinema(id: ID!): Cinema!
+  createCinema(input: CinemaIn!): Cinema! @auth(requires: [ADMIN])
+  updateCinema(id: ID!, input: UpdateCinemaIn!): Cinema! @auth(requires: [ADMIN])
+  deleteCinema(id: ID!): Cinema! @auth(requires: [ADMIN])
 }
