@@ -102,6 +102,10 @@ export const movieResolver = {
       if (!movie) {
         throw new Error(ERROR.MOVIE_NOT_FOUND.message);
       }
+
+      // delete movies from cinemas
+      await movie.remove();
+
       return movie;
     }
   }

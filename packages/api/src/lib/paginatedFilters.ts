@@ -53,7 +53,7 @@ export const paginator = async <T>(
           if (type === "movies") {
             sortFilter.release = -1;
           } else {
-            sortFilter.updatedAt = -1;
+            sortFilter.name = 1;
           }
           break;
       }

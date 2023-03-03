@@ -561,5 +561,8 @@ describe("Movies", () => {
       totalNumber: 0,
       data: []
     });
+
+    // clean database
+    await UserModel.deleteMany({});
   });
 });

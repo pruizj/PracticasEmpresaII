@@ -2,6 +2,7 @@ import mongoose, { Schema, Model, model, ObjectId } from "mongoose";
 import { Movie } from "../gql/types";
 import moment from "moment";
 import { ERROR } from "../errors";
+import { CinemaModel } from "./cinema";
 
 mongoose.set("strictQuery", false);
 
@@ -100,18 +101,18 @@ MovieSchema.pre("findOneAndUpdate", async function (next) {
   return next();
 });
 
-// MovieSchema.post("remove", async function (doc,next){
-//   //TODO: delete movie from cinemas
-//   try{
-//     await CinemaModel.updateMany(
-//       { "schedule.movie": doc._id },
-//       { $pull: { schedule: { movie: doc._id } } }
-//     );
-//   }catch(e){
-//     throw new Error(ERROR.MOVIE_NOT_DELETED.message);
-//   }
-//   next();
-// });
+MovieSchema.post("remove", async function (doc, next) {
+  //TODO: delete movie from cinemas
+  try {
+    await CinemaModel.updateMany(
+      { "schedule.movie": doc._id },
+      { $pull: { schedule: { movie: doc._id } } }
+    );
+  } catch (e) {
+    throw new Error(ERROR.MOVIE_NOT_DELETED.message);
+  }
+  next();
+});
 
 export type MovieModelType = Movie & {
   _id: ObjectId;

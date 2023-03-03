@@ -23,11 +23,9 @@ const CinemaSchema: Schema = new Schema(
 );
 
 CinemaSchema.pre("validate", async function (next) {
-  const existingCinema = await this.model
-    .findOne({
-      name: this.name
-    })
-    .exec();
+  const existingCinema = await CinemaModel.findOne({
+    name: this.name
+  }).exec();
 
   if (existingCinema) {
     throw new Error(ERROR.CINEMA_ALREADY_EXISTS.message);
@@ -60,11 +58,9 @@ CinemaSchema.pre("findOneAndUpdate", async function (next) {
   }
 
   // check if cinema to update exists
-  const exists = await this.model
-    .findOne({
-      _id: query._id
-    })
-    .exec();
+  const exists = await CinemaModel.findOne({
+    _id: query._id
+  }).exec();
   if (!exists) {
     throw new Error(ERROR.CINEMA_NOT_FOUND.message);
   }
@@ -78,12 +74,10 @@ CinemaSchema.pre("findOneAndUpdate", async function (next) {
   };
 
   if (cinema.name) {
-    const existingCinema = await this.model
-      .findOne({
-        name: cinema.name,
-        _id: { $ne: exists._id }
-      })
-      .exec();
+    const existingCinema = await CinemaModel.findOne({
+      name: cinema.name,
+      _id: { $ne: exists._id }
+    }).exec();
 
     if (existingCinema) {
       throw new Error(ERROR.CINEMA_ALREADY_EXISTS.message);

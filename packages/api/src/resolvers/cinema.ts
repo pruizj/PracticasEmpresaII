@@ -10,8 +10,7 @@ import {
   PaginatedCinemas,
   QueryCinemaArgs,
   QueryPaginatedCinemasArgs,
-  Schedule,
-  ScheduleIn
+  Schedule
 } from "../gql/types";
 import { paginator } from "../lib/paginatedFilters";
 
@@ -38,7 +37,7 @@ export const cinemaResolver = {
       args: QueryPaginatedCinemasArgs
     ): Promise<PaginatedCinemas> => {
       const filter = {
-        name: { $regex: args.searchName, $options: "i" }
+        name: { $regex: `.*${args.searchName || ""}.*`, $options: "i" }
       };
 
       const cinemas: PaginatedCinemas = await paginator(
@@ -91,7 +90,7 @@ export const cinemaResolver = {
     schedule: async (parent: CinemaModelType): Promise<Schedule[]> => {
       const idmovies = parent.schedule.map(schedule => schedule.movie);
       const movies = await MovieModel.find({ _id: { $in: idmovies } }).exec();
-      return parent.schedule.map(schedule => {
+      const newSchedule = parent.schedule.map(schedule => {
         const movie = movies.find(
           movie => movie._id.toString() === schedule.movie.toString()
         );
@@ -101,6 +100,7 @@ export const cinemaResolver = {
           movie: movie as Movie
         };
       });
+      return newSchedule;
     }
   }
 };

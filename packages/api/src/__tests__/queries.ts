@@ -202,3 +202,253 @@ mutation AddRatingToMovie($addRatingToMovieId: ID!, $rating: Int!) {
     updatedAt
   }
 }`;
+
+export const CREATE_CINEMA = `
+mutation CreateCinema($input: CinemaIn!) {
+  createCinema(input: $input) {
+    id
+    name
+    address
+    rooms
+    capacity
+    createdAt
+    updatedAt
+    schedule {
+      day
+      time
+      movie {
+        id
+        title
+        synopsis
+        gender
+        duration
+        director
+        cast
+        release
+        rating
+        image
+        trailer
+        createdAt
+        updatedAt
+      }
+    }
+    movies {
+      id
+      title
+      synopsis
+      gender
+      duration
+      director
+      cast
+      release
+      rating
+      image
+      trailer
+      createdAt
+      updatedAt
+    }
+  }
+}`;
+
+export const UPDATE_CINEMA = `
+mutation UpdateCinema($updateCinemaId: ID!, $input: UpdateCinemaIn!) {
+  updateCinema(id: $updateCinemaId, input: $input) {
+    id
+    name
+    address
+    rooms
+    capacity
+    createdAt
+    updatedAt
+    schedule {
+      day
+      time
+      movie {
+        id
+        title
+        synopsis
+        gender
+        duration
+        director
+        cast
+        release
+        rating
+        image
+        trailer
+        createdAt
+        updatedAt
+      }
+    }
+    movies {
+      id
+      title
+      synopsis
+      gender
+      duration
+      director
+      cast
+      release
+      rating
+      image
+      trailer
+      createdAt
+      updatedAt
+    }
+  }
+}`;
+
+export const DELETE_CINEMA = `
+mutation DeleteCinema($deleteCinemaId: ID!) {
+  deleteCinema(id: $deleteCinemaId) {
+    id
+    name
+    address
+    rooms
+    capacity
+    createdAt
+    updatedAt
+    schedule {
+      day
+      time
+      movie {
+        id
+        title
+        synopsis
+        gender
+        duration
+        director
+        cast
+        release
+        rating
+        image
+        trailer
+        createdAt
+        updatedAt
+      }
+    }
+    movies {
+      id
+      title
+      synopsis
+      gender
+      duration
+      director
+      cast
+      release
+      rating
+      image
+      trailer
+      createdAt
+      updatedAt
+    }
+  }
+}`;
+
+export const CINEMA = `
+query Cinema($cinemaId: ID!) {
+  cinema(id: $cinemaId) {
+    id
+    name
+    address
+    rooms
+    capacity
+    createdAt
+    updatedAt
+    schedule {
+      day
+      time
+      movie {
+        id
+        title
+        synopsis
+        gender
+        duration
+        director
+        cast
+        release
+        rating
+        image
+        trailer
+        createdAt
+        updatedAt
+      }
+    }
+    movies {
+      id
+      title
+      synopsis
+      gender
+      duration
+      director
+      cast
+      release
+      rating
+      image
+      trailer
+      createdAt
+      updatedAt
+    }
+  }
+}`;
+
+export const CINEMAS = `
+query Cinemas {
+  cinemas {
+    id
+    name
+    address
+    rooms
+    capacity
+    createdAt
+    updatedAt
+    schedule {
+      day
+      time
+      movie {
+        id
+        title
+        synopsis
+        gender
+        duration
+        director
+        cast
+        release
+        rating
+        image
+        trailer
+        createdAt
+        updatedAt
+      }
+    }
+    movies {
+      id
+      title
+      synopsis
+      gender
+      duration
+      director
+      cast
+      release
+      rating
+      image
+      trailer
+      createdAt
+      updatedAt
+    }
+  }
+}`;
+
+export const PAGINATED_CINEMAS = `
+query PaginatedCinemas($page: Int, $pageSize: Int, $order: GeneralOrderType, $searchName: String) {
+  paginatedCinemas(page: $page, pageSize: $pageSize, order: $order, searchName: $searchName) {
+    page
+    pageSize
+    totalNumber
+    totalPages
+    data {
+      id
+      name
+      address
+    }
+  }
+}`;
