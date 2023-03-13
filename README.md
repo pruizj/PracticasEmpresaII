@@ -14,7 +14,7 @@ yarn install
 yarn run docker up --build
 ```
 
-### Web 📋
+## Web 📋
 
 La plataforma se puede acceder a través de
 
