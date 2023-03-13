@@ -88,7 +88,9 @@ export const paginator = async <T>(
         {
           $project: {
             name: "$name",
-            address: "$address"
+            address: "$address",
+            rooms: "$rooms",
+            capacity: "$capacity"
           }
         },
         { $addFields: { id: "$_id" } },

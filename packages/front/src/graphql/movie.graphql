@@ -1,0 +1,17 @@
+query Movie($movieId: ID!) {
+  movie(id: $movieId) {
+    id
+    title
+    synopsis
+    gender
+    duration
+    director
+    cast
+    release
+    rating
+    image
+    trailer
+    createdAt
+    updatedAt
+  }
+}

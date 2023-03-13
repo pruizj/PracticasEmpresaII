@@ -1,0 +1,45 @@
+query Cinemas {
+  cinemas {
+    id
+    name
+    address
+    rooms
+    capacity
+    createdAt
+    updatedAt
+    schedule {
+      day
+      time
+      movie {
+        id
+        title
+        synopsis
+        gender
+        duration
+        director
+        cast
+        release
+        rating
+        image
+        trailer
+        createdAt
+        updatedAt
+      }
+    }
+    movies {
+      id
+      title
+      synopsis
+      gender
+      duration
+      director
+      cast
+      release
+      rating
+      image
+      trailer
+      createdAt
+      updatedAt
+    }
+  }
+}

@@ -1,0 +1,17 @@
+mutation CreateMovie($input: MovieIn!) {
+  createMovie(input: $input) {
+    id
+    title
+    synopsis
+    gender
+    duration
+    director
+    cast
+    release
+    rating
+    image
+    trailer
+    createdAt
+    updatedAt
+  }
+} 

@@ -1,0 +1,15 @@
+query PaginatedCinemas($page: Int, $pageSize: Int, $order: GeneralOrderType, $searchName: String) {
+  paginatedCinemas(page: $page, pageSize: $pageSize, order: $order, searchName: $searchName) {
+    page
+    pageSize
+    totalNumber
+    totalPages
+    data {
+      id
+      name
+      address
+      rooms
+      capacity
+    }
+  }
+}

@@ -449,6 +449,8 @@ query PaginatedCinemas($page: Int, $pageSize: Int, $order: GeneralOrderType, $se
       id
       name
       address
+      rooms
+      capacity
     }
   }
 }`;

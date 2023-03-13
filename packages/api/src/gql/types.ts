@@ -104,7 +104,7 @@ export type MovieIn = {
   duration: Scalars["Int"];
   gender: Scalars["String"];
   image?: InputMaybe<Scalars["String"]>;
-  rating: Scalars["Float"];
+  rating: Scalars["Int"];
   release: Scalars["Date"];
   synopsis: Scalars["String"];
   title: Scalars["String"];
@@ -265,7 +265,7 @@ export type UpdateMovieIn = {
   duration?: InputMaybe<Scalars["Int"]>;
   gender?: InputMaybe<Scalars["String"]>;
   image?: InputMaybe<Scalars["String"]>;
-  rating?: InputMaybe<Scalars["Float"]>;
+  rating?: InputMaybe<Scalars["Int"]>;
   release?: InputMaybe<Scalars["Date"]>;
   synopsis?: InputMaybe<Scalars["String"]>;
   title?: InputMaybe<Scalars["String"]>;
@@ -403,7 +403,6 @@ export type ResolversTypes = {
   CinemaIn: CinemaIn;
   Date: ResolverTypeWrapper<Scalars["Date"]>;
   Days: Days;
-  Float: ResolverTypeWrapper<Scalars["Float"]>;
   GeneralOrderType: GeneralOrderType;
   ID: ResolverTypeWrapper<Scalars["ID"]>;
   Int: ResolverTypeWrapper<Scalars["Int"]>;
@@ -432,7 +431,6 @@ export type ResolversParentTypes = {
   CinemaData: CinemaData;
   CinemaIn: CinemaIn;
   Date: Scalars["Date"];
-  Float: Scalars["Float"];
   ID: Scalars["ID"];
   Int: Scalars["Int"];
   Movie: Movie;

@@ -38,7 +38,10 @@ const Users: FC = () => {
   return (
     <Content>
       <UserIndex />
-      {data &&
+      {loading ? (
+        <Loading />
+      ) : (
+        data &&
         data.users.map(user => {
           return (
             <User key={user.id}>
@@ -60,7 +63,8 @@ const Users: FC = () => {
               </UserButton>
             </User>
           );
-        })}
+        })
+      )}
     </Content>
   );
 };

@@ -1,0 +1,17 @@
+mutation UpdateMovie($updateMovieId: ID!, $input: UpdateMovieIn!) {
+  updateMovie(id: $updateMovieId, input: $input) {
+    id
+    title
+    synopsis
+    gender
+    duration
+    director
+    cast
+    release
+    rating
+    image
+    trailer
+    createdAt
+    updatedAt
+  }
+}

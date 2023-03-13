@@ -1,0 +1,17 @@
+mutation AddRatingToMovie($addRatingToMovieId: ID!, $rating: Int!) {
+  addRatingToMovie(id: $addRatingToMovieId, rating: $rating) {
+    id
+    title
+    synopsis
+    gender
+    duration
+    director
+    cast
+    release
+    rating
+    image
+    trailer
+    createdAt
+    updatedAt
+  }
+}

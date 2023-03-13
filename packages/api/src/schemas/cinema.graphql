@@ -23,6 +23,8 @@ type CinemaData {
   id: ID!
   name: String!
   address: String!
+  rooms: Int!
+  capacity:Int!
 }
 
 type PaginatedCinemas {

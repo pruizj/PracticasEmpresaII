@@ -3,10 +3,11 @@ import { useEffect, useState } from "react";
 import Button from "../components/Button";
 import LayoutPage from "../components/LayoutPage";
 import Users from "../components/Users";
+import Cinemas from "../components/Cinemas";
 
 const AdminDashboardPage = () => {
-  const [activeSection, setActiveSection] = useState<"Movies" | "Users">(
-    "Movies"
+  const [activeSection, setActiveSection] = useState<"Cinemas" | "Users">(
+    "Cinemas"
   );
 
   return (
@@ -14,12 +15,13 @@ const AdminDashboardPage = () => {
       <ColumnButtons>
         <Button
           style={{
-            backgroundColor: activeSection === "Movies" ? "#9f67ad" : "#2f0139",
+            backgroundColor:
+              activeSection === "Cinemas" ? "#9f67ad" : "#2f0139",
             width: "100%"
           }}
-          onClick={() => setActiveSection("Movies")}
+          onClick={() => setActiveSection("Cinemas")}
         >
-          PELICULAS
+          CINES
         </Button>
         <Button
           style={{
@@ -32,7 +34,7 @@ const AdminDashboardPage = () => {
         </Button>
       </ColumnButtons>
       <Section>
-        {/* {activeSection === "Movies" && <Movies />} */}
+        {activeSection === "Cinemas" && <Cinemas />}
         {activeSection === "Users" && <Users />}
       </Section>
     </LayoutPage>

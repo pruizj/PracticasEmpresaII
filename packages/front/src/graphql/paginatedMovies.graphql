@@ -1,0 +1,15 @@
+query PaginatedMovies($page: Int, $pageSize: Int, $order: GeneralOrderType, $searchTitle: String) {
+  paginatedMovies(page: $page, pageSize: $pageSize, order: $order, searchTitle: $searchTitle) {
+    page
+    pageSize
+    totalNumber
+    totalPages
+    data {
+      id
+      image
+      title
+      release
+      rating
+    }
+  }
+}

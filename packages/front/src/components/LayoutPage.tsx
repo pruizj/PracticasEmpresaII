@@ -34,7 +34,7 @@ const Header = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  height: 10%;
+  height: 10.4%;
   background-color: #ffffff;
   border-bottom: 1px solid #ccc;
   display: flex;

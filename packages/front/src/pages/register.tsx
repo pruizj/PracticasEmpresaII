@@ -40,6 +40,7 @@ const RegisterPage = () => {
           }
         }
       });
+      setShowModal(true);
     } catch (err) {
       if (err.message === ERROR.USER_ALREADY_EXISTS.message) {
         setShowModal(false);
@@ -47,6 +48,8 @@ const RegisterPage = () => {
       } else if (err.message === ERROR.PASSWORD_NOT_SECURE.message) {
         setShowModal(false);
         setErrorNotSecure(true);
+      } else if (errorExists) {
+        setShowModal(false);
       }
     }
   };
@@ -121,9 +124,6 @@ const RegisterPage = () => {
           )}
           <Button
             type="submit"
-            onClick={() => {
-              setShowModal(true);
-            }}
             disabled={
               !(name && surname && email && password && confirmPassword)
             }
