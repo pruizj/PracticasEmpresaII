@@ -5,8 +5,6 @@ mutation CreateCinema($input: CinemaIn!) {
     address
     rooms
     capacity
-    createdAt
-    updatedAt
     schedule {
       day
       time
@@ -22,8 +20,6 @@ mutation CreateCinema($input: CinemaIn!) {
         rating
         image
         trailer
-        createdAt
-        updatedAt
       }
     }
     movies {
@@ -38,8 +34,6 @@ mutation CreateCinema($input: CinemaIn!) {
       rating
       image
       trailer
-      createdAt
-      updatedAt
     }
   }
 }

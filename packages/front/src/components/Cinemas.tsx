@@ -97,14 +97,18 @@ const Cinemas: FC = () => {
       {loading ? (
         <Loading />
       ) : (
-        <LocalPagination
-          numberPages={data.paginatedCinemas?.totalPages}
-          currentPage={data.paginatedCinemas?.page}
-          changePage={(page: number) => {
-            setPage(page);
-          }}
-          background={true}
-        />
+        <>
+          {data && (
+            <LocalPagination
+              numberPages={data.paginatedCinemas?.totalPages}
+              currentPage={data.paginatedCinemas?.page}
+              changePage={(page: number) => {
+                setPage(page);
+              }}
+              background={true}
+            />
+          )}
+        </>
       )}
     </Content>
   );

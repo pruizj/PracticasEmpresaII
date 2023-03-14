@@ -11,7 +11,5 @@ mutation CreateMovie($input: MovieIn!) {
     rating
     image
     trailer
-    createdAt
-    updatedAt
   }
 } 

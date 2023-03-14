@@ -38,8 +38,8 @@ const EditCinema = ({ id }) => {
     const input: FormData = {
       name: formData.name,
       address: formData.address,
-      rooms: formData.rooms,
-      capacity: formData.capacity,
+      rooms: parseInt(`${formData.rooms}`),
+      capacity: parseInt(`${formData.capacity}`),
       schedule: formData.schedule
     };
 
@@ -62,19 +62,19 @@ const EditCinema = ({ id }) => {
   if (loading) {
     return <Loading />;
   }
-
   const initialValues = {
-    name: data?.cinema.name,
-    address: data?.cinema.address,
-    rooms: data?.cinema.rooms,
-    capacity: data?.cinema.capacity,
-    schedule: data?.cinema.schedule.map(item => ({
-      movie: item.movie.id,
-      day: item.day,
-      time: item.time
-    }))
+    name: data?.cinema.name || "",
+    address: data?.cinema.address || "",
+    rooms: data?.cinema.rooms || (0 as number),
+    capacity: data?.cinema.capacity || (0 as number),
+    schedule:
+      data?.cinema.schedule.map(item => ({
+        movie: item.movie.id,
+        day: item.day,
+        time: item.time
+      })) || []
   };
-
+  console.log(initialValues, data);
   const onCancel = () => {
     router.push("/adminDashboard");
   };
@@ -85,12 +85,14 @@ const EditCinema = ({ id }) => {
         <Loading />
       ) : (
         <>
-          <CinemaForm
-            error={errorAlert}
-            onSubmit={onSubmit}
-            onCancel={onCancel}
-            initialValues={initialValues}
-          />
+          {data && (
+            <CinemaForm
+              error={errorAlert}
+              onSubmit={onSubmit}
+              onCancel={onCancel}
+              initialValues={initialValues}
+            />
+          )}
         </>
       )}
     </LayoutPage>

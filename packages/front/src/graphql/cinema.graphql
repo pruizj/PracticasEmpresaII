@@ -5,8 +5,6 @@ query Cinema($cinemaId: ID!) {
     address
     rooms
     capacity
-    createdAt
-    updatedAt
     schedule {
       day
       time
@@ -22,8 +20,6 @@ query Cinema($cinemaId: ID!) {
         rating
         image
         trailer
-        createdAt
-        updatedAt
       }
     }
     movies {
@@ -38,8 +34,6 @@ query Cinema($cinemaId: ID!) {
       rating
       image
       trailer
-      createdAt
-      updatedAt
     }
   }
 }

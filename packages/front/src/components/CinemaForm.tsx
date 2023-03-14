@@ -1,10 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  Days,
-  ScheduleIn,
-  useDeleteCinemaMutation,
-  useMoviesQuery
-} from "../generated/graphql";
+import { Days, ScheduleIn, useMoviesQuery } from "../generated/graphql";
 import Input from "./Input";
 import Button from "./Button";
 import styled from "@emotion/styled";
@@ -103,6 +98,7 @@ const CinemaForm: React.FC<CinemaFormProps> = ({
           id="rooms"
           name="rooms"
           type="number"
+          min={0}
           {...register("rooms", { required: true })}
         />
         <Label htmlFor="capacity">Capacidad</Label>
@@ -110,6 +106,7 @@ const CinemaForm: React.FC<CinemaFormProps> = ({
           id="capacity"
           name="capacity"
           type="number"
+          min={0}
           {...register("capacity", { required: true })}
         />
         <Label htmlFor="schedule">Horarios</Label>
@@ -170,8 +167,7 @@ const CinemaForm: React.FC<CinemaFormProps> = ({
               });
             }}
           >
-            {" "}
-            Añadir{" "}
+            Añadir
           </LocalButton1>
         </Schedule>
         {moviesLoading ? (

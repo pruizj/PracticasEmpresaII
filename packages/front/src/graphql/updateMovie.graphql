@@ -11,7 +11,5 @@ mutation UpdateMovie($updateMovieId: ID!, $input: UpdateMovieIn!) {
     rating
     image
     trailer
-    createdAt
-    updatedAt
   }
 }

@@ -11,7 +11,5 @@ mutation DeleteMovie($deleteMovieId: ID!) {
     rating
     image
     trailer
-    createdAt
-    updatedAt
   }
 } 

@@ -11,7 +11,5 @@ query Movie($movieId: ID!) {
     rating
     image
     trailer
-    createdAt
-    updatedAt
   }
 }

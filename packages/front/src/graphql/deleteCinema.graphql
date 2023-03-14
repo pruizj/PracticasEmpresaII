@@ -5,8 +5,6 @@ mutation DeleteCinema($deleteCinemaId: ID!) {
     address
     rooms
     capacity
-    createdAt
-    updatedAt
     schedule {
       day
       time
@@ -22,8 +20,6 @@ mutation DeleteCinema($deleteCinemaId: ID!) {
         rating
         image
         trailer
-        createdAt
-        updatedAt
       }
     }
     movies {
@@ -38,8 +34,6 @@ mutation DeleteCinema($deleteCinemaId: ID!) {
       rating
       image
       trailer
-      createdAt
-      updatedAt
     }
   }
 }

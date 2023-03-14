@@ -344,8 +344,6 @@ export type CinemaQuery = {
     address: string;
     rooms: number;
     capacity: number;
-    createdAt: any;
-    updatedAt: any;
     schedule: Array<{
       __typename?: "Schedule";
       day: Days;
@@ -363,8 +361,6 @@ export type CinemaQuery = {
         rating: number;
         image?: string | null;
         trailer?: string | null;
-        createdAt: any;
-        updatedAt: any;
       };
     }>;
     movies: Array<{
@@ -380,8 +376,6 @@ export type CinemaQuery = {
       rating: number;
       image?: string | null;
       trailer?: string | null;
-      createdAt: any;
-      updatedAt: any;
     }>;
   };
 };
@@ -397,8 +391,6 @@ export type CinemasQuery = {
     address: string;
     rooms: number;
     capacity: number;
-    createdAt: any;
-    updatedAt: any;
     schedule: Array<{
       __typename?: "Schedule";
       day: Days;
@@ -416,8 +408,6 @@ export type CinemasQuery = {
         rating: number;
         image?: string | null;
         trailer?: string | null;
-        createdAt: any;
-        updatedAt: any;
       };
     }>;
     movies: Array<{
@@ -433,8 +423,6 @@ export type CinemasQuery = {
       rating: number;
       image?: string | null;
       trailer?: string | null;
-      createdAt: any;
-      updatedAt: any;
     }>;
   }>;
 };
@@ -452,8 +440,6 @@ export type CreateCinemaMutation = {
     address: string;
     rooms: number;
     capacity: number;
-    createdAt: any;
-    updatedAt: any;
     schedule: Array<{
       __typename?: "Schedule";
       day: Days;
@@ -471,8 +457,6 @@ export type CreateCinemaMutation = {
         rating: number;
         image?: string | null;
         trailer?: string | null;
-        createdAt: any;
-        updatedAt: any;
       };
     }>;
     movies: Array<{
@@ -488,8 +472,6 @@ export type CreateCinemaMutation = {
       rating: number;
       image?: string | null;
       trailer?: string | null;
-      createdAt: any;
-      updatedAt: any;
     }>;
   };
 };
@@ -513,8 +495,6 @@ export type CreateMovieMutation = {
     rating: number;
     image?: string | null;
     trailer?: string | null;
-    createdAt: any;
-    updatedAt: any;
   };
 };
 
@@ -531,8 +511,6 @@ export type DeleteCinemaMutation = {
     address: string;
     rooms: number;
     capacity: number;
-    createdAt: any;
-    updatedAt: any;
     schedule: Array<{
       __typename?: "Schedule";
       day: Days;
@@ -550,8 +528,6 @@ export type DeleteCinemaMutation = {
         rating: number;
         image?: string | null;
         trailer?: string | null;
-        createdAt: any;
-        updatedAt: any;
       };
     }>;
     movies: Array<{
@@ -567,8 +543,6 @@ export type DeleteCinemaMutation = {
       rating: number;
       image?: string | null;
       trailer?: string | null;
-      createdAt: any;
-      updatedAt: any;
     }>;
   };
 };
@@ -592,8 +566,6 @@ export type DeleteMovieMutation = {
     rating: number;
     image?: string | null;
     trailer?: string | null;
-    createdAt: any;
-    updatedAt: any;
   };
 };
 
@@ -660,8 +632,6 @@ export type MovieQuery = {
     rating: number;
     image?: string | null;
     trailer?: string | null;
-    createdAt: any;
-    updatedAt: any;
   };
 };
 
@@ -769,8 +739,6 @@ export type UpdateCinemaMutation = {
     address: string;
     rooms: number;
     capacity: number;
-    createdAt: any;
-    updatedAt: any;
     schedule: Array<{
       __typename?: "Schedule";
       day: Days;
@@ -788,8 +756,6 @@ export type UpdateCinemaMutation = {
         rating: number;
         image?: string | null;
         trailer?: string | null;
-        createdAt: any;
-        updatedAt: any;
       };
     }>;
     movies: Array<{
@@ -805,8 +771,6 @@ export type UpdateCinemaMutation = {
       rating: number;
       image?: string | null;
       trailer?: string | null;
-      createdAt: any;
-      updatedAt: any;
     }>;
   };
 };
@@ -831,8 +795,6 @@ export type UpdateMovieMutation = {
     rating: number;
     image?: string | null;
     trailer?: string | null;
-    createdAt: any;
-    updatedAt: any;
   };
 };
 
@@ -980,8 +942,6 @@ export const CinemaDocument = gql`
       address
       rooms
       capacity
-      createdAt
-      updatedAt
       schedule {
         day
         time
@@ -997,8 +957,6 @@ export const CinemaDocument = gql`
           rating
           image
           trailer
-          createdAt
-          updatedAt
         }
       }
       movies {
@@ -1013,8 +971,6 @@ export const CinemaDocument = gql`
         rating
         image
         trailer
-        createdAt
-        updatedAt
       }
     }
   }
@@ -1068,8 +1024,6 @@ export const CinemasDocument = gql`
       address
       rooms
       capacity
-      createdAt
-      updatedAt
       schedule {
         day
         time
@@ -1085,8 +1039,6 @@ export const CinemasDocument = gql`
           rating
           image
           trailer
-          createdAt
-          updatedAt
         }
       }
       movies {
@@ -1101,8 +1053,6 @@ export const CinemasDocument = gql`
         rating
         image
         trailer
-        createdAt
-        updatedAt
       }
     }
   }
@@ -1155,8 +1105,6 @@ export const CreateCinemaDocument = gql`
       address
       rooms
       capacity
-      createdAt
-      updatedAt
       schedule {
         day
         time
@@ -1172,8 +1120,6 @@ export const CreateCinemaDocument = gql`
           rating
           image
           trailer
-          createdAt
-          updatedAt
         }
       }
       movies {
@@ -1188,8 +1134,6 @@ export const CreateCinemaDocument = gql`
         rating
         image
         trailer
-        createdAt
-        updatedAt
       }
     }
   }
@@ -1251,8 +1195,6 @@ export const CreateMovieDocument = gql`
       rating
       image
       trailer
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -1307,8 +1249,6 @@ export const DeleteCinemaDocument = gql`
       address
       rooms
       capacity
-      createdAt
-      updatedAt
       schedule {
         day
         time
@@ -1324,8 +1264,6 @@ export const DeleteCinemaDocument = gql`
           rating
           image
           trailer
-          createdAt
-          updatedAt
         }
       }
       movies {
@@ -1340,8 +1278,6 @@ export const DeleteCinemaDocument = gql`
         rating
         image
         trailer
-        createdAt
-        updatedAt
       }
     }
   }
@@ -1403,8 +1339,6 @@ export const DeleteMovieDocument = gql`
       rating
       image
       trailer
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -1614,8 +1548,6 @@ export const MovieDocument = gql`
       rating
       image
       trailer
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -1940,8 +1872,6 @@ export const UpdateCinemaDocument = gql`
       address
       rooms
       capacity
-      createdAt
-      updatedAt
       schedule {
         day
         time
@@ -1957,8 +1887,6 @@ export const UpdateCinemaDocument = gql`
           rating
           image
           trailer
-          createdAt
-          updatedAt
         }
       }
       movies {
@@ -1973,8 +1901,6 @@ export const UpdateCinemaDocument = gql`
         rating
         image
         trailer
-        createdAt
-        updatedAt
       }
     }
   }
@@ -2037,8 +1963,6 @@ export const UpdateMovieDocument = gql`
       rating
       image
       trailer
-      createdAt
-      updatedAt
     }
   }
 `;
