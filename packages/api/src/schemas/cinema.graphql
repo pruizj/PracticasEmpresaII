@@ -16,6 +16,8 @@ type Cinema {
 type Schedule {
   day: Days!
   time: String!
+  room: Int!
+  capacity: Int!
   movie: Movie!
 }
 
@@ -38,6 +40,7 @@ type PaginatedCinemas {
 input ScheduleIn {
   day: Days!
   time: String!
+  room: Int!
   movie: ID!
 }
 

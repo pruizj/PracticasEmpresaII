@@ -23,6 +23,7 @@ const NewCinema: FC = () => {
   const [schedule, setSchedule] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState();
   const [selectedTime, setSelectedTime] = useState("");
+  const [selectedRoom, setSelectedRoom] = useState(1);
   const [selectedDay, setSelectedDay] = useState<Days>(Days.Monday);
   const [createCinema] = useCreateCinemaMutation();
   const [errorExists, setErrorExists] = useState<boolean>(false);
@@ -133,6 +134,19 @@ const NewCinema: FC = () => {
                 required
               />
             </Time>
+            <Room>
+              <Label>Sala</Label>
+              <LocalInput1
+                type="number"
+                value={selectedRoom}
+                min={1}
+                max={rooms}
+                onChange={event => {
+                  setSelectedRoom(Number(event.target.value));
+                }}
+                required
+              />
+            </Room>
             <Movie>
               <Label>Película</Label>
               <LocalSelect
@@ -157,7 +171,8 @@ const NewCinema: FC = () => {
                   item =>
                     item.day === selectedDay &&
                     item.time === selectedTime &&
-                    item.movie === selectedMovie
+                    item.movie === selectedMovie &&
+                    item.room === selectedRoom
                 );
 
                 if (!exists) {
@@ -166,12 +181,15 @@ const NewCinema: FC = () => {
                     {
                       day: selectedDay,
                       time: selectedTime,
+                      room: selectedRoom,
                       movie: selectedMovie
                     }
                   ]);
                 }
               }}
-              disabled={!selectedDay && !selectedTime && !selectedMovie}
+              disabled={
+                !selectedDay && !selectedTime && !selectedMovie && !selectedRoom
+              }
             >
               Añadir
             </LocalButton1>
@@ -182,6 +200,7 @@ const NewCinema: FC = () => {
                 <Item>
                   <p>{item.day}</p>
                   <p>{item.time}</p>
+                  <p>{item.room}</p>
                   <p>{movies.find(movie => movie.id === item.movie)?.title}</p>
                   <Buttons>
                     <img
@@ -205,9 +224,11 @@ const NewCinema: FC = () => {
         <BottomIndex>
           <LocalButton
             type="submit"
-            disabled={!(name && address && rooms && capacity)}
+            disabled={
+              !(name && address && rooms && capacity && schedule.length > 0)
+            }
             onClick={() => {
-              router.push("/adminDashboard");
+              router.push(`/adminDashboard`);
             }}
           >
             Añadir
@@ -267,7 +288,7 @@ const Content = styled.div`
 const Schedule = styled.div`
   display: flex;
   flex-direction: row;
-  width: 95%;
+  width: 93%;
   padding: 25px 25px 25px 0px;
   background-color: #ffffff;
   border-radius: 10px;
@@ -284,7 +305,13 @@ const Day = styled.div`
 const Time = styled.div`
   display: flex;
   flex-direction: column;
-  margin-right: 40px;
+  margin-right: 20px;
+`;
+
+const Room = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px;
 `;
 
 const LocalInput1 = styled(Input)`

@@ -8,6 +8,8 @@ mutation DeleteCinema($deleteCinemaId: ID!) {
     schedule {
       day
       time
+      room
+      capacity
       movie {
         id
         title

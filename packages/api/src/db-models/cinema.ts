@@ -15,6 +15,8 @@ const CinemaSchema: Schema = new Schema(
       {
         day: { type: String, required: true },
         time: { type: String, required: true },
+        capacity: { type: Number, required: true },
+        room: { type: Number, required: true },
         movie: { type: Types.ObjectId, ref: "MovieModel" }
       }
     ]

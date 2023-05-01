@@ -50,16 +50,19 @@ describe("createCinema", () => {
         {
           day: "Monday",
           time: "10:00",
+          room: 1,
           movie: movie_1.id
         },
         {
           day: "Tuesday",
           time: "10:00",
+          room: 2,
           movie: movie_2.id
         },
         {
           day: "Friday",
           time: "10:00",
+          room: 3,
           movie: movie_3.id
         }
       ]
@@ -86,16 +89,22 @@ describe("createCinema", () => {
         {
           day: "Monday",
           time: "10:00",
+          room: 1,
+          capacity: 100,
           movie: movie1
         },
         {
           day: "Tuesday",
           time: "10:00",
+          room: 2,
+          capacity: 100,
           movie: movie2
         },
         {
           day: "Friday",
           time: "10:00",
+          room: 3,
+          capacity: 100,
           movie: movie3
         }
       ],
@@ -173,21 +182,25 @@ describe("createCinema", () => {
         {
           day: "Monday",
           time: "10:00",
+          room: 1,
           movie: movie_2._id.toString()
         },
         {
           day: "Tuesday",
           time: "10:00",
+          room: 2,
           movie: id.toString()
         },
         {
           day: "Friday",
           time: "10:00",
+          room: 3,
           movie: movie_3._id.toString()
         },
         {
           day: "Friday",
           time: "10:00",
+          room: 4,
           movie: movie_1._id.toString()
         }
       ]

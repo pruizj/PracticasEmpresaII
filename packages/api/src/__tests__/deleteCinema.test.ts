@@ -49,16 +49,22 @@ describe("deleteCinema", () => {
         {
           day: "Monday",
           time: "10:00",
+          room: 1,
+          capacity: 100,
           movie: movie_1.id
         },
         {
           day: "Tuesday",
           time: "10:00",
+          room: 1,
+          capacity: 100,
           movie: movie_2.id
         },
         {
           day: "Wednesday",
           time: "10:00",
+          room: 1,
+          capacity: 100,
           movie: movie_3.id
         }
       ]
@@ -86,16 +92,22 @@ describe("deleteCinema", () => {
         {
           day: "Monday",
           time: "10:00",
+          room: 1,
+          capacity: 100,
           movie: movie1
         },
         {
           day: "Tuesday",
           time: "10:00",
+          room: 1,
+          capacity: 100,
           movie: movie2
         },
         {
           day: "Wednesday",
           time: "10:00",
+          room: 1,
+          capacity: 100,
           movie: movie3
         }
       ],

@@ -47,11 +47,15 @@ describe("Cinemas", () => {
         {
           day: "Monday",
           time: "12:00",
+          room: 1,
+          capacity: 100,
           movie: newMovie1._id.toString()
         },
         {
           day: "Monday",
           time: "15:00",
+          room: 3,
+          capacity: 100,
           movie: newMovie2._id.toString()
         }
       ]
@@ -64,6 +68,8 @@ describe("Cinemas", () => {
         {
           day: "Wednesday",
           time: "12:00",
+          room: 4,
+          capacity: 100,
           movie: newMovie1._id.toString()
         }
       ]
@@ -76,6 +82,8 @@ describe("Cinemas", () => {
         {
           day: "Monday",
           time: "12:00",
+          room: 3,
+          capacity: 100,
           movie: newMovie3._id.toString()
         }
       ]
@@ -106,11 +114,15 @@ describe("Cinemas", () => {
           {
             day: "Monday",
             time: "12:00",
+            room: 1,
+            capacity: 100,
             movie: movie1
           },
           {
             day: "Monday",
             time: "15:00",
+            room: 3,
+            capacity: 100,
             movie: movie2
           }
         ]
@@ -122,6 +134,8 @@ describe("Cinemas", () => {
           {
             day: "Wednesday",
             time: "12:00",
+            room: 4,
+            capacity: 100,
             movie: movie1
           }
         ]
@@ -133,6 +147,8 @@ describe("Cinemas", () => {
           {
             day: "Monday",
             time: "12:00",
+            room: 3,
+            capacity: 100,
             movie: movie3
           }
         ]
@@ -170,11 +186,15 @@ describe("Cinemas", () => {
         {
           day: "Monday",
           time: "12:00",
+          room: 1,
+          capacity: 100,
           movie: newMovie1._id.toString()
         },
         {
           day: "Monday",
           time: "15:00",
+          room: 3,
+          capacity: 100,
           movie: newMovie2._id.toString()
         }
       ]
@@ -188,6 +208,8 @@ describe("Cinemas", () => {
         {
           day: "Wednesday",
           time: "12:00",
+          room: 4,
+          capacity: 100,
           movie: newMovie1._id.toString()
         }
       ]
@@ -201,6 +223,8 @@ describe("Cinemas", () => {
         {
           day: "Monday",
           time: "12:00",
+          room: 3,
+          capacity: 100,
           movie: newMovie3._id.toString()
         }
       ]

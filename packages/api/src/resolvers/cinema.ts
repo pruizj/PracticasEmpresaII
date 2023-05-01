@@ -57,18 +57,49 @@ export const cinemaResolver = {
       _parent: unknown,
       args: MutationCreateCinemaArgs
     ): Promise<Omit<CinemaModelType, "_id">> => {
-      const cinema = await CinemaModel.create(args.input);
-      return cinema;
+      const schedule =
+        args.input.schedule && args.input.schedule.length > 0
+          ? args.input.schedule.map(schedule => {
+              return {
+                day: schedule.day,
+                time: schedule.time,
+                room: schedule.room,
+                capacity: args.input.capacity,
+                movie: schedule.movie
+              };
+            })
+          : [];
+      return await CinemaModel.create({ ...args.input, schedule });
     },
 
     updateCinema: async (
       _parent: unknown,
       args: MutationUpdateCinemaArgs
     ): Promise<Omit<CinemaModelType, "_id">> => {
-      const cinema = (await CinemaModel.findByIdAndUpdate(args.id, args.input, {
-        new: true
-      }).exec()) as Omit<CinemaModelType, "_id">;
-      return cinema;
+      const cinema = await CinemaModel.findById(args.id).exec();
+      if (!cinema) {
+        throw new Error(ERROR.CINEMA_NOT_FOUND.message);
+      }
+
+      const schedule = args.input.schedule
+        ? args.input.schedule.length > 0
+          ? args.input.schedule.map(schedule => {
+              return {
+                day: schedule.day,
+                time: schedule.time,
+                room: schedule.room,
+                capacity: args.input.capacity || cinema.capacity,
+                movie: schedule.movie
+              };
+            })
+          : []
+        : cinema.schedule;
+
+      return (await CinemaModel.findByIdAndUpdate(
+        args.id,
+        { ...args.input, schedule },
+        { new: true }
+      ).exec()) as Omit<CinemaModelType, "_id">;
     },
 
     deleteCinema: async (
@@ -97,6 +128,8 @@ export const cinemaResolver = {
         return {
           day: schedule.day,
           time: schedule.time,
+          room: schedule.room,
+          capacity: schedule.capacity,
           movie: movie as Movie
         };
       });

@@ -4,11 +4,20 @@ import Button from "../components/Button";
 import LayoutPage from "../components/LayoutPage";
 import Users from "../components/Users";
 import Cinemas from "../components/Cinemas";
+import Movies from "../components/Movies";
 
 const AdminDashboardPage = () => {
-  const [activeSection, setActiveSection] = useState<"Cinemas" | "Users">(
-    "Cinemas"
-  );
+  const lastActiveSection = localStorage.getItem("activeSection") as
+    | "Cinemas"
+    | "Movies"
+    | "Users";
+  const [activeSection, setActiveSection] = useState<
+    "Cinemas" | "Movies" | "Users"
+  >(lastActiveSection || "Cinemas");
+
+  useEffect(() => {
+    localStorage.setItem("activeSection", activeSection);
+  }, [activeSection]);
 
   return (
     <LayoutPage>
@@ -25,6 +34,15 @@ const AdminDashboardPage = () => {
         </Button>
         <Button
           style={{
+            backgroundColor: activeSection === "Movies" ? "#9f67ad" : "#2f0139",
+            width: "100%"
+          }}
+          onClick={() => setActiveSection("Movies")}
+        >
+          PELICULAS
+        </Button>
+        <Button
+          style={{
             backgroundColor: activeSection === "Users" ? "#9f67ad" : "#2f0139",
             width: "100%"
           }}
@@ -36,6 +54,7 @@ const AdminDashboardPage = () => {
       <Section>
         {activeSection === "Cinemas" && <Cinemas />}
         {activeSection === "Users" && <Users />}
+        {activeSection === "Movies" && <Movies />}
       </Section>
     </LayoutPage>
   );

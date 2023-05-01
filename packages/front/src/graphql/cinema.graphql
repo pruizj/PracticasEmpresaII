@@ -8,6 +8,8 @@ query Cinema($cinemaId: ID!) {
     schedule {
       day
       time
+      room
+      capacity
       movie {
         id
         title

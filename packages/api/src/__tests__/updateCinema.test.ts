@@ -49,16 +49,22 @@ describe("updateCinema", () => {
         {
           day: "Monday",
           time: "10:00",
+          room: 1,
+          capacity: 100,
           movie: movie_1._id.toString()
         },
         {
           day: "Tuesday",
           time: "10:00",
+          room: 1,
+          capacity: 100,
           movie: movie_2._id.toString()
         },
         {
           day: "Wednesday",
           time: "10:00",
+          room: 1,
+          capacity: 100,
           movie: movie_3._id.toString()
         }
       ]
@@ -77,6 +83,7 @@ describe("updateCinema", () => {
             {
               day: "Monday",
               time: "10:00",
+              room: 3,
               movie: movie_3._id.toString()
             }
           ]
@@ -96,10 +103,14 @@ describe("updateCinema", () => {
     expect(updateCinema).toMatchObject({
       name: "Cinema 2",
       address: "Address 2",
+      rooms: 6,
+      capacity: 100,
       schedule: [
         {
           day: "Monday",
           time: "10:00",
+          room: 3,
+          capacity: 100,
           movie: movie3
         }
       ],
@@ -111,10 +122,14 @@ describe("updateCinema", () => {
     expect(cinemaDB).toMatchObject({
       name: "Cinema 2",
       address: "Address 2",
+      rooms: 6,
+      capacity: 100,
       schedule: [
         {
           day: "Monday",
           time: "10:00",
+          room: 3,
+          capacity: 100,
           movie: movie_3._id
         }
       ]
@@ -211,7 +226,7 @@ describe("updateCinema", () => {
     await CinemaModel.deleteMany({});
   });
 
-  it("should not update a cienma if the name is already taken", async () => {
+  it("should not update a cinema if the name is already taken", async () => {
     // create user in database
     const result = await graphQLHelper(
       REGISTER,
@@ -285,6 +300,7 @@ describe("updateCinema", () => {
             {
               day: "Monday",
               time: "10:00",
+              room: 3,
               movie: id.toString()
             }
           ]

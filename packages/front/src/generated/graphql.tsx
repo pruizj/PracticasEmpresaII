@@ -237,14 +237,17 @@ export enum Role {
 
 export type Schedule = {
   __typename?: "Schedule";
+  capacity: Scalars["Int"];
   day: Days;
   movie: Movie;
+  room: Scalars["Int"];
   time: Scalars["String"];
 };
 
 export type ScheduleIn = {
   day: Days;
   movie: Scalars["ID"];
+  room: Scalars["Int"];
   time: Scalars["String"];
 };
 
@@ -348,6 +351,8 @@ export type CinemaQuery = {
       __typename?: "Schedule";
       day: Days;
       time: string;
+      room: number;
+      capacity: number;
       movie: {
         __typename?: "Movie";
         id: string;
@@ -395,6 +400,8 @@ export type CinemasQuery = {
       __typename?: "Schedule";
       day: Days;
       time: string;
+      room: number;
+      capacity: number;
       movie: {
         __typename?: "Movie";
         id: string;
@@ -444,6 +451,8 @@ export type CreateCinemaMutation = {
       __typename?: "Schedule";
       day: Days;
       time: string;
+      room: number;
+      capacity: number;
       movie: {
         __typename?: "Movie";
         id: string;
@@ -515,6 +524,8 @@ export type DeleteCinemaMutation = {
       __typename?: "Schedule";
       day: Days;
       time: string;
+      room: number;
+      capacity: number;
       movie: {
         __typename?: "Movie";
         id: string;
@@ -743,6 +754,8 @@ export type UpdateCinemaMutation = {
       __typename?: "Schedule";
       day: Days;
       time: string;
+      room: number;
+      capacity: number;
       movie: {
         __typename?: "Movie";
         id: string;
@@ -945,6 +958,8 @@ export const CinemaDocument = gql`
       schedule {
         day
         time
+        room
+        capacity
         movie {
           id
           title
@@ -1027,6 +1042,8 @@ export const CinemasDocument = gql`
       schedule {
         day
         time
+        room
+        capacity
         movie {
           id
           title
@@ -1108,6 +1125,8 @@ export const CreateCinemaDocument = gql`
       schedule {
         day
         time
+        room
+        capacity
         movie {
           id
           title
@@ -1252,6 +1271,8 @@ export const DeleteCinemaDocument = gql`
       schedule {
         day
         time
+        room
+        capacity
         movie {
           id
           title
@@ -1875,6 +1896,8 @@ export const UpdateCinemaDocument = gql`
       schedule {
         day
         time
+        room
+        capacity
         movie {
           id
           title

@@ -8,6 +8,8 @@ mutation UpdateCinema($updateCinemaId: ID!, $input: UpdateCinemaIn!) {
     schedule {
       day
       time
+      room
+      capacity
       movie {
         id
         title

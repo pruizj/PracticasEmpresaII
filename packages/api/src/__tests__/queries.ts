@@ -216,6 +216,8 @@ mutation CreateCinema($input: CinemaIn!) {
     schedule {
       day
       time
+      room
+      capacity
       movie {
         id
         title
@@ -263,6 +265,8 @@ mutation UpdateCinema($updateCinemaId: ID!, $input: UpdateCinemaIn!) {
     schedule {
       day
       time
+      room
+      capacity
       movie {
         id
         title
@@ -310,6 +314,8 @@ mutation DeleteCinema($deleteCinemaId: ID!) {
     schedule {
       day
       time
+      room
+      capacity
       movie {
         id
         title
@@ -357,6 +363,8 @@ query Cinema($cinemaId: ID!) {
     schedule {
       day
       time
+      room
+      capacity
       movie {
         id
         title
@@ -404,6 +412,8 @@ query Cinemas {
     schedule {
       day
       time
+      room
+      capacity
       movie {
         id
         title

@@ -42,6 +42,7 @@ const CinemaForm: React.FC<CinemaFormProps> = ({
   );
   const [selectedMovie, setSelectedMovie] = useState();
   const [selectedTime, setSelectedTime] = useState("");
+  const [selectedRoom, setSelectedRoom] = useState(1);
   const [selectedDay, setSelectedDay] = useState<Days>(Days.Monday);
 
   const {
@@ -140,6 +141,18 @@ const CinemaForm: React.FC<CinemaFormProps> = ({
               required
             />
           </Time>
+          <Room>
+            <Label>Sala</Label>
+            <LocalInput1
+              type="number"
+              value={selectedRoom}
+              min={1}
+              max={initialValues.rooms}
+              onChange={event => {
+                setSelectedRoom(Number(event.target.value));
+              }}
+            />
+          </Room>
           <Movie>
             <Label>Película</Label>
             <LocalSelect
@@ -163,7 +176,8 @@ const CinemaForm: React.FC<CinemaFormProps> = ({
               onAddSchedule(e, {
                 day: selectedDay,
                 time: selectedTime,
-                movie: selectedMovie
+                movie: selectedMovie,
+                room: selectedRoom
               });
             }}
           >
@@ -178,6 +192,7 @@ const CinemaForm: React.FC<CinemaFormProps> = ({
               <Item>
                 <p>{item.day}</p>
                 <p>{item.time}</p>
+                <p>{item.room}</p>
                 <p>{movies.find(movie => movie.id === item.movie)?.title}</p>
                 <Buttons>
                   <img
@@ -260,7 +275,7 @@ const Content = styled.div`
 const Schedule = styled.div`
   display: flex;
   flex-direction: row;
-  width: 95%;
+  width: 93%;
   padding: 25px 25px 25px 0px;
   background-color: #ffffff;
   border-radius: 10px;
@@ -277,7 +292,13 @@ const Day = styled.div`
 const Time = styled.div`
   display: flex;
   flex-direction: column;
-  margin-right: 40px;
+  margin-right: 10px;
+`;
+
+const Room = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-right: 10px;
 `;
 
 const LocalInput1 = styled(Input)`

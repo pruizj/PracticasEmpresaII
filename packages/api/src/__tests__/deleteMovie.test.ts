@@ -130,11 +130,15 @@ describe("deleteMovie", () => {
         {
           day: "Monday",
           time: "10:00",
+          room: 1,
+          capacity: 100,
           movie: movie._id
         },
         {
           day: "Tuesday",
           time: "10:00",
+          room: 1,
+          capacity: 100,
           movie: movie_1._id
         }
       ]

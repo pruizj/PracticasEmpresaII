@@ -48,7 +48,7 @@ const EditCinema = ({ id }) => {
     });
 
     if (!errors) {
-      router.push("/adminDashboard");
+      router.push("/adminDashboar");
     } else {
       setErrorAlert(true);
       setLoadingSave(false);
@@ -71,12 +71,13 @@ const EditCinema = ({ id }) => {
       data?.cinema.schedule.map(item => ({
         movie: item.movie.id,
         day: item.day,
-        time: item.time
+        time: item.time,
+        room: item.room
       })) || []
   };
-  console.log(initialValues, data);
+
   const onCancel = () => {
-    router.push("/adminDashboard");
+    router.push(`/adminDashboard`);
   };
 
   return (

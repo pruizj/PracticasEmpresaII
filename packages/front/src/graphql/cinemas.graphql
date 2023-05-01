@@ -8,6 +8,8 @@ query Cinemas {
     schedule {
       day
       time
+      room
+      capacity
       movie {
         id
         title

@@ -8,6 +8,8 @@ mutation CreateCinema($input: CinemaIn!) {
     schedule {
       day
       time
+      room
+      capacity
       movie {
         id
         title

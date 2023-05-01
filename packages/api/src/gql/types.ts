@@ -43,8 +43,10 @@ export type Cinema = {
 export type CinemaData = {
   __typename?: "CinemaData";
   address: Scalars["String"];
+  capacity: Scalars["Int"];
   id: Scalars["ID"];
   name: Scalars["String"];
+  rooms: Scalars["Int"];
 };
 
 export type CinemaIn = {
@@ -240,14 +242,17 @@ export enum Role {
 
 export type Schedule = {
   __typename?: "Schedule";
+  capacity: Scalars["Int"];
   day: Days;
   movie: Movie;
+  room: Scalars["Int"];
   time: Scalars["String"];
 };
 
 export type ScheduleIn = {
   day: Days;
   movie: Scalars["ID"];
+  room: Scalars["Int"];
   time: Scalars["String"];
 };
 
@@ -486,8 +491,10 @@ export type CinemaDataResolvers<
   ParentType extends ResolversParentTypes["CinemaData"] = ResolversParentTypes["CinemaData"]
 > = {
   address?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  capacity?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
   name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  rooms?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -671,8 +678,10 @@ export type ScheduleResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes["Schedule"] = ResolversParentTypes["Schedule"]
 > = {
+  capacity?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   day?: Resolver<ResolversTypes["Days"], ParentType, ContextType>;
   movie?: Resolver<ResolversTypes["Movie"], ParentType, ContextType>;
+  room?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   time?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
