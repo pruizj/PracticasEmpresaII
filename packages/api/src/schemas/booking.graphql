@@ -1,0 +1,29 @@
+# import * from "./scalars.graphql"
+# import * from "./cinema.graphql"
+# import * from "./movie.graphql"
+# import * from "./cinema.graphql"
+# import * from "./user.graphql"
+
+type Booking{
+    id:ID!
+    cinema: Cinema!
+    movie: Movie!
+    day: Days!
+    room: Int!
+    seats: Int!
+    user: User!
+    price: Float!
+    cardNumber: String!
+    expiry_date: Date!
+    security_code: String!
+}
+
+type Query {
+    bookings: [Booking!]! @auth(requires: [ADMIN, USER])
+    booking(id: ID!): Booking! @auth(requires: [ADMIN, USER])
+}
+
+type Mutation {
+    createBooking(cinema: ID!, schedule: ScheduleIn!, seats: Int!, cardNumber: String!, expiry_date:Date!, security_code:String): Booking! @auth(requires: [ADMIN, USER])
+    deleteBooking(id: ID!): Boolean! @auth(requires: [ADMIN, USER])
+}

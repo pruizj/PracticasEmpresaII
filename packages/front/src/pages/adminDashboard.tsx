@@ -6,11 +6,21 @@ import Users from "../components/Users";
 import Cinemas from "../components/Cinemas";
 import Movies from "../components/Movies";
 
+const isLocalStorageAvailable = () => {
+  try {
+    const testKey = "test";
+    localStorage.setItem(testKey, testKey);
+    localStorage.removeItem(testKey);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
 const AdminDashboardPage = () => {
-  const lastActiveSection = localStorage.getItem("activeSection") as
-    | "Cinemas"
-    | "Movies"
-    | "Users";
+  const lastActiveSection = isLocalStorageAvailable()
+    ? (localStorage.getItem("activeSection") as "Cinemas" | "Movies" | "Users")
+    : null;
   const [activeSection, setActiveSection] = useState<
     "Cinemas" | "Movies" | "Users"
   >(lastActiveSection || "Cinemas");

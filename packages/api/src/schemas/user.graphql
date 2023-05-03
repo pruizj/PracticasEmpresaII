@@ -1,4 +1,5 @@
 # import * from "./scalars.graphql"
+
 type Query {
   me: User! @auth(requires: [USER, ADMIN])
   users: [User!]! @auth(requires: [ADMIN])

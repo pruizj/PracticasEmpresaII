@@ -464,3 +464,165 @@ query PaginatedCinemas($page: Int, $pageSize: Int, $order: GeneralOrderType, $se
     }
   }
 }`;
+
+export const GET_CHATS = `
+query GetChats {
+  getChats {
+    id
+    name
+    messages {
+      id
+      text
+      createdBy {
+        name
+      }
+    }
+    participants {
+      name
+    }
+  }
+}
+`;
+
+export const JOIN = `
+mutation Join($channelName: String!) {
+  join(channelName: $channelName) {
+    user {
+      id
+      name
+      surname
+      email
+      password
+      role
+      authToken
+    }
+    channel {
+      messages {
+        createdBy {
+          name
+        }
+        text
+      }
+      name
+      participants {
+        name
+      }
+    }
+  }
+}
+`;
+
+export const SEND_MESSAGE = `
+mutation SendMessage($channelName: String!, $text: String!) {
+  sendMessage(channelName: $channelName, text: $text) {
+    id
+    text
+    createdBy {
+      id
+      name
+      surname
+      email
+      password
+      role
+      authToken
+    }
+  }
+}
+`;
+
+export const QUIT = `
+mutation Mutation($channelName: String!) {
+  quit(channelName: $channelName) {
+    id
+    messages {
+      id
+      text
+      createdBy {
+        name
+      }
+    }
+    name
+    participants {
+      name
+    }
+  }
+}
+`;
+
+export const BOOKINGS = `
+query Bookings {
+  bookings {
+    id
+    cinema {
+      name
+    }
+    movie {
+      title
+    }
+    day
+    room
+    seats
+    user {
+      name
+    }
+    price
+    cardNumber
+    expiry_date
+    security_code
+  }
+}
+`;
+
+export const BOOKING = `
+query Booking($bookingId: ID!) {
+  booking(id: $bookingId) {
+    id
+    cinema {
+      name
+    }
+    movie {
+      title
+    }
+    day
+    room
+    seats
+    user {
+      name
+    }
+    price
+    cardNumber
+    expiry_date
+    security_code
+  }
+}
+`;
+
+export const CREATE_BOOKING = `
+mutation CreateBooking($cinema: ID!, $schedule: ScheduleIn!, $seats: Int!, $cardNumber: String!, $expiryDate: Date!) {
+  createBooking(cinema: $cinema, schedule: $schedule, seats: $seats, cardNumber: $cardNumber, expiry_date: $expiryDate) {
+    id
+    cinema {
+      name
+    }
+    movie {
+      title
+    }
+    day
+    room
+    seats
+    user {
+      name
+    }
+    price
+    cardNumber
+    expiry_date
+    security_code
+  }
+}
+`;
+
+export const DELETE_BOOKING = `
+mutation DeleteBooking($deleteBookingId: ID!) {
+  deleteBooking(id: $deleteBookingId)
+}
+`;

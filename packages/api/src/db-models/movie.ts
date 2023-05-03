@@ -1,6 +1,5 @@
 import mongoose, { Schema, Model, model, ObjectId } from "mongoose";
 import { Movie } from "../gql/types";
-import moment from "moment";
 import { ERROR } from "../errors";
 import { CinemaModel } from "./cinema";
 

@@ -1,4 +1,6 @@
 # import Mutation.*, Query.*, * from "../movie.graphql"
 # import Mutation.*, Query.*, * from "../user.graphql"
 # import Mutation.*, Query.*, * from "../cinema.graphql"
+# import Mutation.*, Query.*, Subscription.*, * from "../forum.graphql"
+# import Mutation.*, Query.*, * from "../booking.graphql"
 # import * from "../scalars.graphql"

@@ -40,6 +40,22 @@ export const ERROR: Record<string, ErrorType> = {
     message: "MOVIE_NOT_DELETED",
     code: "500"
   },
+  CHANNEL_NOT_FOUND: {
+    message: "CHANNEL_NOT_FOUND",
+    code: "404"
+  },
+  BOOKING_NOT_FOUND: {
+    message: "BOOKING_NOT_FOUND",
+    code: "404"
+  },
+  BOOKING_FULL: {
+    message: "BOOKING_FULL",
+    code: "400"
+  },
+  CARD_NUMBER_INVALID: {
+    message: "CARD_NUMBER_INVALID",
+    code: "400"
+  },
   INVALID_DURATION: {
     message: "INVALID_DURATION",
     code: "400"

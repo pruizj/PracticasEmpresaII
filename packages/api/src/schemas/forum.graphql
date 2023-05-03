@@ -1,0 +1,36 @@
+# import * from "./scalars.graphql"
+# import User from "./user.graphql"
+
+type Channel {
+    id: ID!
+    name: String
+    messages: [Message!]
+    participants: [User!]
+}
+
+type Message {
+    id: ID!
+    text: String
+    createdBy: User!
+}
+
+type JoinResult {
+    channel: Channel!
+    user: User!
+}
+
+type Query {
+    getChats: [Channel!]! @auth(requires: [ADMIN, USER])
+}
+
+type Mutation {
+    join(channelName: String!): JoinResult! @auth(requires: [ADMIN, USER])
+    sendMessage(channelName: String!, text: String!): Message! @auth(requires: [ADMIN, USER])
+    quit(channelName: String!): Channel! @auth(requires: [ADMIN, USER])
+}
+
+ type Subscription {
+    onQuit:Channel
+    onMessageAdded:Message
+    onMemberJoin:JoinResult
+  }

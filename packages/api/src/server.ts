@@ -1,28 +1,53 @@
-import { ApolloServer } from "@apollo/server";
-import { expressMiddleware } from "@apollo/server/express4";
-import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
+import { ApolloServer } from "apollo-server-express";
+import { execute, subscribe } from "graphql";
+import { SubscriptionServer } from "subscriptions-transport-ws";
 import express from "express";
 import http from "http";
-import cors from "cors";
-import { json } from "body-parser";
 import { startMongoConnection } from "./lib/mongoose-connection";
 import exSchema from "./schemas/modules/allSchemas";
 import { User } from "./gql/types";
 import { checkToken } from "./lib/login";
 import { MONGO_URL, PORT } from "./config";
+const { PubSub } = require("graphql-subscriptions");
 
 export interface Context {
   user: User | undefined;
 }
 
+export const pubsub = new PubSub();
+
 const app = express();
 const httpServer = http.createServer(app);
 
-const server = new ApolloServer<Context>({
+const server = new ApolloServer({
   schema: exSchema,
-  plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+  context: async ctx => {
+    let user;
+    try {
+      const authorization = ctx.req.headers.authorization || "";
+      const [type, token] = authorization.split(" ");
+      if (type === "Bearer" && token && token !== null) {
+        user = await checkToken(token);
+      }
+      return { user };
+    } catch (e) {
+      throw new Error(e.message);
+    }
+  },
   introspection: true
 });
+
+const subscriptionServer = SubscriptionServer.create(
+  {
+    schema: exSchema,
+    execute,
+    subscribe
+  },
+  {
+    server: httpServer,
+    path: server.graphqlPath
+  }
+);
 
 const main = async () => {
   console.info("Starting api", process.env);
@@ -35,26 +60,13 @@ const main = async () => {
     await startMongoConnection(MONGO_URL);
 
     await server.start();
-    app.use(
-      "/graphql",
-      cors<cors.CorsRequest>(),
-      json(),
-      expressMiddleware(server, {
-        context: async ctx => {
-          let user;
-          try {
-            const authorization = ctx.req.headers.authorization || "";
-            const [type, token] = authorization.split(" ");
-            if (type === "Bearer" && token && token !== null) {
-              user = await checkToken(token);
-            }
-            return { user };
-          } catch (e) {
-            throw new Error(e.message);
-          }
-        }
-      })
-    );
+
+    server.applyMiddleware({
+      app,
+      path: "/graphql",
+      cors: true,
+      bodyParserConfig: true
+    });
 
     await new Promise<void>(resolve =>
       httpServer.listen({ port: PORT }, resolve)

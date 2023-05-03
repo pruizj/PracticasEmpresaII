@@ -27,6 +27,29 @@ export type Scalars = {
   Date: Date;
 };
 
+export type Booking = {
+  __typename?: "Booking";
+  cardNumber: Scalars["String"];
+  cinema: Cinema;
+  day: Days;
+  expiry_date: Scalars["Date"];
+  id: Scalars["ID"];
+  movie: Movie;
+  price: Scalars["Float"];
+  room: Scalars["Int"];
+  seats: Scalars["Int"];
+  security_code: Scalars["String"];
+  user: User;
+};
+
+export type Channel = {
+  __typename?: "Channel";
+  id: Scalars["ID"];
+  messages?: Maybe<Array<Message>>;
+  name?: Maybe<Scalars["String"]>;
+  participants?: Maybe<Array<User>>;
+};
+
 export type Cinema = {
   __typename?: "Cinema";
   address: Scalars["String"];
@@ -74,6 +97,19 @@ export enum GeneralOrderType {
   RecentLast = "RecentLast"
 }
 
+export type JoinResult = {
+  __typename?: "JoinResult";
+  channel: Channel;
+  user: User;
+};
+
+export type Message = {
+  __typename?: "Message";
+  createdBy: User;
+  id: Scalars["ID"];
+  text?: Maybe<Scalars["String"]>;
+};
+
 export type Movie = {
   __typename?: "Movie";
   cast: Array<Scalars["String"]>;
@@ -117,13 +153,18 @@ export type Mutation = {
   __typename?: "Mutation";
   addRatingToMovie: Movie;
   changeRole: User;
+  createBooking: Booking;
   createCinema: Cinema;
   createMovie: Movie;
+  deleteBooking: Scalars["Boolean"];
   deleteCinema: Cinema;
   deleteMovie: Movie;
   deleteUser: User;
+  join: JoinResult;
   login: ResultLogin;
+  quit: Channel;
   register: User;
+  sendMessage: Message;
   updateCinema: Cinema;
   updateMovie: Movie;
 };
@@ -138,12 +179,25 @@ export type MutationChangeRoleArgs = {
   role: Role;
 };
 
+export type MutationCreateBookingArgs = {
+  cardNumber: Scalars["String"];
+  cinema: Scalars["ID"];
+  expiry_date: Scalars["Date"];
+  schedule: ScheduleIn;
+  seats: Scalars["Int"];
+  security_code?: InputMaybe<Scalars["String"]>;
+};
+
 export type MutationCreateCinemaArgs = {
   input: CinemaIn;
 };
 
 export type MutationCreateMovieArgs = {
   input: MovieIn;
+};
+
+export type MutationDeleteBookingArgs = {
+  id: Scalars["ID"];
 };
 
 export type MutationDeleteCinemaArgs = {
@@ -158,13 +212,26 @@ export type MutationDeleteUserArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationJoinArgs = {
+  channelName: Scalars["String"];
+};
+
 export type MutationLoginArgs = {
   email: Scalars["String"];
   password: Scalars["String"];
 };
 
+export type MutationQuitArgs = {
+  channelName: Scalars["String"];
+};
+
 export type MutationRegisterArgs = {
   input: UserIn;
+};
+
+export type MutationSendMessageArgs = {
+  channelName: Scalars["String"];
+  text: Scalars["String"];
 };
 
 export type MutationUpdateCinemaArgs = {
@@ -197,14 +264,21 @@ export type PaginatedMovies = {
 
 export type Query = {
   __typename?: "Query";
+  booking: Booking;
+  bookings: Array<Booking>;
   cinema: Cinema;
   cinemas: Array<Cinema>;
+  getChats: Array<Channel>;
   me: User;
   movie: Movie;
   movies: Array<Movie>;
   paginatedCinemas: PaginatedCinemas;
   paginatedMovies: PaginatedMovies;
   users: Array<User>;
+};
+
+export type QueryBookingArgs = {
+  id: Scalars["ID"];
 };
 
 export type QueryCinemaArgs = {
@@ -254,6 +328,13 @@ export type ScheduleIn = {
   movie: Scalars["ID"];
   room: Scalars["Int"];
   time: Scalars["String"];
+};
+
+export type Subscription = {
+  __typename?: "Subscription";
+  onMemberJoin?: Maybe<JoinResult>;
+  onMessageAdded?: Maybe<Message>;
+  onQuit?: Maybe<Channel>;
 };
 
 export type UpdateCinemaIn = {
@@ -402,15 +483,20 @@ export type DirectiveResolverFn<
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
+  Booking: ResolverTypeWrapper<Booking>;
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
+  Channel: ResolverTypeWrapper<Channel>;
   Cinema: ResolverTypeWrapper<Cinema>;
   CinemaData: ResolverTypeWrapper<CinemaData>;
   CinemaIn: CinemaIn;
   Date: ResolverTypeWrapper<Scalars["Date"]>;
   Days: Days;
+  Float: ResolverTypeWrapper<Scalars["Float"]>;
   GeneralOrderType: GeneralOrderType;
   ID: ResolverTypeWrapper<Scalars["ID"]>;
   Int: ResolverTypeWrapper<Scalars["Int"]>;
+  JoinResult: ResolverTypeWrapper<JoinResult>;
+  Message: ResolverTypeWrapper<Message>;
   Movie: ResolverTypeWrapper<Movie>;
   MovieData: ResolverTypeWrapper<MovieData>;
   MovieIn: MovieIn;
@@ -423,6 +509,7 @@ export type ResolversTypes = {
   Schedule: ResolverTypeWrapper<Schedule>;
   ScheduleIn: ScheduleIn;
   String: ResolverTypeWrapper<Scalars["String"]>;
+  Subscription: ResolverTypeWrapper<{}>;
   UpdateCinemaIn: UpdateCinemaIn;
   UpdateMovieIn: UpdateMovieIn;
   User: ResolverTypeWrapper<User>;
@@ -431,13 +518,18 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
+  Booking: Booking;
   Boolean: Scalars["Boolean"];
+  Channel: Channel;
   Cinema: Cinema;
   CinemaData: CinemaData;
   CinemaIn: CinemaIn;
   Date: Scalars["Date"];
+  Float: Scalars["Float"];
   ID: Scalars["ID"];
   Int: Scalars["Int"];
+  JoinResult: JoinResult;
+  Message: Message;
   Movie: Movie;
   MovieData: MovieData;
   MovieIn: MovieIn;
@@ -449,6 +541,7 @@ export type ResolversParentTypes = {
   Schedule: Schedule;
   ScheduleIn: ScheduleIn;
   String: Scalars["String"];
+  Subscription: {};
   UpdateCinemaIn: UpdateCinemaIn;
   UpdateMovieIn: UpdateMovieIn;
   User: User;
@@ -465,6 +558,43 @@ export type AuthDirectiveResolver<
   ContextType = any,
   Args = AuthDirectiveArgs
 > = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+
+export type BookingResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Booking"] = ResolversParentTypes["Booking"]
+> = {
+  cardNumber?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  cinema?: Resolver<ResolversTypes["Cinema"], ParentType, ContextType>;
+  day?: Resolver<ResolversTypes["Days"], ParentType, ContextType>;
+  expiry_date?: Resolver<ResolversTypes["Date"], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
+  movie?: Resolver<ResolversTypes["Movie"], ParentType, ContextType>;
+  price?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
+  room?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  seats?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  security_code?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  user?: Resolver<ResolversTypes["User"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ChannelResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Channel"] = ResolversParentTypes["Channel"]
+> = {
+  id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
+  messages?: Resolver<
+    Maybe<Array<ResolversTypes["Message"]>>,
+    ParentType,
+    ContextType
+  >;
+  name?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  participants?: Resolver<
+    Maybe<Array<ResolversTypes["User"]>>,
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
 
 export type CinemaResolvers<
   ContextType = any,
@@ -502,6 +632,25 @@ export interface DateScalarConfig
   extends GraphQLScalarTypeConfig<ResolversTypes["Date"], any> {
   name: "Date";
 }
+
+export type JoinResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["JoinResult"] = ResolversParentTypes["JoinResult"]
+> = {
+  channel?: Resolver<ResolversTypes["Channel"], ParentType, ContextType>;
+  user?: Resolver<ResolversTypes["User"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type MessageResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Message"] = ResolversParentTypes["Message"]
+> = {
+  createdBy?: Resolver<ResolversTypes["User"], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
+  text?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
 
 export type MovieResolvers<
   ContextType = any,
@@ -551,6 +700,15 @@ export type MutationResolvers<
     ContextType,
     RequireFields<MutationChangeRoleArgs, "id" | "role">
   >;
+  createBooking?: Resolver<
+    ResolversTypes["Booking"],
+    ParentType,
+    ContextType,
+    RequireFields<
+      MutationCreateBookingArgs,
+      "cardNumber" | "cinema" | "expiry_date" | "schedule" | "seats"
+    >
+  >;
   createCinema?: Resolver<
     ResolversTypes["Cinema"],
     ParentType,
@@ -562,6 +720,12 @@ export type MutationResolvers<
     ParentType,
     ContextType,
     RequireFields<MutationCreateMovieArgs, "input">
+  >;
+  deleteBooking?: Resolver<
+    ResolversTypes["Boolean"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteBookingArgs, "id">
   >;
   deleteCinema?: Resolver<
     ResolversTypes["Cinema"],
@@ -581,17 +745,35 @@ export type MutationResolvers<
     ContextType,
     RequireFields<MutationDeleteUserArgs, "id">
   >;
+  join?: Resolver<
+    ResolversTypes["JoinResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationJoinArgs, "channelName">
+  >;
   login?: Resolver<
     ResolversTypes["ResultLogin"],
     ParentType,
     ContextType,
     RequireFields<MutationLoginArgs, "email" | "password">
   >;
+  quit?: Resolver<
+    ResolversTypes["Channel"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationQuitArgs, "channelName">
+  >;
   register?: Resolver<
     ResolversTypes["User"],
     ParentType,
     ContextType,
     RequireFields<MutationRegisterArgs, "input">
+  >;
+  sendMessage?: Resolver<
+    ResolversTypes["Message"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationSendMessageArgs, "channelName" | "text">
   >;
   updateCinema?: Resolver<
     ResolversTypes["Cinema"],
@@ -635,6 +817,17 @@ export type QueryResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes["Query"] = ResolversParentTypes["Query"]
 > = {
+  booking?: Resolver<
+    ResolversTypes["Booking"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryBookingArgs, "id">
+  >;
+  bookings?: Resolver<
+    Array<ResolversTypes["Booking"]>,
+    ParentType,
+    ContextType
+  >;
   cinema?: Resolver<
     ResolversTypes["Cinema"],
     ParentType,
@@ -642,6 +835,11 @@ export type QueryResolvers<
     RequireFields<QueryCinemaArgs, "id">
   >;
   cinemas?: Resolver<Array<ResolversTypes["Cinema"]>, ParentType, ContextType>;
+  getChats?: Resolver<
+    Array<ResolversTypes["Channel"]>,
+    ParentType,
+    ContextType
+  >;
   me?: Resolver<ResolversTypes["User"], ParentType, ContextType>;
   movie?: Resolver<
     ResolversTypes["Movie"],
@@ -686,6 +884,30 @@ export type ScheduleResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type SubscriptionResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Subscription"] = ResolversParentTypes["Subscription"]
+> = {
+  onMemberJoin?: SubscriptionResolver<
+    Maybe<ResolversTypes["JoinResult"]>,
+    "onMemberJoin",
+    ParentType,
+    ContextType
+  >;
+  onMessageAdded?: SubscriptionResolver<
+    Maybe<ResolversTypes["Message"]>,
+    "onMessageAdded",
+    ParentType,
+    ContextType
+  >;
+  onQuit?: SubscriptionResolver<
+    Maybe<ResolversTypes["Channel"]>,
+    "onQuit",
+    ParentType,
+    ContextType
+  >;
+};
+
 export type UserResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes["User"] = ResolversParentTypes["User"]
@@ -701,9 +923,13 @@ export type UserResolvers<
 };
 
 export type Resolvers<ContextType = any> = {
+  Booking?: BookingResolvers<ContextType>;
+  Channel?: ChannelResolvers<ContextType>;
   Cinema?: CinemaResolvers<ContextType>;
   CinemaData?: CinemaDataResolvers<ContextType>;
   Date?: GraphQLScalarType;
+  JoinResult?: JoinResultResolvers<ContextType>;
+  Message?: MessageResolvers<ContextType>;
   Movie?: MovieResolvers<ContextType>;
   MovieData?: MovieDataResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
@@ -712,6 +938,7 @@ export type Resolvers<ContextType = any> = {
   Query?: QueryResolvers<ContextType>;
   ResultLogin?: ResultLoginResolvers<ContextType>;
   Schedule?: ScheduleResolvers<ContextType>;
+  Subscription?: SubscriptionResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };
 
