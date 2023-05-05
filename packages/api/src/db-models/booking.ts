@@ -10,7 +10,6 @@ const BookingSchema: Schema = new Schema(
     seats: { type: Number, required: true },
     price: { type: Number, required: true },
     user: { type: Types.ObjectId, ref: "UserModel", required: true },
-    phone: { type: String, required: true },
     cardNumber: { type: String, required: true },
     expiry_date: { type: Date, required: true },
     security_code: { type: String, required: true }

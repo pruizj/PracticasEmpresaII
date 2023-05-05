@@ -69,7 +69,8 @@ export const forumResolver = {
       context: Context
     ): Promise<Omit<MessageModelType, "_id">> => {
       const channel = await ChannelModel.findOne({
-        name: args.channelName
+        name: args.channelName,
+        participants: { $in: [new ObjectId(context.user?.id)] }
       }).exec();
 
       if (!channel) {
@@ -98,7 +99,8 @@ export const forumResolver = {
       context: Context
     ): Promise<Omit<ChannelModelType, "_id">> => {
       const channel = await ChannelModel.findOne({
-        name: args.channelName
+        name: args.channelName,
+        participants: { $in: [new ObjectId(context.user?.id)] }
       }).exec();
       if (!channel) {
         throw new Error(ERROR.CHANNEL_NOT_FOUND.message);

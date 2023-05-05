@@ -1,5 +1,5 @@
 import { BookingModel, BookingModelType } from "../db-models/booking";
-import { CinemaModel } from "../db-models/cinema";
+import { CinemaModel, CinemaModelType } from "../db-models/cinema";
 import { ERROR } from "../errors";
 import {
   MutationCreateBookingArgs,
@@ -9,6 +9,8 @@ import {
 import { validationCard } from "../lib/validationCard";
 import { ObjectId } from "bson";
 import { Context } from "../server";
+import { MovieModel, MovieModelType } from "../db-models/movie";
+import { UserModel, UserModelType } from "../db-models/user";
 
 export const bookingResolver = {
   Query: {
@@ -22,6 +24,7 @@ export const bookingResolver = {
       args: QueryBookingArgs
     ): Promise<Omit<BookingModelType, "_id">> => {
       const booking = await BookingModel.findById(args.id).exec();
+      console.log(booking);
       if (!booking) {
         throw new Error(ERROR.BOOKING_NOT_FOUND.message);
       }
@@ -76,7 +79,7 @@ export const bookingResolver = {
         day: args.schedule.day,
         room: args.schedule.room,
         seats: args.seats,
-        price: 6.5,
+        price: 6.5 * args.seats,
         user: context.user ? new ObjectId(context.user.id) : null,
         cardNumber: args.cardNumber,
         expiry_date: args.expiry_date,
@@ -96,6 +99,36 @@ export const bookingResolver = {
       }
       await BookingModel.deleteOne({ _id: args.id }).exec();
       return true;
+    }
+  },
+
+  Booking: {
+    cinema: async (
+      parent: BookingModelType
+    ): Promise<Omit<CinemaModelType, "_id">> => {
+      const cinema = await CinemaModel.findById(parent.cinema).exec();
+      if (!cinema) {
+        throw new Error(ERROR.CINEMA_NOT_FOUND.message);
+      }
+      return cinema;
+    },
+    movie: async (
+      parent: BookingModelType
+    ): Promise<Omit<MovieModelType, "_id">> => {
+      const movie = await MovieModel.findById(parent.movie).exec();
+      if (!movie) {
+        throw new Error(ERROR.MOVIE_NOT_FOUND.message);
+      }
+      return movie;
+    },
+    user: async (
+      parent: BookingModelType
+    ): Promise<Omit<UserModelType, "_id">> => {
+      const user = await UserModel.findById(parent.user).exec();
+      if (!user) {
+        throw new Error(ERROR.USER_NOT_FOUND.message);
+      }
+      return user;
     }
   }
 };

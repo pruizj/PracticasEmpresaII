@@ -5,8 +5,8 @@ mongoose.set("strictQuery", false);
 
 const ChannelSchema: Schema = new Schema({
   name: { type: String, required: true },
-  participants: [{ type: Types.ObjectId, ref: "UserModel" }],
-  messages: [{ type: Types.ObjectId, ref: "MessageModel" }]
+  participants: [{ type: Types.ObjectId, ref: "UserModel", default: [] }],
+  messages: [{ type: Types.ObjectId, ref: "MessageModel", default: [] }]
 });
 
 export type ChannelModelType = Channel & {

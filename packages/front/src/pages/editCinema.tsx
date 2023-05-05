@@ -48,7 +48,7 @@ const EditCinema = ({ id }) => {
     });
 
     if (!errors) {
-      router.push("/adminDashboar");
+      router.push("/adminDashboard");
     } else {
       setErrorAlert(true);
       setLoadingSave(false);

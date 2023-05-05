@@ -1,1 +1,2 @@
-export const { PORT, MONGO_URL, BCRYPT_SALT, JWT_SECRET } = process.env;
+export const { PORT, PORT_TEST, MONGO_URL, TEST, BCRYPT_SALT, JWT_SECRET } =
+  process.env;

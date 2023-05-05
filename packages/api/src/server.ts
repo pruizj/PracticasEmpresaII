@@ -7,7 +7,7 @@ import { startMongoConnection } from "./lib/mongoose-connection";
 import exSchema from "./schemas/modules/allSchemas";
 import { User } from "./gql/types";
 import { checkToken } from "./lib/login";
-import { MONGO_URL, PORT } from "./config";
+import { MONGO_URL, TEST, PORT, PORT_TEST } from "./config";
 const { PubSub } = require("graphql-subscriptions");
 
 export interface Context {
@@ -49,15 +49,16 @@ const subscriptionServer = SubscriptionServer.create(
   }
 );
 
-const main = async () => {
-  console.info("Starting api", process.env);
+export const main = async () => {
+  !TEST && console.info("Starting api", process.env);
 
   if (!PORT || !MONGO_URL) {
     console.error("ERROR WITH ENV");
     return;
   }
+
   try {
-    await startMongoConnection(MONGO_URL);
+    !TEST && (await startMongoConnection(MONGO_URL));
 
     await server.start();
 
@@ -69,9 +70,9 @@ const main = async () => {
     });
 
     await new Promise<void>(resolve =>
-      httpServer.listen({ port: PORT }, resolve)
+      httpServer.listen({ port: !TEST ? PORT : PORT_TEST }, resolve)
     );
-    console.info(`🚀 Server ready at http://localhost:${PORT}`);
+    !TEST && console.info(`🚀 Server ready at http://localhost:${PORT}`);
   } catch (e) {
     console.error("Server creation error", e);
   }

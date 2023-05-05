@@ -1,14 +1,14 @@
 import { Mongoose } from "mongoose";
 import { AfterAll, BeforeAll } from "./functions";
-import { message1, message2 } from "./data/forum";
 import { graphQLHelper } from "./graphqlHelper";
-import { REGISTER } from "./queries";
+import { GET_CHATS, REGISTER } from "./queries";
 import { user } from "./data/user";
-import { User } from "../gql/types";
+import { Channel, User } from "../gql/types";
 import { ChannelModel } from "../db-models/channel";
 import { ObjectId } from "bson";
 import { MessageModel } from "../db-models/message";
 import { user2 } from "./data/user";
+import { UserModel } from "../db-models/user";
 
 let db: Mongoose;
 
@@ -40,12 +40,12 @@ describe("getChats", () => {
     const { register: register1 } = result1.data as { register: User };
 
     const message_1 = await MessageModel.create({
-      text: message1.text,
+      text: "Hello 1",
       createdBy: new ObjectId(register.id)
     });
 
     const message_2 = await MessageModel.create({
-      text: message2.text,
+      text: "Hello 2",
       createdBy: new ObjectId(register1.id)
     });
 
@@ -61,5 +61,96 @@ describe("getChats", () => {
       participants: [new ObjectId(register1.id)],
       messages: [new ObjectId(message_2.id)]
     });
+
+    const result2 = await graphQLHelper(
+      GET_CHATS,
+      {},
+      {
+        user: {
+          ...user,
+          id: register.id,
+          authToken: register?.authToken,
+          role: register?.role
+        }
+      }
+    );
+
+    const { getChats } = result2.data as { getChats: Channel[] };
+
+    expect(getChats).toMatchObject([
+      {
+        id: Channel1.id,
+        name: "Channel1",
+        participants: [
+          {
+            name: user.name
+          }
+        ],
+        messages: [
+          {
+            id: message_1.id,
+            text: "Hello 1",
+            createdBy: {
+              name: user.name
+            }
+          }
+        ]
+      },
+      {
+        id: Channel2.id,
+        name: "Channel2",
+        participants: [
+          {
+            name: user2.name
+          }
+        ],
+        messages: [
+          {
+            id: message_2.id,
+            text: "Hello 2",
+            createdBy: {
+              name: user2.name
+            }
+          }
+        ]
+      }
+    ]);
+
+    // clean database
+    await ChannelModel.deleteMany({});
+    await MessageModel.deleteMany({});
+    await UserModel.deleteMany({});
+  });
+
+  it("should return no cinemas if there are no cinemas in database", async () => {
+    // create user in database
+    const result = await graphQLHelper(
+      REGISTER,
+      { input: user },
+      { user: undefined }
+    );
+    const { register } = result.data as { register: User };
+
+    const result1 = await graphQLHelper(
+      GET_CHATS,
+      {},
+      {
+        user: {
+          ...user,
+          id: register.id,
+          authToken: register?.authToken,
+          role: register?.role
+        }
+      }
+    );
+
+    const { getChats } = result1.data as { getChats: Channel[] };
+
+    expect(getChats).toMatchObject([]);
+
+    // clean database
+    await ChannelModel.deleteMany({});
+    await MessageModel.deleteMany({});
+    await UserModel.deleteMany({});
   });
 });

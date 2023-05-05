@@ -196,7 +196,7 @@ const NewCinema: FC = () => {
           </Schedule>
           {schedule.length > 0 &&
             schedule.map(item => (
-              <Movies key={item.id}>
+              <Movies key={`${item.day}-${item.time}-${item.room}`}>
                 <Item>
                   <p>{item.day}</p>
                   <p>{item.time}</p>
