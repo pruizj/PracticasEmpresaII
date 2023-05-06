@@ -68,6 +68,9 @@ const NewBooking = ({ cinema, day, time, room, movie }) => {
           securityCode: cvv
         }
       });
+      router.push(
+        `/summaryBooking?seats=${seats}&price=${price}&cinema=${cinemaId}&day=${daySchedule}&time=${timeSchedule}&room=${roomSchedule}&movie=${movieId}`
+      );
     } catch (err) {
       if (err.message === ERROR.BOOKING_FULL.message) {
         setErrorFull(true);
@@ -126,27 +129,25 @@ const NewBooking = ({ cinema, day, time, room, movie }) => {
               }}
               required
             />
+            {errorFull && (
+              <ErrorAlert type="error" onClose={() => setErrorFull(false)}>
+                {"Esta sala ya está llena"}
+              </ErrorAlert>
+            )}
+            {errorInvalidNumber && (
+              <ErrorAlert
+                type="error"
+                onClose={() => setErrorInvalidNumber(false)}
+              >
+                {"La tarjeta no es válida"}
+              </ErrorAlert>
+            )}
           </Item>
         </Content>
-        {errorFull && (
-          <ErrorAlert type="error" onClose={() => setErrorFull(false)}>
-            {"Esta sala ya está llena"}
-          </ErrorAlert>
-        )}
-        {errorInvalidNumber && (
-          <ErrorAlert type="error" onClose={() => setErrorInvalidNumber(false)}>
-            {"La tarjeta no es válida"}
-          </ErrorAlert>
-        )}
         <BottomIndex>
           <LocalButton
             type="submit"
             disabled={!(seats && cardNumber && expiryDate && cvv)}
-            onClick={() => {
-              router.push(
-                `/summaryBooking?seats=${seats}&price=${price}&cinema=${cinemaId}&day=${daySchedule}&time=${timeSchedule}&room=${roomSchedule}&movie=${movieId}`
-              );
-            }}
           >
             Comprar Entrada
           </LocalButton>

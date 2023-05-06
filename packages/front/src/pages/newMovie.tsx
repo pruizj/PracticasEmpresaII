@@ -55,6 +55,7 @@ const NewMovie: FC = () => {
           }
         }
       });
+      router.push(`/adminDashboard`);
     } catch (err) {
       console.log(err);
       if (err.message === ERROR.MOVIE_ALREADY_EXISTS.message) {
@@ -88,6 +89,11 @@ const NewMovie: FC = () => {
             }}
             required
           />
+          {invalidTrailer && (
+            <ErrorAlert type="error" onClose={() => setInvalidTrailer(false)}>
+              {"El id del trailer no es válido"}
+            </ErrorAlert>
+          )}
           <Label>Sinopsis</Label>
           <LocalInput2
             type="text"
@@ -190,17 +196,12 @@ const NewMovie: FC = () => {
             }}
             required
           />
+          {errorExists && (
+            <ErrorAlert type="error" onClose={() => setErrorExists(false)}>
+              {"Esta pelicula ya existe"}
+            </ErrorAlert>
+          )}
         </Content>
-        {errorExists && (
-          <ErrorAlert type="error" onClose={() => setErrorExists(false)}>
-            {"Esta pelicula ya existe"}
-          </ErrorAlert>
-        )}
-        {invalidTrailer && (
-          <ErrorAlert type="error" onClose={() => setInvalidTrailer(false)}>
-            {"El id del trailer no es válido"}
-          </ErrorAlert>
-        )}
         <BottomIndex>
           <LocalButton
             type="submit"
@@ -216,9 +217,6 @@ const NewMovie: FC = () => {
                 rating
               )
             }
-            onClick={() => {
-              router.push(`/adminDashboard`);
-            }}
           >
             Añadir
           </LocalButton>

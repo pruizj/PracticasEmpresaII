@@ -31,7 +31,7 @@ const WebMovie = ({ id }) => {
 
   const [rating, setRating] = useState(5);
   const [onClicked, setOnClicked] = useState(false);
-  console.log(rating);
+
   if (loading) {
     return <Loading />;
   }

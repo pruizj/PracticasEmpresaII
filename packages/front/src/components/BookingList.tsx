@@ -8,16 +8,21 @@ import { EmptyResults } from "./CinemaList";
 export interface BookingListProps {
   bookings: any[];
   onDelete?: (booking: Booking) => any;
+  optionalUser?: boolean;
 }
 
-const BookingList: FC<BookingListProps> = ({ bookings = [], onDelete }) => {
+const BookingList: FC<BookingListProps> = ({
+  bookings = [],
+  onDelete,
+  optionalUser = false
+}) => {
   const onDeleteClick = (e: React.MouseEvent, booking: Booking) => {
     e.stopPropagation();
     onDelete!(booking);
   };
 
   return (
-    <Container>
+    <Container optionalUser={optionalUser}>
       {bookings.length === 0 && (
         <EmptyResults>
           <img src="/images/close.svg" />
@@ -27,9 +32,32 @@ const BookingList: FC<BookingListProps> = ({ bookings = [], onDelete }) => {
       {bookings.length !== 0 &&
         bookings.map(booking => (
           <Booking key={booking.id}>
-            <Item>
-              <Image1>IMAGE</Image1>
-              <ItemContent>
+            <Item optionalUser={optionalUser}>
+              {optionalUser ? (
+                <Content>
+                  <h3>USUARIO</h3>
+                  <User>
+                    <Item1>
+                      <h4>Nombre</h4>
+                      <p>{booking.user.name}</p>
+                    </Item1>
+                    <Item1>
+                      <h4>Apellido</h4>
+                      <p>{booking.user.surname}</p>
+                    </Item1>
+                    <Item1>
+                      <h4>Correo electrónico</h4>
+                      <p>{booking.user.email}</p>
+                    </Item1>
+                  </User>
+                </Content>
+              ) : (
+                <Image1>IMAGE</Image1>
+              )}
+              {optionalUser && (
+                <h3 style={{ color: "purple", marginLeft: "55px" }}>RESERVA</h3>
+              )}
+              <ItemContent optionalUser={optionalUser}>
                 <Item1>
                   <h4>Cine:</h4>
                   <p>{booking.cinema.name}</p>
@@ -42,10 +70,12 @@ const BookingList: FC<BookingListProps> = ({ bookings = [], onDelete }) => {
                   <h4>Película:</h4>
                   <p>{booking.movie.title}</p>
                 </Item2>
-                <Item1>
-                  <h4>Duración:</h4>
-                  <p>{booking.movie.duration} min</p>
-                </Item1>
+                {!optionalUser && (
+                  <Item1>
+                    <h4>Duración:</h4>
+                    <p>{booking.movie.duration} min</p>
+                  </Item1>
+                )}
                 <Item1>
                   <h4>Sala:</h4>
                   <p>{booking.room}</p>
@@ -96,7 +126,7 @@ const BookingList: FC<BookingListProps> = ({ bookings = [], onDelete }) => {
   );
 };
 
-const Container = styled.div`
+const Container = styled.div<{ optionalUser?: boolean }>`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 40px;
@@ -106,7 +136,26 @@ const Container = styled.div`
   @media (max-width: 100%) {
     grid-template-columns: 1fr;
   }
+  ${props =>
+    props.optionalUser ? "" : "box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.16);"}
+`;
+
+const User = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0px 120px 30px 120px;
+`;
+
+const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: start;
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.16);
+  h3 {
+    margin-left: 55px;
+    color: purple;
+  }
 `;
 
 const Item1 = styled.div`
@@ -139,9 +188,10 @@ const Booking = styled.div`
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.16);
 `;
 
-const Item = styled.div`
+const Item = styled.div<{ optionalUser?: boolean }>`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: ${props =>
+    props.optionalUser ? "repeat(1, 1fr)" : "repeat(2, 1fr)"};
   grid-gap: 5px;
 
   @media (max-width: 100%) {
@@ -149,10 +199,13 @@ const Item = styled.div`
   }
 `;
 
-const ItemContent = styled.div`
+const ItemContent = styled.div<{ optionalUser?: boolean }>`
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  ${props => (props.optionalUser ? "padding-left: 60px;" : "padding: 30px;")}
+  ${props => (props.optionalUser ? "display: grid;" : "")}
+  ${props =>
+    props.optionalUser ? "grid-template-columns: repeat(3, 1fr);" : ""}
 `;
 
 const Buttons = styled.div`

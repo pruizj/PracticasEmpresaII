@@ -94,7 +94,7 @@ export const cinemaResolver = {
             })
           : []
         : cinema.schedule;
-      console.log("updated", schedule);
+
       return (await CinemaModel.findByIdAndUpdate(
         args.id,
         { ...args.input, schedule },

@@ -434,7 +434,7 @@ export type BookingsQuery = {
     room: number;
     seats: number;
     price: number;
-    cinema: { __typename?: "Cinema"; name: string };
+    cinema: { __typename?: "Cinema"; name: string; address: string };
     movie: { __typename?: "Movie"; title: string };
     user: {
       __typename?: "User";
@@ -1155,6 +1155,7 @@ export const BookingsDocument = gql`
       id
       cinema {
         name
+        address
       }
       movie {
         title

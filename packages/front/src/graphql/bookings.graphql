@@ -3,6 +3,7 @@ query Bookings {
     id
     cinema {
       name
+      address
     }
     movie {
       title

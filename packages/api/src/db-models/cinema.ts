@@ -74,7 +74,7 @@ CinemaSchema.pre("findOneAndUpdate", async function (next) {
     capacity: update?.capacity || query.capacity,
     schedule: update?.schedule || query.schedule
   };
-  console.log(cinema);
+
   if (cinema.name) {
     const existingCinema = await CinemaModel.findOne({
       name: cinema.name,

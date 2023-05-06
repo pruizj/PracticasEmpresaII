@@ -49,6 +49,7 @@ const NewCinema: FC = () => {
           }
         }
       });
+      router.push(`/adminDashboard`);
     } catch (err) {
       if (err.message === ERROR.CINEMA_ALREADY_EXISTS.message) {
         setErrorExists(true);
@@ -229,9 +230,6 @@ const NewCinema: FC = () => {
             disabled={
               !(name && address && rooms && capacity && schedule.length > 0)
             }
-            onClick={() => {
-              router.push(`/adminDashboard`);
-            }}
           >
             Añadir
           </LocalButton>

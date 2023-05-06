@@ -5,6 +5,7 @@ import LayoutPage from "../components/LayoutPage";
 import Users from "../components/Users";
 import Cinemas from "../components/Cinemas";
 import Movies from "../components/Movies";
+import Bookings from "../components/Bookings";
 
 const isLocalStorageAvailable = () => {
   try {
@@ -19,10 +20,14 @@ const isLocalStorageAvailable = () => {
 
 const AdminDashboardPage = () => {
   const lastActiveSection = isLocalStorageAvailable()
-    ? (localStorage.getItem("activeSection") as "Cinemas" | "Movies" | "Users")
+    ? (localStorage.getItem("activeSection") as
+        | "Cinemas"
+        | "Movies"
+        | "Users"
+        | "Bookings")
     : null;
   const [activeSection, setActiveSection] = useState<
-    "Cinemas" | "Movies" | "Users"
+    "Cinemas" | "Movies" | "Users" | "Bookings"
   >(lastActiveSection || "Cinemas");
 
   useEffect(() => {
@@ -53,6 +58,16 @@ const AdminDashboardPage = () => {
         </Button>
         <Button
           style={{
+            backgroundColor:
+              activeSection === "Bookings" ? "#9f67ad" : "#2f0139",
+            width: "100%"
+          }}
+          onClick={() => setActiveSection("Bookings")}
+        >
+          ENTRADAS
+        </Button>
+        <Button
+          style={{
             backgroundColor: activeSection === "Users" ? "#9f67ad" : "#2f0139",
             width: "100%"
           }}
@@ -65,6 +80,7 @@ const AdminDashboardPage = () => {
         {activeSection === "Cinemas" && <Cinemas />}
         {activeSection === "Users" && <Users />}
         {activeSection === "Movies" && <Movies />}
+        {activeSection === "Bookings" && <Bookings />}
       </Section>
     </LayoutPage>
   );

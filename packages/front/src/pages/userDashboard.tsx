@@ -71,7 +71,10 @@ const UserDashboardPage: NextPage = () => {
               activeSection === "Profile" ? "#9f67ad" : "#2f0139",
             width: "100%"
           }}
-          onClick={() => setActiveSection("Profile")}
+          onClick={() => {
+            setActiveSection("Profile");
+            window.location.reload();
+          }}
         >
           PERFIL
         </Button>

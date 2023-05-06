@@ -35,7 +35,6 @@ export const bookingResolver = {
       args: QueryBookingArgs
     ): Promise<Omit<BookingModelType, "_id">> => {
       const booking = await BookingModel.findById(args.id).exec();
-      console.log(booking);
       if (!booking) {
         throw new Error(ERROR.BOOKING_NOT_FOUND.message);
       }
