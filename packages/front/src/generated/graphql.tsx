@@ -22,6 +22,30 @@ export type Scalars = {
   Date: any;
 };
 
+export type Booking = {
+  __typename?: "Booking";
+  cardNumber: Scalars["String"];
+  cinema: Cinema;
+  day: Days;
+  expiry_date: Scalars["Date"];
+  id: Scalars["ID"];
+  movie: Movie;
+  price: Scalars["Float"];
+  room: Scalars["Int"];
+  seats: Scalars["Int"];
+  security_code: Scalars["String"];
+  time: Scalars["String"];
+  user: User;
+};
+
+export type Channel = {
+  __typename?: "Channel";
+  id: Scalars["ID"];
+  messages?: Maybe<Array<Message>>;
+  name?: Maybe<Scalars["String"]>;
+  participants?: Maybe<Array<User>>;
+};
+
 export type Cinema = {
   __typename?: "Cinema";
   address: Scalars["String"];
@@ -69,6 +93,19 @@ export enum GeneralOrderType {
   RecentLast = "RecentLast"
 }
 
+export type JoinResult = {
+  __typename?: "JoinResult";
+  channel: Channel;
+  user: User;
+};
+
+export type Message = {
+  __typename?: "Message";
+  createdBy: User;
+  id: Scalars["ID"];
+  text?: Maybe<Scalars["String"]>;
+};
+
 export type Movie = {
   __typename?: "Movie";
   cast: Array<Scalars["String"]>;
@@ -112,13 +149,18 @@ export type Mutation = {
   __typename?: "Mutation";
   addRatingToMovie: Movie;
   changeRole: User;
+  createBooking: Booking;
   createCinema: Cinema;
   createMovie: Movie;
+  deleteBooking: Scalars["Boolean"];
   deleteCinema: Cinema;
   deleteMovie: Movie;
   deleteUser: User;
+  join: JoinResult;
   login: ResultLogin;
+  quit: Channel;
   register: User;
+  sendMessage: Message;
   updateCinema: Cinema;
   updateMovie: Movie;
 };
@@ -133,12 +175,25 @@ export type MutationChangeRoleArgs = {
   role: Role;
 };
 
+export type MutationCreateBookingArgs = {
+  cardNumber: Scalars["String"];
+  cinema: Scalars["ID"];
+  expiry_date: Scalars["Date"];
+  schedule: ScheduleIn;
+  seats: Scalars["Int"];
+  security_code?: InputMaybe<Scalars["String"]>;
+};
+
 export type MutationCreateCinemaArgs = {
   input: CinemaIn;
 };
 
 export type MutationCreateMovieArgs = {
   input: MovieIn;
+};
+
+export type MutationDeleteBookingArgs = {
+  id: Scalars["ID"];
 };
 
 export type MutationDeleteCinemaArgs = {
@@ -153,13 +208,26 @@ export type MutationDeleteUserArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationJoinArgs = {
+  channelName: Scalars["String"];
+};
+
 export type MutationLoginArgs = {
   email: Scalars["String"];
   password: Scalars["String"];
 };
 
+export type MutationQuitArgs = {
+  channelName: Scalars["String"];
+};
+
 export type MutationRegisterArgs = {
   input: UserIn;
+};
+
+export type MutationSendMessageArgs = {
+  channelName: Scalars["String"];
+  text: Scalars["String"];
 };
 
 export type MutationUpdateCinemaArgs = {
@@ -192,14 +260,22 @@ export type PaginatedMovies = {
 
 export type Query = {
   __typename?: "Query";
+  booking: Booking;
+  bookings: Array<Booking>;
   cinema: Cinema;
   cinemas: Array<Cinema>;
+  getChats: Array<Channel>;
   me: User;
   movie: Movie;
   movies: Array<Movie>;
   paginatedCinemas: PaginatedCinemas;
   paginatedMovies: PaginatedMovies;
+  userBookings: Array<Booking>;
   users: Array<User>;
+};
+
+export type QueryBookingArgs = {
+  id: Scalars["ID"];
 };
 
 export type QueryCinemaArgs = {
@@ -249,6 +325,13 @@ export type ScheduleIn = {
   movie: Scalars["ID"];
   room: Scalars["Int"];
   time: Scalars["String"];
+};
+
+export type Subscription = {
+  __typename?: "Subscription";
+  onMemberJoin?: Maybe<JoinResult>;
+  onMessageAdded?: Maybe<Message>;
+  onQuit?: Maybe<Channel>;
 };
 
 export type UpdateCinemaIn = {
@@ -310,9 +393,57 @@ export type AddRatingToMovieMutation = {
     rating: number;
     image?: string | null;
     trailer?: string | null;
-    createdAt: any;
-    updatedAt: any;
   };
+};
+
+export type BookingQueryVariables = Exact<{
+  bookingId: Scalars["ID"];
+}>;
+
+export type BookingQuery = {
+  __typename?: "Query";
+  booking: {
+    __typename?: "Booking";
+    id: string;
+    day: Days;
+    time: string;
+    room: number;
+    seats: number;
+    price: number;
+    cinema: { __typename?: "Cinema"; name: string };
+    movie: { __typename?: "Movie"; title: string };
+    user: {
+      __typename?: "User";
+      id: string;
+      email: string;
+      name: string;
+      surname?: string | null;
+    };
+  };
+};
+
+export type BookingsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type BookingsQuery = {
+  __typename?: "Query";
+  bookings: Array<{
+    __typename?: "Booking";
+    id: string;
+    day: Days;
+    time: string;
+    room: number;
+    seats: number;
+    price: number;
+    cinema: { __typename?: "Cinema"; name: string };
+    movie: { __typename?: "Movie"; title: string };
+    user: {
+      __typename?: "User";
+      id: string;
+      email: string;
+      name: string;
+      surname?: string | null;
+    };
+  }>;
 };
 
 export type ChangeRoleMutationVariables = Exact<{
@@ -434,6 +565,40 @@ export type CinemasQuery = {
   }>;
 };
 
+export type CreateBookingMutationVariables = Exact<{
+  cinema: Scalars["ID"];
+  schedule: ScheduleIn;
+  seats: Scalars["Int"];
+  cardNumber: Scalars["String"];
+  expiryDate: Scalars["Date"];
+  securityCode?: InputMaybe<Scalars["String"]>;
+}>;
+
+export type CreateBookingMutation = {
+  __typename?: "Mutation";
+  createBooking: {
+    __typename?: "Booking";
+    id: string;
+    day: Days;
+    time: string;
+    room: number;
+    seats: number;
+    price: number;
+    cardNumber: string;
+    expiry_date: any;
+    security_code: string;
+    cinema: { __typename?: "Cinema"; name: string };
+    movie: { __typename?: "Movie"; title: string };
+    user: {
+      __typename?: "User";
+      id: string;
+      name: string;
+      surname?: string | null;
+      email: string;
+    };
+  };
+};
+
 export type CreateCinemaMutationVariables = Exact<{
   input: CinemaIn;
 }>;
@@ -505,6 +670,15 @@ export type CreateMovieMutation = {
     image?: string | null;
     trailer?: string | null;
   };
+};
+
+export type DeleteBookingMutationVariables = Exact<{
+  deleteBookingId: Scalars["ID"];
+}>;
+
+export type DeleteBookingMutation = {
+  __typename?: "Mutation";
+  deleteBooking: boolean;
 };
 
 export type DeleteCinemaMutationVariables = Exact<{
@@ -811,6 +985,28 @@ export type UpdateMovieMutation = {
   };
 };
 
+export type UserBookingsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type UserBookingsQuery = {
+  __typename?: "Query";
+  userBookings: Array<{
+    __typename?: "Booking";
+    id: string;
+    day: Days;
+    time: string;
+    room: number;
+    seats: number;
+    price: number;
+    cinema: { __typename?: "Cinema"; name: string; address: string };
+    movie: {
+      __typename?: "Movie";
+      image?: string | null;
+      title: string;
+      duration: number;
+    };
+  }>;
+};
+
 export type UsersQueryVariables = Exact<{ [key: string]: never }>;
 
 export type UsersQuery = {
@@ -841,8 +1037,6 @@ export const AddRatingToMovieDocument = gql`
       rating
       image
       trailer
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -889,6 +1083,140 @@ export type AddRatingToMovieMutationResult =
 export type AddRatingToMovieMutationOptions = Apollo.BaseMutationOptions<
   AddRatingToMovieMutation,
   AddRatingToMovieMutationVariables
+>;
+export const BookingDocument = gql`
+  query Booking($bookingId: ID!) {
+    booking(id: $bookingId) {
+      id
+      cinema {
+        name
+      }
+      movie {
+        title
+      }
+      day
+      time
+      room
+      seats
+      user {
+        id
+        email
+        name
+        surname
+      }
+      price
+    }
+  }
+`;
+
+/**
+ * __useBookingQuery__
+ *
+ * To run a query within a React component, call `useBookingQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBookingQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBookingQuery({
+ *   variables: {
+ *      bookingId: // value for 'bookingId'
+ *   },
+ * });
+ */
+export function useBookingQuery(
+  baseOptions: Apollo.QueryHookOptions<BookingQuery, BookingQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<BookingQuery, BookingQueryVariables>(
+    BookingDocument,
+    options
+  );
+}
+export function useBookingLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<BookingQuery, BookingQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<BookingQuery, BookingQueryVariables>(
+    BookingDocument,
+    options
+  );
+}
+export type BookingQueryHookResult = ReturnType<typeof useBookingQuery>;
+export type BookingLazyQueryHookResult = ReturnType<typeof useBookingLazyQuery>;
+export type BookingQueryResult = Apollo.QueryResult<
+  BookingQuery,
+  BookingQueryVariables
+>;
+export const BookingsDocument = gql`
+  query Bookings {
+    bookings {
+      id
+      cinema {
+        name
+      }
+      movie {
+        title
+      }
+      day
+      time
+      room
+      seats
+      user {
+        id
+        email
+        name
+        surname
+      }
+      price
+    }
+  }
+`;
+
+/**
+ * __useBookingsQuery__
+ *
+ * To run a query within a React component, call `useBookingsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBookingsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBookingsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useBookingsQuery(
+  baseOptions?: Apollo.QueryHookOptions<BookingsQuery, BookingsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<BookingsQuery, BookingsQueryVariables>(
+    BookingsDocument,
+    options
+  );
+}
+export function useBookingsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    BookingsQuery,
+    BookingsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<BookingsQuery, BookingsQueryVariables>(
+    BookingsDocument,
+    options
+  );
+}
+export type BookingsQueryHookResult = ReturnType<typeof useBookingsQuery>;
+export type BookingsLazyQueryHookResult = ReturnType<
+  typeof useBookingsLazyQuery
+>;
+export type BookingsQueryResult = Apollo.QueryResult<
+  BookingsQuery,
+  BookingsQueryVariables
 >;
 export const ChangeRoleDocument = gql`
   mutation ChangeRole($changeRoleId: ID!, $role: Role!) {
@@ -1114,6 +1442,95 @@ export type CinemasQueryResult = Apollo.QueryResult<
   CinemasQuery,
   CinemasQueryVariables
 >;
+export const CreateBookingDocument = gql`
+  mutation CreateBooking(
+    $cinema: ID!
+    $schedule: ScheduleIn!
+    $seats: Int!
+    $cardNumber: String!
+    $expiryDate: Date!
+    $securityCode: String
+  ) {
+    createBooking(
+      cinema: $cinema
+      schedule: $schedule
+      seats: $seats
+      cardNumber: $cardNumber
+      expiry_date: $expiryDate
+      security_code: $securityCode
+    ) {
+      id
+      cinema {
+        name
+      }
+      movie {
+        title
+      }
+      day
+      time
+      room
+      seats
+      user {
+        id
+        name
+        surname
+        email
+      }
+      price
+      cardNumber
+      expiry_date
+      security_code
+    }
+  }
+`;
+export type CreateBookingMutationFn = Apollo.MutationFunction<
+  CreateBookingMutation,
+  CreateBookingMutationVariables
+>;
+
+/**
+ * __useCreateBookingMutation__
+ *
+ * To run a mutation, you first call `useCreateBookingMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateBookingMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createBookingMutation, { data, loading, error }] = useCreateBookingMutation({
+ *   variables: {
+ *      cinema: // value for 'cinema'
+ *      schedule: // value for 'schedule'
+ *      seats: // value for 'seats'
+ *      cardNumber: // value for 'cardNumber'
+ *      expiryDate: // value for 'expiryDate'
+ *      securityCode: // value for 'securityCode'
+ *   },
+ * });
+ */
+export function useCreateBookingMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateBookingMutation,
+    CreateBookingMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateBookingMutation,
+    CreateBookingMutationVariables
+  >(CreateBookingDocument, options);
+}
+export type CreateBookingMutationHookResult = ReturnType<
+  typeof useCreateBookingMutation
+>;
+export type CreateBookingMutationResult =
+  Apollo.MutationResult<CreateBookingMutation>;
+export type CreateBookingMutationOptions = Apollo.BaseMutationOptions<
+  CreateBookingMutation,
+  CreateBookingMutationVariables
+>;
 export const CreateCinemaDocument = gql`
   mutation CreateCinema($input: CinemaIn!) {
     createCinema(input: $input) {
@@ -1259,6 +1676,54 @@ export type CreateMovieMutationResult =
 export type CreateMovieMutationOptions = Apollo.BaseMutationOptions<
   CreateMovieMutation,
   CreateMovieMutationVariables
+>;
+export const DeleteBookingDocument = gql`
+  mutation DeleteBooking($deleteBookingId: ID!) {
+    deleteBooking(id: $deleteBookingId)
+  }
+`;
+export type DeleteBookingMutationFn = Apollo.MutationFunction<
+  DeleteBookingMutation,
+  DeleteBookingMutationVariables
+>;
+
+/**
+ * __useDeleteBookingMutation__
+ *
+ * To run a mutation, you first call `useDeleteBookingMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteBookingMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteBookingMutation, { data, loading, error }] = useDeleteBookingMutation({
+ *   variables: {
+ *      deleteBookingId: // value for 'deleteBookingId'
+ *   },
+ * });
+ */
+export function useDeleteBookingMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteBookingMutation,
+    DeleteBookingMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteBookingMutation,
+    DeleteBookingMutationVariables
+  >(DeleteBookingDocument, options);
+}
+export type DeleteBookingMutationHookResult = ReturnType<
+  typeof useDeleteBookingMutation
+>;
+export type DeleteBookingMutationResult =
+  Apollo.MutationResult<DeleteBookingMutation>;
+export type DeleteBookingMutationOptions = Apollo.BaseMutationOptions<
+  DeleteBookingMutation,
+  DeleteBookingMutationVariables
 >;
 export const DeleteCinemaDocument = gql`
   mutation DeleteCinema($deleteCinemaId: ID!) {
@@ -2032,6 +2497,77 @@ export type UpdateMovieMutationResult =
 export type UpdateMovieMutationOptions = Apollo.BaseMutationOptions<
   UpdateMovieMutation,
   UpdateMovieMutationVariables
+>;
+export const UserBookingsDocument = gql`
+  query UserBookings {
+    userBookings {
+      id
+      cinema {
+        name
+        address
+      }
+      movie {
+        image
+        title
+        duration
+      }
+      day
+      time
+      room
+      seats
+      price
+    }
+  }
+`;
+
+/**
+ * __useUserBookingsQuery__
+ *
+ * To run a query within a React component, call `useUserBookingsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserBookingsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserBookingsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useUserBookingsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    UserBookingsQuery,
+    UserBookingsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<UserBookingsQuery, UserBookingsQueryVariables>(
+    UserBookingsDocument,
+    options
+  );
+}
+export function useUserBookingsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    UserBookingsQuery,
+    UserBookingsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<UserBookingsQuery, UserBookingsQueryVariables>(
+    UserBookingsDocument,
+    options
+  );
+}
+export type UserBookingsQueryHookResult = ReturnType<
+  typeof useUserBookingsQuery
+>;
+export type UserBookingsLazyQueryHookResult = ReturnType<
+  typeof useUserBookingsLazyQuery
+>;
+export type UserBookingsQueryResult = Apollo.QueryResult<
+  UserBookingsQuery,
+  UserBookingsQueryVariables
 >;
 export const UsersDocument = gql`
   query Users {

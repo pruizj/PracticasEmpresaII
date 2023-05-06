@@ -4,6 +4,9 @@ import LayoutPage from "../components/LayoutPage";
 import styled from "@emotion/styled";
 import Button from "../components/Button";
 import CinemasWeb from "../components/CinemasWeb";
+import MoviesWeb from "../components/MoviesWeb";
+import ProfileWeb from "../components/ProfileWeb";
+
 const isLocalStorageAvailable = () => {
   const testKey = "test";
   try {
@@ -17,10 +20,14 @@ const isLocalStorageAvailable = () => {
 
 const UserDashboardPage: NextPage = () => {
   const lastActiveSection = isLocalStorageAvailable()
-    ? (localStorage.getItem("activeSection") as "Cinemas" | "Foro" | "Profile")
+    ? (localStorage.getItem("activeSection") as
+        | "Cinemas"
+        | "Movies"
+        | "Foro"
+        | "Profile")
     : null;
   const [activeSection, setActiveSection] = useState<
-    "Cinemas" | "Foro" | "Profile"
+    "Cinemas" | "Movies" | "Foro" | "Profile"
   >(lastActiveSection || "Cinemas");
 
   useEffect(() => {
@@ -39,6 +46,15 @@ const UserDashboardPage: NextPage = () => {
           onClick={() => setActiveSection("Cinemas")}
         >
           CINES
+        </Button>
+        <Button
+          style={{
+            backgroundColor: activeSection === "Movies" ? "#9f67ad" : "#2f0139",
+            width: "100%"
+          }}
+          onClick={() => setActiveSection("Movies")}
+        >
+          PELICULAS
         </Button>
         <Button
           style={{
@@ -62,8 +78,9 @@ const UserDashboardPage: NextPage = () => {
       </RowButtons>
       <Section>
         {activeSection === "Cinemas" && <CinemasWeb />}
-        {/* {activeSection === "Foro" && <Foro />}
-        {activeSection === "Profile" && <Profile />} */}
+        {activeSection === "Movies" && <MoviesWeb />}
+        {/* {activeSection === "Foro" && <Foro />} */}
+        {activeSection === "Profile" && <ProfileWeb />}
       </Section>
     </LayoutPage>
   );

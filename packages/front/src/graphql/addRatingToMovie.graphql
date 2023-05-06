@@ -11,7 +11,5 @@ mutation AddRatingToMovie($addRatingToMovieId: ID!, $rating: Int!) {
     rating
     image
     trailer
-    createdAt
-    updatedAt
   }
 }

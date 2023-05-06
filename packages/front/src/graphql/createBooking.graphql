@@ -1,0 +1,25 @@
+mutation CreateBooking($cinema: ID!, $schedule: ScheduleIn!, $seats: Int!, $cardNumber: String!, $expiryDate: Date!, $securityCode: String) {
+  createBooking(cinema: $cinema, schedule: $schedule, seats: $seats, cardNumber: $cardNumber, expiry_date: $expiryDate, security_code: $securityCode) {
+    id
+    cinema {
+      name
+    }
+    movie {
+      title
+    }
+    day
+    time
+    room
+    seats
+    user {
+      id
+      name
+      surname
+      email
+    }
+    price
+    cardNumber
+    expiry_date
+    security_code
+  }
+}

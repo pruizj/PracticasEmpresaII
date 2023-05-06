@@ -17,8 +17,6 @@ export interface FormData {
 }
 
 const WebCinema = ({ id }) => {
-  const [loadingSave, setLoadingSave] = useState<boolean>(false);
-  const [errorAlert, setErrorAlert] = useState<boolean>(false);
   const { data, loading, error } = useCinemaQuery({
     variables: { cinemaId: id }
   });
@@ -29,112 +27,96 @@ const WebCinema = ({ id }) => {
 
   return (
     <LayoutPage>
-      {loadingSave ? (
-        <Loading />
-      ) : (
-        <>
-          {data && (
-            <Container>
-              <Cinema>
-                <h2>{data.cinema.name.toUpperCase()}</h2>
-              </Cinema>
-              <Schedule>
-                {data.cinema.schedule.length === 0 ? (
-                  <EmptyResults>
-                    <img src="/images/close.svg" />
-                    <p>No hay resultados</p>
-                  </EmptyResults>
-                ) : (
-                  data.cinema.schedule
-                    .filter(
-                      (item, index, self) =>
-                        index ===
-                        self.findIndex(t => t.movie.id === item.movie.id)
-                    )
-                    .map(item => (
-                      <a key={item.movie.id}>
-                        <Content>
-                          <Image>
-                            <p>IMAGE</p>
-                            <ImageLink
-                              href={`https://www.youtube.com/watch?v=${item.movie.trailer}`}
-                              passHref={true}
-                              legacyBehavior={true}
-                            >
-                              <a target="_blank">
-                                <Button style={{ width: "100%" }}>
-                                  Ver trailer
-                                </Button>
+      {data && (
+        <Container>
+          <Cinema>
+            <h2>{data.cinema.name.toUpperCase()}</h2>
+          </Cinema>
+          <Schedule>
+            {data.cinema.schedule.length === 0 ? (
+              <EmptyResults>
+                <img src="/images/close.svg" />
+                <p>No hay resultados</p>
+              </EmptyResults>
+            ) : (
+              data.cinema.schedule
+                .filter(
+                  (item, index, self) =>
+                    index === self.findIndex(t => t.movie.id === item.movie.id)
+                )
+                .map(item => (
+                  <a key={item.movie.id}>
+                    <Content>
+                      <Image>
+                        <p>IMAGE</p>
+                        <ImageLink
+                          href={`https://www.youtube.com/watch?v=${item.movie.trailer}`}
+                          passHref={true}
+                          legacyBehavior={true}
+                        >
+                          <a target="_blank">
+                            <Button style={{ width: "100%" }}>
+                              Ver trailer
+                            </Button>
+                          </a>
+                        </ImageLink>
+                      </Image>
+                      <Info>
+                        <Item>
+                          <h2>{item.movie.title.toUpperCase()}</h2>
+                          <p>{item.movie.synopsis}</p>
+                          <Item1>
+                            <Item2>
+                              <Title>DURACIÓN: </Title>
+                              <p>{item.movie.duration} min</p>{" "}
+                            </Item2>
+                            <Item2>
+                              <Title>GÉNERO: </Title>
+                              <p>{item.movie.gender}</p>
+                            </Item2>
+                          </Item1>
+                        </Item>
+                        <Title1>HORARIO:</Title1>
+                        <Horario>
+                          {data.cinema.schedule.map(item1 =>
+                            item1.movie.title === item.movie.title ? (
+                              <a key={item.movie.id}>
+                                <ItemHorario
+                                  onClick={() => {
+                                    router.push(
+                                      `/newBooking?cinema=${data.cinema.id}&day=${item1.day}&time=${item1.time}&room=${item1.room}&movie=${item1.movie.id}`
+                                    );
+                                  }}
+                                >
+                                  <p>
+                                    {item1.day === Days.Monday
+                                      ? "Lunes"
+                                      : item1.day === Days.Tuesday
+                                      ? "Martes"
+                                      : item1.day === Days.Wednesday
+                                      ? "Miércoles"
+                                      : item1.day === Days.Thursday
+                                      ? "Jueves"
+                                      : item1.day === Days.Friday
+                                      ? "Viernes"
+                                      : item1.day === Days.Saturday
+                                      ? "Sábado"
+                                      : "Domingo"}
+                                  </p>
+                                  <p>{item1.time}</p>
+                                  <p>Sala: {item1.room}</p>
+                                </ItemHorario>
                               </a>
-                            </ImageLink>
-                          </Image>
-                          <Info>
-                            <Item>
-                              <h2>{item.movie.title.toUpperCase()}</h2>
-                              <p>{item.movie.synopsis}</p>
-                              <Item1>
-                                <Item2>
-                                  <Title>DURACIÓN: </Title>
-                                  <p>{item.movie.duration} min</p>{" "}
-                                </Item2>
-                                <Item2>
-                                  <Title>GÉNERO: </Title>
-                                  <p>{item.movie.gender}</p>
-                                </Item2>
-                              </Item1>
-                            </Item>
-                            <Title1>HORARIO:</Title1>
-                            <Horario>
-                              {data.cinema.schedule.map(item1 =>
-                                item1.movie.title === item.movie.title ? (
-                                  <a key={item.movie.id}>
-                                    <ItemHorario
-                                      onClick={() => {
-                                        const partialBooking = {
-                                          cinema: data.cinema.id,
-                                          schedule: {
-                                            day: item1.day,
-                                            time: item1.time,
-                                            room: item1.room,
-                                            movie: item1.movie.id
-                                          }
-                                        };
-                                        router.push(
-                                          `/booking?cinema=${partialBooking.cinema}&day=${partialBooking.schedule.day}&time=${partialBooking.schedule.time}&room=${partialBooking.schedule.room}&movie=${partialBooking.schedule.movie}`
-                                        );
-                                      }}
-                                    >
-                                      <p>
-                                        {item1.day === Days.Monday
-                                          ? "Lunes"
-                                          : item1.day === Days.Tuesday
-                                          ? "Martes"
-                                          : item1.day === Days.Wednesday
-                                          ? "Miércoles"
-                                          : item1.day === Days.Thursday
-                                          ? "Jueves"
-                                          : item1.day === Days.Friday
-                                          ? "Viernes"
-                                          : item1.day === Days.Saturday
-                                          ? "Sábado"
-                                          : "Domingo"}
-                                      </p>
-                                      <p>{item1.time}</p>
-                                      <p>Sala: {item1.room}</p>
-                                    </ItemHorario>
-                                  </a>
-                                ) : null
-                              )}
-                            </Horario>
-                          </Info>
-                        </Content>
-                      </a>
-                    ))
-                )}
-              </Schedule>
-            </Container>
-          )}
-        </>
+                            ) : null
+                          )}
+                        </Horario>
+                      </Info>
+                    </Content>
+                  </a>
+                ))
+            )}
+          </Schedule>
+        </Container>
       )}
     </LayoutPage>
   );

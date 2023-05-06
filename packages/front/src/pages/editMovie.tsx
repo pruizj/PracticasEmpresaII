@@ -1,15 +1,8 @@
-import styled from "@emotion/styled";
-import React, { FC, useEffect, useState } from "react";
-import { ERROR } from "../../../api/src/errors";
-import Alert from "../components/Alert";
-import Button from "../components/Button";
-import Input from "../components/Input";
+import React, { useState } from "react";
 import LayoutPage from "../components/LayoutPage";
-import LocalSelect from "../components/LocalSelect";
 import router from "next/router";
 import { useMovieQuery, useUpdateMovieMutation } from "../generated/graphql";
 import Loading from "../components/Loading";
-import CinemaForm from "../components/CinemaForm";
 import MovieForm from "../components/MovieForm";
 
 export interface FormData {

@@ -2,31 +2,31 @@ import styled from "@emotion/styled";
 import { FC, useEffect, useState } from "react";
 import {
   GeneralOrderType,
-  usePaginatedCinemasQuery
+  usePaginatedMoviesQuery
 } from "../generated/graphql";
 import Input from "./Input";
 import Loading from "./Loading";
 import LocalSelect from "./LocalSelect";
 import Pagination from "./Pagination";
-import CinemaListWeb from "./CinemaListWeb";
+import MovieListWeb from "./MovieListWeb";
 
-const CinemasWeb: FC = () => {
+const MoviesWeb: FC = () => {
   const [page, setPage] = useState<number>(1);
-  const [searchName, setSearchName] = useState<string>("");
-  const [searchNameFinal, setSearchNameFinal] = useState<string>("");
+  const [searchTitle, setSearchTitle] = useState<string>("");
+  const [searchTitleFinal, setSearchTitleFinal] = useState<string>("");
   const [order, setOrder] = useState<GeneralOrderType>(GeneralOrderType.NameAz);
-  const { data, loading, error, refetch } = usePaginatedCinemasQuery({
+  const { data, loading, error, refetch } = usePaginatedMoviesQuery({
     variables: {
       page,
       pageSize: 6,
       order,
-      searchName: searchNameFinal
+      searchTitle: searchTitleFinal
     }
   });
 
   useEffect(() => {
     refetch();
-  }, [refetch, page, order, searchName]);
+  }, [refetch, page, order, searchTitle]);
 
   if (loading) {
     return <Loading />;
@@ -49,11 +49,11 @@ const CinemasWeb: FC = () => {
         <Filter>
           <Input
             placeholder={"Buscar por nombre"}
-            value={searchName}
+            value={searchTitle}
             onChange={e => {
-              setSearchName(e.target.value);
+              setSearchTitle(e.target.value);
               {
-                e.target.value === "" && setSearchNameFinal("");
+                e.target.value === "" && setSearchTitleFinal("");
               }
             }}
             onKeyDown={e => {
@@ -61,27 +61,27 @@ const CinemasWeb: FC = () => {
                 {
                   page > 1 && setPage(1);
                 }
-                setSearchNameFinal(searchName);
+                setSearchTitleFinal(searchTitle);
               }
             }}
           />
           <button
             className="search"
             onClick={() => {
-              setSearchNameFinal(searchName);
+              setSearchTitleFinal(searchTitle);
             }}
           />
         </Filter>
       </FiltersDiv>
-      <CinemaListWeb cinemas={data?.paginatedCinemas?.data} />
+      <MovieListWeb movies={data?.paginatedMovies?.data} />
       {loading ? (
         <Loading />
       ) : (
         <>
           {data && (
             <LocalPagination
-              numberPages={data.paginatedCinemas?.totalPages}
-              currentPage={data.paginatedCinemas?.page}
+              numberPages={data.paginatedMovies?.totalPages}
+              currentPage={data.paginatedMovies?.page}
               changePage={(page: number) => {
                 setPage(page);
               }}
@@ -94,7 +94,7 @@ const CinemasWeb: FC = () => {
   );
 };
 
-export default CinemasWeb;
+export default MoviesWeb;
 
 const Content = styled.div`
   display: flex;

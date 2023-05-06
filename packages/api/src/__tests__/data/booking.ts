@@ -3,8 +3,8 @@ export const booking1 = {
   time: "10:00",
   room: 1,
   seats: 1,
-  price: 6.5,
-  cardNumber: "4539 1488 0343 6467",
-  expiry_date: "2029-12-20",
+  price: parseFloat("8.5"),
+  cardNumber: "4111 1111 1111 1111",
+  expiry_date: "2025-12-31",
   security_code: "123"
 };

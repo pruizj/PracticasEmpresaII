@@ -1,0 +1,19 @@
+query UserBookings {
+  userBookings {
+    id
+    cinema {
+      name
+      address
+    }
+    movie {
+      image
+      title
+      duration
+    }
+    day
+    time
+    room
+    seats
+    price
+  }
+}

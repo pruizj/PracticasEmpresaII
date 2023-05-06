@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { FC, ReactNode } from "react";
+import { FC } from "react";
 
 const MainHeader: FC = () => {
   return (

@@ -1,0 +1,22 @@
+query Bookings {
+  bookings {
+    id
+    cinema {
+      name
+    }
+    movie {
+      title
+    }
+    day
+    time
+    room
+    seats
+    user {
+      id
+      email
+      name
+      surname
+    }
+    price
+  }
+}

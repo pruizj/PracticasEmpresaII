@@ -39,6 +39,7 @@ export type Booking = {
   room: Scalars["Int"];
   seats: Scalars["Int"];
   security_code: Scalars["String"];
+  time: Scalars["String"];
   user: User;
 };
 
@@ -274,6 +275,7 @@ export type Query = {
   movies: Array<Movie>;
   paginatedCinemas: PaginatedCinemas;
   paginatedMovies: PaginatedMovies;
+  userBookings: Array<Booking>;
   users: Array<User>;
 };
 
@@ -573,6 +575,7 @@ export type BookingResolvers<
   room?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   seats?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   security_code?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  time?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   user?: Resolver<ResolversTypes["User"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -859,6 +862,11 @@ export type QueryResolvers<
     ParentType,
     ContextType,
     Partial<QueryPaginatedMoviesArgs>
+  >;
+  userBookings?: Resolver<
+    Array<ResolversTypes["Booking"]>,
+    ParentType,
+    ContextType
   >;
   users?: Resolver<Array<ResolversTypes["User"]>, ParentType, ContextType>;
 };

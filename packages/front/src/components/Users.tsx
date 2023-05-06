@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import {
   Role,
   useChangeRoleMutation,

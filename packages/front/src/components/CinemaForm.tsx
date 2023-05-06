@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Days, ScheduleIn, useMoviesQuery } from "../generated/graphql";
 import Input from "./Input";
 import Button from "./Button";
@@ -160,10 +160,12 @@ const CinemaForm: React.FC<CinemaFormProps> = ({
               options={
                 moviesLoading
                   ? [{ label: "Cargando...", value: "" }]
-                  : movies.map(movie => ({
-                      label: movie.title,
-                      value: movie.id
-                    })) || []
+                  : movies
+                      .filter(movie => new Date(movie.release) <= new Date())
+                      .map(movie => ({
+                        label: movie.title,
+                        value: movie.id
+                      })) || []
               }
               onChange={e => {
                 setSelectedMovie(e);

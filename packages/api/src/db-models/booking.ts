@@ -6,6 +6,7 @@ const BookingSchema: Schema = new Schema(
     cinema: { type: Types.ObjectId, ref: "CinemaModel", required: true },
     movie: { type: Types.ObjectId, ref: "MovieModel", required: true },
     day: { type: String, required: true },
+    time: { type: String, required: true },
     room: { type: Number, required: true },
     seats: { type: Number, required: true },
     price: { type: Number, required: true },

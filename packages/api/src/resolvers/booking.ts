@@ -19,6 +19,17 @@ export const bookingResolver = {
       return bookings;
     },
 
+    userBookings: async (
+      _parent: unknown,
+      args: QueryBookingArgs,
+      context: Context
+    ): Promise<Omit<BookingModelType, "_id">[]> => {
+      const bookings = await BookingModel.find({
+        user: context.user?.id
+      }).exec();
+      return bookings;
+    },
+
     booking: async (
       _parent: unknown,
       args: QueryBookingArgs
@@ -67,9 +78,12 @@ export const bookingResolver = {
       ).exec();
 
       // check validation card number
-      if (
-        !validationCard(args.cardNumber, args.expiry_date, args.security_code)
-      ) {
+      const validation = validationCard(
+        args.cardNumber,
+        args.expiry_date,
+        args.security_code
+      );
+      if (!validation) {
         throw new Error(ERROR.CARD_NUMBER_INVALID.message);
       }
 
@@ -77,9 +91,10 @@ export const bookingResolver = {
         cinema: args.cinema,
         movie: args.schedule.movie,
         day: args.schedule.day,
+        time: args.schedule.time,
         room: args.schedule.room,
         seats: args.seats,
-        price: 6.5 * args.seats,
+        price: parseFloat("8.5") * args.seats,
         user: context.user ? new ObjectId(context.user.id) : null,
         cardNumber: args.cardNumber,
         expiry_date: args.expiry_date,
@@ -97,6 +112,29 @@ export const bookingResolver = {
       if (!booking) {
         throw new Error(ERROR.BOOKING_NOT_FOUND.message);
       }
+
+      // restore schedule capacity
+      const schedule = await CinemaModel.distinct("schedule", {
+        _id: booking.cinema
+      }).exec();
+
+      schedule.map(schedule => {
+        if (
+          schedule.day === booking.day &&
+          schedule.time === booking.time &&
+          schedule.room === booking.room &&
+          schedule.movie === booking.movie
+        ) {
+          schedule.capacity += booking.seats;
+        }
+      });
+
+      // update schedule
+      await CinemaModel.updateOne(
+        { _id: booking.cinema },
+        { schedule: schedule }
+      ).exec();
+
       await BookingModel.deleteOne({ _id: args.id }).exec();
       return true;
     }

@@ -9,6 +9,7 @@ type Booking{
     cinema: Cinema!
     movie: Movie!
     day: Days!
+    time: String!
     room: Int!
     seats: Int!
     user: User!
@@ -19,7 +20,8 @@ type Booking{
 }
 
 type Query {
-    bookings: [Booking!]! @auth(requires: [ADMIN, USER])
+    bookings: [Booking!]! @auth(requires: [ADMIN])
+    userBookings: [Booking!]! @auth(requires: [USER])
     booking(id: ID!): Booking! @auth(requires: [ADMIN, USER])
 }
 

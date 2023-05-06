@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
 import { ERROR } from "../../../api/src/errors";
 import Alert from "../components/Alert";
 import Button from "../components/Button";
@@ -154,10 +154,12 @@ const NewCinema: FC = () => {
                 options={
                   moviesLoading
                     ? [{ label: "Cargando...", value: "" }]
-                    : movies.map(movie => ({
-                        label: movie.title,
-                        value: movie.id
-                      })) || []
+                    : movies
+                        .filter(movie => new Date(movie.release) <= new Date())
+                        .map(movie => ({
+                          label: movie.title,
+                          value: movie.id
+                        })) || []
                 }
                 onChange={e => {
                   setSelectedMovie(e);

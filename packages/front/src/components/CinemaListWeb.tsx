@@ -1,20 +1,13 @@
 import styled from "@emotion/styled";
 import React, { FC } from "react";
 import { CinemaData } from "../generated/graphql";
-import CinemaIndex from "./CinemaIndex";
 import router from "next/router";
 
 export interface CinemaListProps {
   cinemas: CinemaData[];
-  onDelete?: (cinema: CinemaData) => any;
 }
 
-const CinemaListWeb: FC<CinemaListProps> = ({ cinemas = [], onDelete }) => {
-  const onDeleteClick = (e: React.MouseEvent, cinema: CinemaData) => {
-    e.stopPropagation();
-    onDelete!(cinema);
-  };
-
+const CinemaListWeb: FC<CinemaListProps> = ({ cinemas = [] }) => {
   return (
     <Container>
       {cinemas.length === 0 && (

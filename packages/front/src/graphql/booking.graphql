@@ -1,0 +1,22 @@
+query Booking($bookingId: ID!) {
+  booking(id: $bookingId) {
+    id
+    cinema {
+      name
+    }
+    movie {
+      title
+    }
+    day
+    time
+    room
+    seats
+    user {
+      id
+      email
+      name
+      surname
+    }
+    price
+  }
+}

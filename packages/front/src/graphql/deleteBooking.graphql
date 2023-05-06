@@ -1,0 +1,3 @@
+mutation DeleteBooking($deleteBookingId: ID!) {
+  deleteBooking(id: $deleteBookingId)
+}
