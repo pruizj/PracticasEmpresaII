@@ -69,8 +69,21 @@ const MovieForm: React.FC<MovieFormProps> = ({
     setValue("cast", newCast);
   };
 
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files && event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        const base64Image = reader.result?.toString();
+        setValue("image", base64Image);
+      };
+    }
+  };
+
   useEffect(() => {
     register("cast");
+    register("image");
   }, []);
 
   return (
@@ -84,6 +97,13 @@ const MovieForm: React.FC<MovieFormProps> = ({
           {...register("title", { required: true })}
         />
         <Label htmlFor="image">Imagen</Label>
+        <LocalInput
+          id="image"
+          name="image"
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+        />
         <Label htmlFor="trailer">Trailer</Label>
         <LocalInput
           id="trailer"
@@ -262,7 +282,7 @@ const LocalButton1 = styled(Button)`
 `;
 
 const BottomIndex = styled.div`
-  width: 96%;
+  width: 88%;
   display: flex;
   justify-content: flex-end;
   margin: 0 0 60px 0px;

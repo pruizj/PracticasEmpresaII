@@ -52,7 +52,7 @@ const BookingList: FC<BookingListProps> = ({
                   </User>
                 </Content>
               ) : (
-                <Image1>IMAGE</Image1>
+                <Image1 src={booking.movie.image}></Image1>
               )}
               {optionalUser && (
                 <h3 style={{ color: "purple", marginLeft: "55px" }}>RESERVA</h3>
@@ -62,14 +62,14 @@ const BookingList: FC<BookingListProps> = ({
                   <h4>Cine:</h4>
                   <p>{booking.cinema.name}</p>
                 </Item1>
-                <Item2>
+                <Item1>
                   <h4>Dirección:</h4>
                   <p>{booking.cinema.address}</p>
-                </Item2>
-                <Item2>
+                </Item1>
+                <Item1>
                   <h4>Película:</h4>
                   <p>{booking.movie.title}</p>
-                </Item2>
+                </Item1>
                 {!optionalUser && (
                   <Item1>
                     <h4>Duración:</h4>
@@ -131,7 +131,7 @@ const Container = styled.div<{ optionalUser?: boolean }>`
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 40px;
   width: 93%;
-  padding: 50px;
+  padding: 50px 0px 50px 90px;
 
   @media (max-width: 100%) {
     grid-template-columns: 1fr;
@@ -170,21 +170,10 @@ const Item1 = styled.div`
   }
 `;
 
-const Item2 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  font-family: "Courier New";
-
-  h4 {
-    color: #9f67ad;
-    margin: 0;
-  }
-`;
-
 const Booking = styled.div`
   display: flex;
   flex-direction: column;
+  width: 80%;
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.16);
 `;
 
@@ -192,7 +181,6 @@ const Item = styled.div<{ optionalUser?: boolean }>`
   display: grid;
   grid-template-columns: ${props =>
     props.optionalUser ? "repeat(1, 1fr)" : "repeat(2, 1fr)"};
-  grid-gap: 5px;
 
   @media (max-width: 100%) {
     grid-template-columns: 1fr;
@@ -202,10 +190,13 @@ const Item = styled.div<{ optionalUser?: boolean }>`
 const ItemContent = styled.div<{ optionalUser?: boolean }>`
   display: flex;
   flex-direction: column;
-  ${props => (props.optionalUser ? "padding-left: 60px;" : "padding: 30px;")}
+  ${props =>
+    props.optionalUser
+      ? "padding-left: 60px;"
+      : "padding: 30px  30px 30px 0px;"}
   ${props => (props.optionalUser ? "display: grid;" : "")}
   ${props =>
-    props.optionalUser ? "grid-template-columns: repeat(3, 1fr);" : ""}
+    props.optionalUser ? "grid-template-columns: repeat(2, 1fr);" : ""}
 `;
 
 const Buttons = styled.div`
@@ -221,7 +212,10 @@ const TrashIcon = styled.img`
   cursor: pointer;
 `;
 
-const Image1 = styled.div`
-  padding: 20px;
+const Image1 = styled.img`
+  width: 189px;
+  height: 267px;
+  padding: 45px 0px 30px 30px;
 `;
+
 export default BookingList;

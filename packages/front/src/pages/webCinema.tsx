@@ -48,7 +48,11 @@ const WebCinema = ({ id }) => {
                   <a key={item.movie.id}>
                     <Content>
                       <Image>
-                        <p>IMAGE</p>
+                        <img
+                          src={item.movie.image}
+                          alt="movie"
+                          style={{ paddingBottom: "20px" }}
+                        />
                         <ImageLink
                           href={`https://www.youtube.com/watch?v=${item.movie.trailer}`}
                           passHref={true}

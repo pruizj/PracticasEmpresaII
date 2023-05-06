@@ -42,7 +42,7 @@ const WebMovie = ({ id }) => {
         <Container>
           <Content>
             <Image>
-              <h3>IMAGE</h3>
+              <img src={data.movie.image} alt="movie" />
               <p>
                 {data.movie.rating === 1 ? (
                   <RatingImage className="rating" src="/images/star.jpg" />
@@ -177,7 +177,8 @@ const Container = styled.div`
   margin-right: 100px;
   margin-bottom: 50px;
   margin-top: 50px;
-  width: 100%;
+  padding-left: 150px;
+  width: 70%;
 `;
 
 const Rating = styled.div`

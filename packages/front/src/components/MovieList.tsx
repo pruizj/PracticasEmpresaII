@@ -17,7 +17,6 @@ const MovieList: FC<MovieListProps> = ({ movies = [], onDelete }) => {
 
   return (
     <Container>
-      <MovieIndex />
       {movies.length === 0 && (
         <EmptyResults>
           <img src="/images/close.svg" />
@@ -33,13 +32,24 @@ const MovieList: FC<MovieListProps> = ({ movies = [], onDelete }) => {
               }}
             >
               <MovieContent>
-                <p>{movie.image}</p>
-                <p>{movie.title}</p>
-                <p>{new Date(movie.release).toLocaleDateString("es-ES")}</p>
-                <p>{movie.rating}</p>
+                <Image src={movie.image} alt="movie" />
+                <Info>
+                  <Item1>
+                    <h4>Película:</h4>
+                    <p>{movie.title}</p>
+                  </Item1>
+                  <Item1>
+                    <h4>Fecha de estreno:</h4>
+                    <p>{new Date(movie.release).toLocaleDateString("es-ES")}</p>
+                  </Item1>
+                  <Item1>
+                    <h4>Valoración:</h4>
+                    <p>{movie.rating}</p>
+                  </Item1>
+                </Info>
               </MovieContent>
               <Buttons>
-                <img
+                <TrashIcon
                   onClick={e => {
                     e.preventDefault();
                     onDeleteClick(e, movie);
@@ -47,7 +57,7 @@ const MovieList: FC<MovieListProps> = ({ movies = [], onDelete }) => {
                   }}
                   className="trash"
                   src="/images/close.svg"
-                ></img>
+                ></TrashIcon>
               </Buttons>
             </MovieContainer>
           </a>
@@ -59,55 +69,72 @@ const MovieList: FC<MovieListProps> = ({ movies = [], onDelete }) => {
 export default MovieList;
 
 const Container = styled.div`
-  /* background-color: "gray"; */
-  border-radius: 6px;
-  margin: 20px 50px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+  width: 93%;
+  padding: 50px;
 
-  > a {
-    text-decoration: none;
-    color: "black";
+  @media (max-width: 100%) {
+    grid-template-columns: 1fr;
   }
+
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.16);
 `;
 
 const MovieContainer = styled.div`
-  height: 64px;
   display: flex;
-  border-radius: 6px;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.14);
-  background-color: #ffffff;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  cursor: pointer;
-  padding-right: 20px;
-  overflow: hidden;
+  flex-direction: column;
+  width: 95%;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.16);
+`;
+
+const Info = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+`;
+
+const Item1 = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  font-family: "Courier New";
+
+  h4 {
+    color: #9f67ad;
+    margin: 0;
+  }
 `;
 
 const MovieContent = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: start;
-  width: 85%;
-  margin-bottom: 30px;
-  margin-left: 30px;
-  margin-top: 30px;
-  p {
-    margin-left: 30px;
-    width: 20%;
-    height: 10%;
-    font-family: "Courier New";
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 5px;
+
+  @media (max-width: 100%) {
+    grid-template-columns: 1fr;
   }
 `;
 
 const Buttons = styled.div`
-  width: 10%;
   display: flex;
-  justify-content: right;
+  justify-content: flex-end;
+  align-items: center;
+`;
 
-  .trash {
-    margin: 0 -10px 0 20px;
-  }
+const Image = styled.img`
+  width: 189px;
+  height: 267px;
+  padding: 30px;
+`;
+
+const TrashIcon = styled.img`
+  height: 50px;
+  width: 50px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  margin-right: 20px;
 `;
 
 export const EmptyResults = styled.div`

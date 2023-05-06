@@ -2,7 +2,6 @@ import styled from "@emotion/styled";
 import React, { FC } from "react";
 import { MovieData } from "../generated/graphql";
 import router from "next/router";
-
 export interface MovieListProps {
   movies: MovieData[];
 }
@@ -26,7 +25,7 @@ const MovieListWeb: FC<MovieListProps> = ({ movies = [] }) => {
             >
               <MovieContent>
                 <h2>{movie.title.toUpperCase()}</h2>
-                <h3>IMAGE</h3>
+                <Image1 src={movie.image} alt="movie" />
                 <p>
                   {movie.rating === 1 ? (
                     <Image className="rating" src="/images/star.jpg" />
@@ -80,6 +79,13 @@ const Container = styled.div`
     text-decoration: none;
     color: "black";
   }
+`;
+
+const Image1 = styled.img`
+  width: 189px;
+  height: 267px;
+  padding-right: 30px;
+  padding-left: 30px;
 `;
 
 const Rating = styled.div`
