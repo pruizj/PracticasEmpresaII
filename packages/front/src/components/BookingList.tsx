@@ -8,21 +8,16 @@ import { EmptyResults } from "./CinemaList";
 export interface BookingListProps {
   bookings: any[];
   onDelete?: (booking: Booking) => any;
-  optionalUser?: boolean;
 }
 
-const BookingList: FC<BookingListProps> = ({
-  bookings = [],
-  onDelete,
-  optionalUser = false
-}) => {
+const BookingList: FC<BookingListProps> = ({ bookings = [], onDelete }) => {
   const onDeleteClick = (e: React.MouseEvent, booking: Booking) => {
     e.stopPropagation();
     onDelete!(booking);
   };
 
   return (
-    <Container optionalUser={optionalUser}>
+    <Container>
       {bookings.length === 0 && (
         <EmptyResults>
           <img src="/images/close.svg" />
@@ -32,32 +27,9 @@ const BookingList: FC<BookingListProps> = ({
       {bookings.length !== 0 &&
         bookings.map(booking => (
           <Booking key={booking.id}>
-            <Item optionalUser={optionalUser}>
-              {optionalUser ? (
-                <Content>
-                  <h3>USUARIO</h3>
-                  <User>
-                    <Item1>
-                      <h4>Nombre</h4>
-                      <p>{booking.user.name}</p>
-                    </Item1>
-                    <Item1>
-                      <h4>Apellido</h4>
-                      <p>{booking.user.surname}</p>
-                    </Item1>
-                    <Item1>
-                      <h4>Correo electrónico</h4>
-                      <p>{booking.user.email}</p>
-                    </Item1>
-                  </User>
-                </Content>
-              ) : (
-                <Image1 src={booking.movie.image}></Image1>
-              )}
-              {optionalUser && (
-                <h3 style={{ color: "purple", marginLeft: "55px" }}>RESERVA</h3>
-              )}
-              <ItemContent optionalUser={optionalUser}>
+            <Item>
+              <Image1 src={booking.movie.image}></Image1>
+              <ItemContent>
                 <Item1>
                   <h4>Cine:</h4>
                   <p>{booking.cinema.name}</p>
@@ -70,12 +42,10 @@ const BookingList: FC<BookingListProps> = ({
                   <h4>Película:</h4>
                   <p>{booking.movie.title}</p>
                 </Item1>
-                {!optionalUser && (
-                  <Item1>
-                    <h4>Duración:</h4>
-                    <p>{booking.movie.duration} min</p>
-                  </Item1>
-                )}
+                <Item1>
+                  <h4>Duración:</h4>
+                  <p>{booking.movie.duration} min</p>
+                </Item1>
                 <Item1>
                   <h4>Sala:</h4>
                   <p>{booking.room}</p>
@@ -136,8 +106,7 @@ const Container = styled.div<{ optionalUser?: boolean }>`
   @media (max-width: 100%) {
     grid-template-columns: 1fr;
   }
-  ${props =>
-    props.optionalUser ? "" : "box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.16);"}
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.16);
 `;
 
 const User = styled.div`
@@ -179,8 +148,7 @@ const Booking = styled.div`
 
 const Item = styled.div<{ optionalUser?: boolean }>`
   display: grid;
-  grid-template-columns: ${props =>
-    props.optionalUser ? "repeat(1, 1fr)" : "repeat(2, 1fr)"};
+  grid-template-columns: repeat(2, 1fr);
 
   @media (max-width: 100%) {
     grid-template-columns: 1fr;
@@ -190,13 +158,7 @@ const Item = styled.div<{ optionalUser?: boolean }>`
 const ItemContent = styled.div<{ optionalUser?: boolean }>`
   display: flex;
   flex-direction: column;
-  ${props =>
-    props.optionalUser
-      ? "padding-left: 60px;"
-      : "padding: 30px  30px 30px 0px;"}
-  ${props => (props.optionalUser ? "display: grid;" : "")}
-  ${props =>
-    props.optionalUser ? "grid-template-columns: repeat(2, 1fr);" : ""}
+  padding: 30px 30px 30px 0px;
 `;
 
 const Buttons = styled.div`

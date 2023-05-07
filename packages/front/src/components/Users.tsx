@@ -8,7 +8,7 @@ import {
 } from "../generated/graphql";
 import Button from "./Button";
 import Loading from "./Loading";
-import UserIndex from "./UserIndex";
+import { EmptyResults } from "./MovieList";
 
 const Users: FC = () => {
   const { loading, data, refetch } = useUsersQuery();
@@ -37,19 +37,29 @@ const Users: FC = () => {
 
   return (
     <Content>
-      <UserIndex />
-      {loading ? (
-        <Loading />
-      ) : (
-        data &&
+      <Index>
+        <h4>NOMBRE</h4>
+        <h4>APELLIDO</h4>
+        <h4>CORREO</h4>
+        <h4>ROL</h4>
+      </Index>
+      {data.users.length === 0 && (
+        <EmptyResults>
+          <img src="/images/close.svg" />
+          <p>No hay resultados</p>
+        </EmptyResults>
+      )}
+      {data.users.length &&
         data.users.map(user => {
           return (
             <User key={user.id}>
               <Item>
-                <p>{user.name}</p>
-                <p>{user.surname}</p>
-                <p>{user.email}</p>
-                <p>{user.role === Role.Admin ? "Administrador" : "Usuario"}</p>
+                <P>{user.name}</P>
+                <P1>{user.surname}</P1>
+                <P2>{user.email}</P2>
+                <P3>
+                  {user.role === Role.Admin ? "Administrador" : "Usuario"}
+                </P3>
               </Item>
               <UserButton
                 onClick={() => {
@@ -63,13 +73,24 @@ const Users: FC = () => {
               </UserButton>
             </User>
           );
-        })
-      )}
+        })}
     </Content>
   );
 };
 
 export default Users;
+
+const Index = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 20px;
+  padding: 50px 50px 0px 50px;
+  font-family: "Courier New";
+  h4 {
+    color: purple;
+    padding-left: 85px;
+  }
+`;
 
 const Content = styled.div`
   display: flex;
@@ -77,34 +98,47 @@ const Content = styled.div`
   margin-top: 10px;
 `;
 
+const P = styled.p`
+  padding-left: 85px;
+`;
+
+const P1 = styled.p`
+  padding-left: 110px;
+`;
+
+const P2 = styled.p`
+  padding-left: 90px;
+`;
+
+const P3 = styled.p`
+  padding-left: 120px;
+`;
+
 const User = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
+  padding: 0px 0px 0px 50px;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.16);
 `;
 
 const Item = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: start;
-  width: 80%;
-  border-bottom: 1px solid #ccc;
-  margin-bottom: 30px;
-  margin-left: 30px;
-  p {
-    margin-left: 30px;
-    width: 20%;
-    height: 10%;
-    font-family: "Courier New";
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 20px 0px 20px 0px;
+  font-family: "Courier New";
+
+  @media (max-width: 100%) {
+    grid-template-columns: 1fr;
+    width: 100%;
   }
 `;
 
 const UserButton = styled(Button)`
-  width: 10%;
+  width: 5%;
   height: 10%;
-  margin-top: 10px;
-  margin-right: 100px;
-  margin-bottom: 10px;
+  margin-top: 30px;
+  margin-right: 30px;
+  margin-left: 30px;
+  margin-bottom: 30px;
 `;

@@ -11,7 +11,6 @@ import {
 } from "../generated/graphql";
 import Button from "./Button";
 import Loading from "./Loading";
-import UserIndex from "./UserIndex";
 import { EmptyResults } from "./MovieList";
 import BookingList from "./BookingList";
 
@@ -40,7 +39,7 @@ const ProfileWeb: FC = () => {
           <p>{data.me.email}</p>
         </Item1>
       </User>
-      <h4 style={{ color: "#9f67ad" }}>RESERVAS</h4>
+      <h4 style={{ color: "#9f67ad" }}>ENTRADAS</h4>
       <BookingList
         bookings={bookings?.userBookings}
         onDelete={async booking => {
