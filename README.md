@@ -27,20 +27,21 @@ localhost:8008/access
 Para ejecutar los test unitarios e integración en la terminal debes:
 
 Añadir al archivo .env las siguientes variables del fichero .env.sample:
-    - MONGO_URL_TEST
-    - PORT_TEST
-    - TEST
+
+* MONGO_URL_TEST
+* PORT_TEST
+* TEST
 
 Ejecutar los siguientes comandos:
-    ```
-    cd packages/api
-    yarn run test-env
-    ```
-    y desde el directorio principal en otra terminal ejecutar:
-
-    ```
-    yarn run unit-tests
-    ```
+```
+cd packages/api
+yarn run test-env
+```
+   
+y desde el directorio principal en otra terminal ejecutar:
+```
+yarn run unit-tests
+```
 
 ## Construido con 🛠️
 
