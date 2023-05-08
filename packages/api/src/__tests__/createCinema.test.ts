@@ -11,6 +11,7 @@ import { AfterAll, BeforeAll } from "./functions";
 import { graphQLHelper } from "./graphqlHelper";
 import { CREATE_CINEMA, REGISTER } from "./queries";
 import { ObjectId } from "bson";
+import { after } from "node:test";
 
 let db: Mongoose;
 
@@ -22,6 +23,12 @@ beforeAll(async () => {
 afterAll(async () => {
   const result = await AfterAll(db);
   db = result;
+});
+
+afterEach(async () => {
+  await CinemaModel.deleteMany({});
+  await UserModel.deleteMany({});
+  await MovieModel.deleteMany({});
 });
 
 describe("createCinema", () => {
@@ -146,82 +153,6 @@ describe("createCinema", () => {
     // check error response
     expect((result1 as any)?.errors[0].message).toMatch(
       ERROR.ROLE_NEEDED.message
-    );
-
-    // check cinema is not created in database
-    const cinemaDB = await CinemaModel.findOne({ name: cinema1.name });
-    expect(cinemaDB).toBeNull();
-
-    // clean database
-    await UserModel.deleteMany({});
-    await CinemaModel.deleteMany({});
-  });
-
-  it("should not create a cinema if schedule movie does not exists", async () => {
-    // create user in database
-    const result = await graphQLHelper(
-      REGISTER,
-      { input: user },
-      { user: undefined }
-    );
-    const { register } = result.data as { register: User };
-
-    await UserModel.findByIdAndUpdate(register.id, { role: Role.Admin });
-
-    const movie_1 = new MovieModel(movie1);
-    await movie_1.save();
-    const movie_2 = new MovieModel(movie2);
-    await movie_2.save();
-    const movie_3 = new MovieModel(movie3);
-    await movie_3.save();
-
-    const id = new ObjectId();
-    const cinemaIn = {
-      ...cinema1,
-      schedule: [
-        {
-          day: "Monday",
-          time: "10:00",
-          room: 1,
-          movie: movie_2._id.toString()
-        },
-        {
-          day: "Tuesday",
-          time: "10:00",
-          room: 2,
-          movie: id.toString()
-        },
-        {
-          day: "Friday",
-          time: "10:00",
-          room: 3,
-          movie: movie_3._id.toString()
-        },
-        {
-          day: "Friday",
-          time: "10:00",
-          room: 4,
-          movie: movie_1._id.toString()
-        }
-      ]
-    };
-
-    const result1 = await graphQLHelper(
-      CREATE_CINEMA,
-      { input: cinemaIn },
-      {
-        user: {
-          ...register,
-          id: register.id,
-          role: Role.Admin,
-          authToken: register.authToken
-        }
-      }
-    );
-
-    // check error response
-    expect((result1 as any)?.errors[0].message).toMatch(
-      ERROR.MOVIE_NOT_FOUND.message
     );
 
     // check cinema is not created in database

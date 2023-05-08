@@ -2,7 +2,7 @@
 
 Este es un proyecto que consiste en una plataforma de cartelera de cine para dos tipos de usuarios: administradores y usuarios regulares.
 
-Los administradores tienen permiso para cambiar el rol de los usuarios, así como crear, editar y eliminar cines y películas. Por otro lado, los usuarios regulares pueden ver los cines y películas, hacer comentarios y reservas.
+Los administradores tienen permiso para cambiar el rol de los usuarios, así como crear, editar y eliminar cines y películas y pueden visualizar la compra de entradas. Por otro lado, los usuarios regulares pueden ver los cines y películas, hacer comentarios en un foro y comprar entradas.
 
 ## Ejecución 🚀
 
@@ -24,17 +24,23 @@ localhost:8008/access
 
 ## Ejecutando las pruebas ⚙️
 
-Para ejecutar los test unitarios e integración en la terminal debes ejecutar:
+Para ejecutar los test unitarios e integración en la terminal debes:
 
-```
-cd packages/api
-yarn run test-env
-```
-y desde el directorio principal en otra terminal ejecutar:
+Añadir al archivo .env las siguientes variables del fichero .env.sample:
+    - MONGO_URL_TEST
+    - PORT_TEST
+    - TEST
 
-```
-yarn run unit-tests
-```
+Ejecutar los siguientes comandos:
+    ```
+    cd packages/api
+    yarn run test-env
+    ```
+    y desde el directorio principal en otra terminal ejecutar:
+
+    ```
+    yarn run unit-tests
+    ```
 
 ## Construido con 🛠️
 
