@@ -106,6 +106,7 @@ export type JoinResult = {
 
 export type Message = {
   __typename?: "Message";
+  channel?: Maybe<Channel>;
   createdBy: User;
   id: Scalars["ID"];
   text?: Maybe<Scalars["String"]>;
@@ -269,6 +270,7 @@ export type Query = {
   bookings: Array<Booking>;
   cinema: Cinema;
   cinemas: Array<Cinema>;
+  getChat: Channel;
   getChats: Array<Channel>;
   me: User;
   movie: Movie;
@@ -284,6 +286,10 @@ export type QueryBookingArgs = {
 };
 
 export type QueryCinemaArgs = {
+  id: Scalars["ID"];
+};
+
+export type QueryGetChatArgs = {
   id: Scalars["ID"];
 };
 
@@ -649,6 +655,7 @@ export type MessageResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes["Message"] = ResolversParentTypes["Message"]
 > = {
+  channel?: Resolver<Maybe<ResolversTypes["Channel"]>, ParentType, ContextType>;
   createdBy?: Resolver<ResolversTypes["User"], ParentType, ContextType>;
   id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
   text?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
@@ -838,6 +845,12 @@ export type QueryResolvers<
     RequireFields<QueryCinemaArgs, "id">
   >;
   cinemas?: Resolver<Array<ResolversTypes["Cinema"]>, ParentType, ContextType>;
+  getChat?: Resolver<
+    ResolversTypes["Channel"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryGetChatArgs, "id">
+  >;
   getChats?: Resolver<
     Array<ResolversTypes["Channel"]>,
     ParentType,

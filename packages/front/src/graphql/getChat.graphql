@@ -1,0 +1,26 @@
+query GetChat($getChatId: ID!) {
+  getChat(id: $getChatId) {
+    id
+    name
+    messages {
+      id
+      text
+      createdBy {
+        email
+        id
+        name
+        surname
+      }
+      channel {
+        name
+        id
+      }
+    }
+    participants {
+      id
+      name
+      surname
+      email
+    }
+  }
+}

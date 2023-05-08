@@ -1,17 +1,11 @@
 import styled from "@emotion/styled";
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import {
-  Days,
-  Role,
-  useChangeRoleMutation,
   useDeleteBookingMutation,
   useMeQuery,
-  useUserBookingsQuery,
-  useUsersQuery
+  useUserBookingsQuery
 } from "../generated/graphql";
-import Button from "./Button";
 import Loading from "./Loading";
-import { EmptyResults } from "./MovieList";
 import BookingList from "./BookingList";
 
 const ProfileWeb: FC = () => {

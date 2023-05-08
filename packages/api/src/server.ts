@@ -73,6 +73,7 @@ export const main = async () => {
       httpServer.listen({ port: !TEST ? PORT : PORT_TEST }, resolve)
     );
     !TEST && console.info(`🚀 Server ready at http://localhost:${PORT}`);
+    !TEST && console.info(`🚀 Subscriptions ready at ws://localhost:${PORT}`);
   } catch (e) {
     console.error("Server creation error", e);
   }

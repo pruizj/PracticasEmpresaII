@@ -1,0 +1,22 @@
+query GetChats {
+  getChats {
+    id
+    name
+    messages {
+      id
+      text
+      createdBy {
+        id
+        email
+        name
+        surname
+      }
+    }
+    participants {
+      id
+      email
+      name
+      surname
+    }
+  }
+}

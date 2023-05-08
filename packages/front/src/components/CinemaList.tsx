@@ -113,6 +113,7 @@ const Buttons = styled.div`
 export const EmptyResults = styled.div`
   color: #2f0139;
   display: flex;
+  width: 100%;
   justify-content: center;
   align-items: center;
   background-color: #ffffff;

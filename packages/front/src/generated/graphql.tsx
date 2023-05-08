@@ -101,6 +101,7 @@ export type JoinResult = {
 
 export type Message = {
   __typename?: "Message";
+  channel?: Maybe<Channel>;
   createdBy: User;
   id: Scalars["ID"];
   text?: Maybe<Scalars["String"]>;
@@ -264,6 +265,7 @@ export type Query = {
   bookings: Array<Booking>;
   cinema: Cinema;
   cinemas: Array<Cinema>;
+  getChat: Channel;
   getChats: Array<Channel>;
   me: User;
   movie: Movie;
@@ -279,6 +281,10 @@ export type QueryBookingArgs = {
 };
 
 export type QueryCinemaArgs = {
+  id: Scalars["ID"];
+};
+
+export type QueryGetChatArgs = {
   id: Scalars["ID"];
 };
 
@@ -772,6 +778,115 @@ export type DeleteUserMutation = {
   };
 };
 
+export type GetChatQueryVariables = Exact<{
+  getChatId: Scalars["ID"];
+}>;
+
+export type GetChatQuery = {
+  __typename?: "Query";
+  getChat: {
+    __typename?: "Channel";
+    id: string;
+    name?: string | null;
+    messages?: Array<{
+      __typename?: "Message";
+      id: string;
+      text?: string | null;
+      createdBy: {
+        __typename?: "User";
+        email: string;
+        id: string;
+        name: string;
+        surname?: string | null;
+      };
+      channel?: {
+        __typename?: "Channel";
+        name?: string | null;
+        id: string;
+      } | null;
+    }> | null;
+    participants?: Array<{
+      __typename?: "User";
+      id: string;
+      name: string;
+      surname?: string | null;
+      email: string;
+    }> | null;
+  };
+};
+
+export type GetChatsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetChatsQuery = {
+  __typename?: "Query";
+  getChats: Array<{
+    __typename?: "Channel";
+    id: string;
+    name?: string | null;
+    messages?: Array<{
+      __typename?: "Message";
+      id: string;
+      text?: string | null;
+      createdBy: {
+        __typename?: "User";
+        id: string;
+        email: string;
+        name: string;
+        surname?: string | null;
+      };
+    }> | null;
+    participants?: Array<{
+      __typename?: "User";
+      id: string;
+      email: string;
+      name: string;
+      surname?: string | null;
+    }> | null;
+  }>;
+};
+
+export type JoinMutationVariables = Exact<{
+  channelName: Scalars["String"];
+}>;
+
+export type JoinMutation = {
+  __typename?: "Mutation";
+  join: {
+    __typename?: "JoinResult";
+    channel: {
+      __typename?: "Channel";
+      id: string;
+      name?: string | null;
+      messages?: Array<{
+        __typename?: "Message";
+        id: string;
+        text?: string | null;
+        createdBy: {
+          __typename?: "User";
+          id: string;
+          email: string;
+          name: string;
+          surname?: string | null;
+        };
+      }> | null;
+      participants?: Array<{
+        __typename?: "User";
+        id: string;
+        name: string;
+        surname?: string | null;
+        email: string;
+      }> | null;
+    };
+    user: {
+      __typename?: "User";
+      id: string;
+      name: string;
+      surname?: string | null;
+      email: string;
+    };
+  };
+};
+
 export type LoginMutationVariables = Exact<{
   email: Scalars["String"];
   password: Scalars["String"];
@@ -840,6 +955,120 @@ export type MoviesQuery = {
   }>;
 };
 
+export type OnMemberJoinSubscriptionVariables = Exact<{ [key: string]: never }>;
+
+export type OnMemberJoinSubscription = {
+  __typename?: "Subscription";
+  onMemberJoin?: {
+    __typename?: "JoinResult";
+    channel: {
+      __typename?: "Channel";
+      id: string;
+      name?: string | null;
+      messages?: Array<{
+        __typename?: "Message";
+        id: string;
+        text?: string | null;
+        createdBy: {
+          __typename?: "User";
+          id: string;
+          email: string;
+          name: string;
+          surname?: string | null;
+        };
+      }> | null;
+      participants?: Array<{
+        __typename?: "User";
+        id: string;
+        email: string;
+        name: string;
+        surname?: string | null;
+      }> | null;
+    };
+    user: {
+      __typename?: "User";
+      id: string;
+      email: string;
+      name: string;
+      surname?: string | null;
+    };
+  } | null;
+};
+
+export type OnMessageAddedSubscriptionVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type OnMessageAddedSubscription = {
+  __typename?: "Subscription";
+  onMessageAdded?: {
+    __typename?: "Message";
+    id: string;
+    text?: string | null;
+    createdBy: {
+      __typename?: "User";
+      id: string;
+      email: string;
+      name: string;
+      surname?: string | null;
+    };
+    channel?: {
+      __typename?: "Channel";
+      id: string;
+      name?: string | null;
+      messages?: Array<{
+        __typename?: "Message";
+        id: string;
+        text?: string | null;
+        createdBy: {
+          __typename?: "User";
+          id: string;
+          email: string;
+          name: string;
+          surname?: string | null;
+        };
+      }> | null;
+      participants?: Array<{
+        __typename?: "User";
+        id: string;
+        name: string;
+        surname?: string | null;
+        email: string;
+      }> | null;
+    } | null;
+  } | null;
+};
+
+export type OnQuitSubscriptionVariables = Exact<{ [key: string]: never }>;
+
+export type OnQuitSubscription = {
+  __typename?: "Subscription";
+  onQuit?: {
+    __typename?: "Channel";
+    id: string;
+    name?: string | null;
+    messages?: Array<{
+      __typename?: "Message";
+      id: string;
+      text?: string | null;
+      createdBy: {
+        __typename?: "User";
+        id: string;
+        email: string;
+        name: string;
+        surname?: string | null;
+      };
+    }> | null;
+    participants?: Array<{
+      __typename?: "User";
+      id: string;
+      email: string;
+      name: string;
+      surname?: string | null;
+    }> | null;
+  } | null;
+};
+
 export type PaginatedCinemasQueryVariables = Exact<{
   page?: InputMaybe<Scalars["Int"]>;
   pageSize?: InputMaybe<Scalars["Int"]>;
@@ -892,6 +1121,38 @@ export type PaginatedMoviesQuery = {
   };
 };
 
+export type QuitMutationVariables = Exact<{
+  channelName: Scalars["String"];
+}>;
+
+export type QuitMutation = {
+  __typename?: "Mutation";
+  quit: {
+    __typename?: "Channel";
+    id: string;
+    name?: string | null;
+    messages?: Array<{
+      __typename?: "Message";
+      id: string;
+      text?: string | null;
+      createdBy: {
+        __typename?: "User";
+        id: string;
+        email: string;
+        name: string;
+        surname?: string | null;
+      };
+    }> | null;
+    participants?: Array<{
+      __typename?: "User";
+      id: string;
+      email: string;
+      name: string;
+      surname?: string | null;
+    }> | null;
+  };
+};
+
 export type RegisterMutationVariables = Exact<{
   input: UserIn;
 }>;
@@ -907,6 +1168,51 @@ export type RegisterMutation = {
     email: string;
     role: Role;
     authToken: string;
+  };
+};
+
+export type SendMessageMutationVariables = Exact<{
+  channelName: Scalars["String"];
+  text: Scalars["String"];
+}>;
+
+export type SendMessageMutation = {
+  __typename?: "Mutation";
+  sendMessage: {
+    __typename?: "Message";
+    id: string;
+    text?: string | null;
+    createdBy: {
+      __typename?: "User";
+      id: string;
+      name: string;
+      surname?: string | null;
+      email: string;
+    };
+    channel?: {
+      __typename?: "Channel";
+      id: string;
+      name?: string | null;
+      messages?: Array<{
+        __typename?: "Message";
+        id: string;
+        text?: string | null;
+        createdBy: {
+          __typename?: "User";
+          id: string;
+          email: string;
+          name: string;
+          surname?: string | null;
+        };
+      }> | null;
+      participants?: Array<{
+        __typename?: "User";
+        id: string;
+        name: string;
+        surname?: string | null;
+        email: string;
+      }> | null;
+    } | null;
   };
 };
 
@@ -1928,6 +2234,213 @@ export type DeleteUserMutationOptions = Apollo.BaseMutationOptions<
   DeleteUserMutation,
   DeleteUserMutationVariables
 >;
+export const GetChatDocument = gql`
+  query GetChat($getChatId: ID!) {
+    getChat(id: $getChatId) {
+      id
+      name
+      messages {
+        id
+        text
+        createdBy {
+          email
+          id
+          name
+          surname
+        }
+        channel {
+          name
+          id
+        }
+      }
+      participants {
+        id
+        name
+        surname
+        email
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetChatQuery__
+ *
+ * To run a query within a React component, call `useGetChatQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetChatQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetChatQuery({
+ *   variables: {
+ *      getChatId: // value for 'getChatId'
+ *   },
+ * });
+ */
+export function useGetChatQuery(
+  baseOptions: Apollo.QueryHookOptions<GetChatQuery, GetChatQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetChatQuery, GetChatQueryVariables>(
+    GetChatDocument,
+    options
+  );
+}
+export function useGetChatLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<GetChatQuery, GetChatQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetChatQuery, GetChatQueryVariables>(
+    GetChatDocument,
+    options
+  );
+}
+export type GetChatQueryHookResult = ReturnType<typeof useGetChatQuery>;
+export type GetChatLazyQueryHookResult = ReturnType<typeof useGetChatLazyQuery>;
+export type GetChatQueryResult = Apollo.QueryResult<
+  GetChatQuery,
+  GetChatQueryVariables
+>;
+export const GetChatsDocument = gql`
+  query GetChats {
+    getChats {
+      id
+      name
+      messages {
+        id
+        text
+        createdBy {
+          id
+          email
+          name
+          surname
+        }
+      }
+      participants {
+        id
+        email
+        name
+        surname
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetChatsQuery__
+ *
+ * To run a query within a React component, call `useGetChatsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetChatsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetChatsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetChatsQuery(
+  baseOptions?: Apollo.QueryHookOptions<GetChatsQuery, GetChatsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetChatsQuery, GetChatsQueryVariables>(
+    GetChatsDocument,
+    options
+  );
+}
+export function useGetChatsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetChatsQuery,
+    GetChatsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetChatsQuery, GetChatsQueryVariables>(
+    GetChatsDocument,
+    options
+  );
+}
+export type GetChatsQueryHookResult = ReturnType<typeof useGetChatsQuery>;
+export type GetChatsLazyQueryHookResult = ReturnType<
+  typeof useGetChatsLazyQuery
+>;
+export type GetChatsQueryResult = Apollo.QueryResult<
+  GetChatsQuery,
+  GetChatsQueryVariables
+>;
+export const JoinDocument = gql`
+  mutation Join($channelName: String!) {
+    join(channelName: $channelName) {
+      channel {
+        id
+        name
+        messages {
+          id
+          text
+          createdBy {
+            id
+            email
+            name
+            surname
+          }
+        }
+        participants {
+          id
+          name
+          surname
+          email
+        }
+      }
+      user {
+        id
+        name
+        surname
+        email
+      }
+    }
+  }
+`;
+export type JoinMutationFn = Apollo.MutationFunction<
+  JoinMutation,
+  JoinMutationVariables
+>;
+
+/**
+ * __useJoinMutation__
+ *
+ * To run a mutation, you first call `useJoinMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useJoinMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [joinMutation, { data, loading, error }] = useJoinMutation({
+ *   variables: {
+ *      channelName: // value for 'channelName'
+ *   },
+ * });
+ */
+export function useJoinMutation(
+  baseOptions?: Apollo.MutationHookOptions<JoinMutation, JoinMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<JoinMutation, JoinMutationVariables>(
+    JoinDocument,
+    options
+  );
+}
+export type JoinMutationHookResult = ReturnType<typeof useJoinMutation>;
+export type JoinMutationResult = Apollo.MutationResult<JoinMutation>;
+export type JoinMutationOptions = Apollo.BaseMutationOptions<
+  JoinMutation,
+  JoinMutationVariables
+>;
 export const LoginDocument = gql`
   mutation Login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
@@ -2136,6 +2649,195 @@ export type MoviesQueryResult = Apollo.QueryResult<
   MoviesQuery,
   MoviesQueryVariables
 >;
+export const OnMemberJoinDocument = gql`
+  subscription OnMemberJoin {
+    onMemberJoin {
+      channel {
+        id
+        name
+        messages {
+          id
+          text
+          createdBy {
+            id
+            email
+            name
+            surname
+          }
+        }
+        participants {
+          id
+          email
+          name
+          surname
+        }
+      }
+      user {
+        id
+        email
+        name
+        surname
+      }
+    }
+  }
+`;
+
+/**
+ * __useOnMemberJoinSubscription__
+ *
+ * To run a query within a React component, call `useOnMemberJoinSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useOnMemberJoinSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOnMemberJoinSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useOnMemberJoinSubscription(
+  baseOptions?: Apollo.SubscriptionHookOptions<
+    OnMemberJoinSubscription,
+    OnMemberJoinSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSubscription<
+    OnMemberJoinSubscription,
+    OnMemberJoinSubscriptionVariables
+  >(OnMemberJoinDocument, options);
+}
+export type OnMemberJoinSubscriptionHookResult = ReturnType<
+  typeof useOnMemberJoinSubscription
+>;
+export type OnMemberJoinSubscriptionResult =
+  Apollo.SubscriptionResult<OnMemberJoinSubscription>;
+export const OnMessageAddedDocument = gql`
+  subscription OnMessageAdded {
+    onMessageAdded {
+      id
+      text
+      createdBy {
+        id
+        email
+        name
+        surname
+      }
+      channel {
+        id
+        name
+        messages {
+          id
+          text
+          createdBy {
+            id
+            email
+            name
+            surname
+          }
+        }
+        participants {
+          id
+          name
+          surname
+          email
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useOnMessageAddedSubscription__
+ *
+ * To run a query within a React component, call `useOnMessageAddedSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useOnMessageAddedSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOnMessageAddedSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useOnMessageAddedSubscription(
+  baseOptions?: Apollo.SubscriptionHookOptions<
+    OnMessageAddedSubscription,
+    OnMessageAddedSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSubscription<
+    OnMessageAddedSubscription,
+    OnMessageAddedSubscriptionVariables
+  >(OnMessageAddedDocument, options);
+}
+export type OnMessageAddedSubscriptionHookResult = ReturnType<
+  typeof useOnMessageAddedSubscription
+>;
+export type OnMessageAddedSubscriptionResult =
+  Apollo.SubscriptionResult<OnMessageAddedSubscription>;
+export const OnQuitDocument = gql`
+  subscription OnQuit {
+    onQuit {
+      id
+      name
+      messages {
+        id
+        text
+        createdBy {
+          id
+          email
+          name
+          surname
+        }
+      }
+      participants {
+        id
+        email
+        name
+        surname
+      }
+    }
+  }
+`;
+
+/**
+ * __useOnQuitSubscription__
+ *
+ * To run a query within a React component, call `useOnQuitSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useOnQuitSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOnQuitSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useOnQuitSubscription(
+  baseOptions?: Apollo.SubscriptionHookOptions<
+    OnQuitSubscription,
+    OnQuitSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSubscription<
+    OnQuitSubscription,
+    OnQuitSubscriptionVariables
+  >(OnQuitDocument, options);
+}
+export type OnQuitSubscriptionHookResult = ReturnType<
+  typeof useOnQuitSubscription
+>;
+export type OnQuitSubscriptionResult =
+  Apollo.SubscriptionResult<OnQuitSubscription>;
 export const PaginatedCinemasDocument = gql`
   query PaginatedCinemas(
     $page: Int
@@ -2298,6 +3000,67 @@ export type PaginatedMoviesQueryResult = Apollo.QueryResult<
   PaginatedMoviesQuery,
   PaginatedMoviesQueryVariables
 >;
+export const QuitDocument = gql`
+  mutation Quit($channelName: String!) {
+    quit(channelName: $channelName) {
+      id
+      name
+      messages {
+        id
+        text
+        createdBy {
+          id
+          email
+          name
+          surname
+        }
+      }
+      participants {
+        id
+        email
+        name
+        surname
+      }
+    }
+  }
+`;
+export type QuitMutationFn = Apollo.MutationFunction<
+  QuitMutation,
+  QuitMutationVariables
+>;
+
+/**
+ * __useQuitMutation__
+ *
+ * To run a mutation, you first call `useQuitMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useQuitMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [quitMutation, { data, loading, error }] = useQuitMutation({
+ *   variables: {
+ *      channelName: // value for 'channelName'
+ *   },
+ * });
+ */
+export function useQuitMutation(
+  baseOptions?: Apollo.MutationHookOptions<QuitMutation, QuitMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<QuitMutation, QuitMutationVariables>(
+    QuitDocument,
+    options
+  );
+}
+export type QuitMutationHookResult = ReturnType<typeof useQuitMutation>;
+export type QuitMutationResult = Apollo.MutationResult<QuitMutation>;
+export type QuitMutationOptions = Apollo.BaseMutationOptions<
+  QuitMutation,
+  QuitMutationVariables
+>;
 export const RegisterDocument = gql`
   mutation Register($input: UserIn!) {
     register(input: $input) {
@@ -2350,6 +3113,84 @@ export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<
   RegisterMutation,
   RegisterMutationVariables
+>;
+export const SendMessageDocument = gql`
+  mutation SendMessage($channelName: String!, $text: String!) {
+    sendMessage(channelName: $channelName, text: $text) {
+      id
+      text
+      createdBy {
+        id
+        name
+        surname
+        email
+      }
+      channel {
+        id
+        name
+        messages {
+          id
+          text
+          createdBy {
+            id
+            email
+            name
+            surname
+          }
+        }
+        participants {
+          id
+          name
+          surname
+          email
+        }
+      }
+    }
+  }
+`;
+export type SendMessageMutationFn = Apollo.MutationFunction<
+  SendMessageMutation,
+  SendMessageMutationVariables
+>;
+
+/**
+ * __useSendMessageMutation__
+ *
+ * To run a mutation, you first call `useSendMessageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSendMessageMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [sendMessageMutation, { data, loading, error }] = useSendMessageMutation({
+ *   variables: {
+ *      channelName: // value for 'channelName'
+ *      text: // value for 'text'
+ *   },
+ * });
+ */
+export function useSendMessageMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    SendMessageMutation,
+    SendMessageMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<SendMessageMutation, SendMessageMutationVariables>(
+    SendMessageDocument,
+    options
+  );
+}
+export type SendMessageMutationHookResult = ReturnType<
+  typeof useSendMessageMutation
+>;
+export type SendMessageMutationResult =
+  Apollo.MutationResult<SendMessageMutation>;
+export type SendMessageMutationOptions = Apollo.BaseMutationOptions<
+  SendMessageMutation,
+  SendMessageMutationVariables
 >;
 export const UpdateCinemaDocument = gql`
   mutation UpdateCinema($updateCinemaId: ID!, $input: UpdateCinemaIn!) {

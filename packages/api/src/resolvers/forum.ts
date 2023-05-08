@@ -6,6 +6,8 @@ import {
   MutationJoinArgs,
   MutationQuitArgs,
   MutationSendMessageArgs,
+  QueryGetChatArgs,
+  Role,
   User
 } from "../gql/types";
 import { Context, pubsub } from "../server";
@@ -18,6 +20,16 @@ export const forumResolver = {
     ): Promise<Omit<ChannelModelType, "_id">[]> => {
       const chats = await ChannelModel.find().exec();
       return chats;
+    },
+    getChat: async (
+      _parent: unknown,
+      args: QueryGetChatArgs
+    ): Promise<Omit<ChannelModelType, "_id">> => {
+      const chat = await ChannelModel.findById(args.id).exec();
+      if (!chat) {
+        throw new Error(ERROR.CHANNEL_NOT_FOUND.message);
+      }
+      return chat;
     }
   },
 
@@ -161,9 +173,26 @@ export const forumResolver = {
     createdBy: async (parent: MessageModelType): Promise<User> => {
       const user = await UserModel.findOne({ _id: parent.createdBy }).exec();
       if (!user) {
-        throw new Error(ERROR.USER_NOT_FOUND.message);
+        return {
+          id: new ObjectId().toString(),
+          name: "unknown",
+          email: "unknown",
+          password: "",
+          authToken: "",
+          role: Role.User
+        };
       }
       return user;
+    },
+
+    channel: async (parent: MessageModelType): Promise<ChannelModelType> => {
+      const channel = await ChannelModel.findOne({
+        messages: { $in: [parent._id] }
+      }).exec();
+      if (!channel) {
+        throw new Error(ERROR.CHANNEL_NOT_FOUND.message);
+      }
+      return channel;
     }
   }
 };

@@ -1,0 +1,30 @@
+mutation Join($channelName: String!) {
+  join(channelName: $channelName) {
+    channel {
+      id
+      name
+      messages {
+        id
+        text
+        createdBy {
+          id
+          email
+          name
+          surname
+        }
+      }
+      participants {
+        id
+        name
+        surname
+        email
+      }
+    }
+    user {
+      id
+      name
+      surname
+      email
+    }
+  }
+}

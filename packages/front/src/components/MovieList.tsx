@@ -144,6 +144,7 @@ export const EmptyResults = styled.div`
   align-items: center;
   background-color: #ffffff;
   height: 100px;
+  width: 100%;
   border-radius: 6px;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.14);
 `;

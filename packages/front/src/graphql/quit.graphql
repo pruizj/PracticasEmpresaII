@@ -1,0 +1,22 @@
+mutation Quit($channelName: String!) {
+  quit(channelName: $channelName) {
+    id
+    name
+    messages {
+      id
+      text
+      createdBy {
+        id
+        email
+        name
+        surname
+      }
+    }
+    participants {
+      id
+      email
+      name
+      surname
+    }
+  }
+}

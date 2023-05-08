@@ -1,0 +1,32 @@
+mutation SendMessage($channelName: String!, $text: String!) {
+  sendMessage(channelName: $channelName, text: $text) {
+    id
+    text
+    createdBy {
+      id
+      name
+      surname
+      email
+    }
+    channel {
+      id
+      name
+      messages {
+        id
+        text
+        createdBy {
+          id
+          email
+          name
+          surname
+        }
+      }
+      participants {
+        id
+        name
+        surname
+        email
+      }
+    }
+  }
+}

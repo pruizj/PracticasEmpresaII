@@ -6,6 +6,7 @@ import Button from "../components/Button";
 import CinemasWeb from "../components/CinemasWeb";
 import MoviesWeb from "../components/MoviesWeb";
 import ProfileWeb from "../components/ProfileWeb";
+import ForumWeb from "../components/ForumWeb";
 
 const isLocalStorageAvailable = () => {
   const testKey = "test";
@@ -82,7 +83,7 @@ const UserDashboardPage: NextPage = () => {
       <Section>
         {activeSection === "Cinemas" && <CinemasWeb />}
         {activeSection === "Movies" && <MoviesWeb />}
-        {/* {activeSection === "Foro" && <Foro />} */}
+        {activeSection === "Foro" && <ForumWeb />}
         {activeSection === "Profile" && <ProfileWeb />}
       </Section>
     </LayoutPage>

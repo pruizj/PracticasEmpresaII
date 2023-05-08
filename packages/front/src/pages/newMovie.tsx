@@ -66,6 +66,18 @@ const NewMovie: FC = () => {
     }
   };
 
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files && event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        const base64Image = reader.result?.toString();
+        setImage(base64Image);
+      };
+    }
+  };
+
   return (
     <LayoutPage>
       <Form onSubmit={handleSubmit}>
@@ -80,6 +92,13 @@ const NewMovie: FC = () => {
             required
           />
           <Label>Image</Label>
+          <LocalInput
+            id="image"
+            name="image"
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+          />
           <Label>Trailer</Label>
           <LocalInput
             type="text"

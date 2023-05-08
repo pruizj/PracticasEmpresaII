@@ -89,5 +89,6 @@ export const EmptyResults = styled.div`
   background-color: #ffffff;
   height: 100px;
   border-radius: 6px;
+  width: 100%;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.14);
 `;
