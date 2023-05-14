@@ -8,6 +8,7 @@ import {
 import Loading from "../components/Loading";
 import Button from "../components/Button";
 import Input from "../components/Input";
+import router from "next/router";
 
 export interface FormData {
   title: string;
@@ -42,7 +43,11 @@ const WebMovie = ({ id }) => {
         <Container>
           <Content>
             <Image>
-              <img src={data.movie.image} alt="movie" />
+              <img
+                style={{ height: "267px" }}
+                src={data.movie.image}
+                alt="movie"
+              />
               <p>
                 {data.movie.rating === 1 ? (
                   <RatingImage className="rating" src="/images/star.jpg" />
@@ -76,6 +81,12 @@ const WebMovie = ({ id }) => {
                   <div></div>
                 )}
               </p>
+              <LocalButton
+                type="button"
+                onClick={() => router.push("/userDashboard")}
+              >
+                volver
+              </LocalButton>
             </Image>
             <Info>
               <Item>
@@ -204,12 +215,18 @@ const Image = styled.div`
   margin-bottom: 20px;
   margin-top: 65px;
   width: 30%;
-  height: 450px;
+  height: 91%;
 
   h3 {
     font-family: "Courier New";
     height: 350px;
   }
+`;
+
+const LocalButton = styled(Button)`
+  width: 30%;
+  padding: 10px;
+  margin-top: 190%;
 `;
 
 const Info = styled.div`

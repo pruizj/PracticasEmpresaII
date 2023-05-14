@@ -19,6 +19,9 @@ const RegisterPage = () => {
   const [errorExists, setErrorExists] = useState<boolean>(false);
   const [errorNotSecure, setErrorNotSecure] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirmation, setShowPasswordConfirmation] =
+    useState(false);
   const [register] = useRegisterMutation();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -95,23 +98,37 @@ const RegisterPage = () => {
               }
             </ErrorAlert>
           )}
-          <Input
-            type="password"
-            value={password}
-            onChange={event => {
-              setPassword(event.target.value);
-            }}
-            required
-          />
+          <Password>
+            <InputLocal
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={event => {
+                setPassword(event.target.value);
+              }}
+              required
+            />
+            <ShowButton
+              onClick={() => setShowPassword(!showPassword)}
+              showPassword={showPassword}
+            />
+          </Password>
           <Label>Confirmar contraseña</Label>
-          <Input
-            type="password"
-            value={confirmPassword}
-            onChange={event => {
-              setConfirmPassword(event.target.value);
-            }}
-            required
-          />
+          <Password>
+            <InputLocal
+              type={showPasswordConfirmation ? "text" : "password"}
+              value={confirmPassword}
+              onChange={event => {
+                setConfirmPassword(event.target.value);
+              }}
+              required
+            />
+            <ShowButton
+              onClick={() =>
+                setShowPasswordConfirmation(!showPasswordConfirmation)
+              }
+              showPassword={showPasswordConfirmation}
+            />
+          </Password>
           {errorExists && (
             <ErrorAlert type="error" onClose={() => setErrorExists(false)}>
               {"Este usuario ya existe"}
@@ -165,6 +182,12 @@ const Container = styled.div`
   height: 90vh;
 `;
 
+const InputLocal = styled(Input)`
+  width: 100%;
+  margin-bottom: 0;
+  height: 20px;
+`;
+
 const Form = styled.form`
   display: flex;
   color: white;
@@ -200,6 +223,31 @@ const ModalContainer = styled.div`
     font-family: "Courier New";
     line-height: 1.33;
   }
+`;
+
+const Password = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 83%;
+  margin-bottom: 20px;
+`;
+
+interface ShowButtonProps {
+  showPassword: boolean;
+}
+const ShowButton = styled.div<ShowButtonProps>`
+  background: ${props => `url("/images/viewed.svg")`};
+  no-repeat;
+  background-position: center center;
+  background-size: ${props => (props.showPassword ? 30 : 26)}px;
+  cursor: pointer;
+  height: 20px;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translate(0px, -50%);
+  width: 30px;
 `;
 
 export default RegisterPage;

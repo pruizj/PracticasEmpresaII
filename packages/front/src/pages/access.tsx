@@ -14,6 +14,7 @@ const Access = () => {
   const [error, setError] = useState<boolean>(false);
   const router = useRouter();
   const [login] = useLoginMutation();
+  const [showPassword, setShowPassword] = useState(false);
 
   const callLogin = async () => {
     const result = await login({ variables: { email, password } }).catch(e => {
@@ -48,14 +49,20 @@ const Access = () => {
             required
           />
           <Label>Contraseña</Label>
-          <Input
-            type="password"
-            value={password}
-            onChange={event => {
-              setPassword(event.target.value);
-            }}
-            required
-          />
+          <Password>
+            <InputLocal
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={event => {
+                setPassword(event.target.value);
+              }}
+              required
+            />
+            <ShowButton
+              onClick={() => setShowPassword(!showPassword)}
+              showPassword={showPassword}
+            />
+          </Password>
           {error && (
             <ErrorAlert type="error" onClose={() => setError(false)}>
               El correo o la contraseña son incorrectos
@@ -93,6 +100,12 @@ const Container = styled.div`
   height: 80vh;
 `;
 
+const InputLocal = styled(Input)`
+  width: 100%;
+  margin-bottom: 0;
+  height: 20px;
+`;
+
 const Form = styled.form`
   display: flex;
   color: white;
@@ -118,6 +131,31 @@ const Text = styled.p`
 
 const ErrorAlert = styled(Alert)`
   margin-bottom: 10px;
+`;
+
+const Password = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 82%;
+  margin-bottom: 20px;
+`;
+
+interface ShowButtonProps {
+  showPassword: boolean;
+}
+const ShowButton = styled.div<ShowButtonProps>`
+  background: ${props => `url("/images/viewed.svg")`};
+  no-repeat;
+  background-position: center center;
+  background-size: ${props => (props.showPassword ? 30 : 26)}px;
+  cursor: pointer;
+  height: 20px;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translate(0px, -50%);
+  width: 30px;
 `;
 
 export default Access;

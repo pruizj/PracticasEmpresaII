@@ -31,6 +31,12 @@ const WebCinema = ({ id }) => {
         <Container>
           <Cinema>
             <h2>{data.cinema.name.toUpperCase()}</h2>
+            <LocalButton
+              type="button"
+              onClick={() => router.push("/userDashboard")}
+            >
+              Volver
+            </LocalButton>
           </Cinema>
           <Schedule>
             {data.cinema.schedule.length === 0 ? (
@@ -144,21 +150,23 @@ const Container = styled.div`
 
 const Cinema = styled.div`
   display: flex;
-  flex-direction: column;
+  width: 100%;
+  flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   text-align: center;
 
   h2 {
     font-size: 28px;
     color: #9f67ad;
     font-family: "Courier New";
+    width: 85%;
   }
+`;
 
-  p {
-    font-size: 16px;
-    margin-bottom: 5px;
-    font-family: "Courier New";
-  }
+const LocalButton = styled(Button)`
+  width: 15%;
+  margin: 0 0 0 80%;
 `;
 
 const Schedule = styled.div`

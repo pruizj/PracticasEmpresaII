@@ -104,7 +104,7 @@ export default SummaryBooking;
 
 const LocalButton = styled(Button)`
   width: 15%;
-  margin: 0 0 0 80%;
+  margin: 10px 0 0 80%;
 `;
 
 const Content = styled.div`

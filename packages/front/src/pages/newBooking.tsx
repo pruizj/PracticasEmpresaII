@@ -80,6 +80,11 @@ const NewBooking = ({ cinema, day, time, room, movie }) => {
     }
   };
 
+  const onCancelClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    router.push(`/webCinema?id=${cinema}`);
+  };
+
   return (
     <LayoutPage>
       <Form onSubmit={handleSubmit}>
@@ -145,6 +150,9 @@ const NewBooking = ({ cinema, day, time, room, movie }) => {
           </Item>
         </Content>
         <BottomIndex>
+          <LocalButton type="button" onClick={onCancelClick}>
+            Cancelar
+          </LocalButton>
           <LocalButton
             type="submit"
             disabled={!(seats && cardNumber && expiryDate && cvv)}
@@ -205,8 +213,7 @@ const LocalInput = styled(Input)`
 `;
 
 const LocalButton = styled(Button)`
-  width: 15%;
-  margin: 0 0 0 80%;
+  width: 20%;
 `;
 
 const Content = styled.div`
@@ -232,10 +239,11 @@ const Title = styled.p`
 `;
 
 const BottomIndex = styled.div`
-  width: 96%;
+  width: 48%;
+  flex-direction: row;
+  justify-content: space-between;
   display: flex;
-  justify-content: flex-end;
-  margin: 0 0 20px 0;
+  padding: 20px;
 `;
 
 const Item = styled.div`

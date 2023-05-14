@@ -62,6 +62,11 @@ const NewCinema: FC = () => {
     setSchedule(schedule.filter(i => i !== item));
   };
 
+  const onCancelClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    router.push(`/adminDashboard`);
+  };
+
   return (
     <LayoutPage>
       <Form onSubmit={handleSubmit}>
@@ -225,6 +230,9 @@ const NewCinema: FC = () => {
           </ErrorAlert>
         )}
         <BottomIndex>
+          <LocalButton type="button" onClick={onCancelClick}>
+            Cancelar
+          </LocalButton>
           <LocalButton
             type="submit"
             disabled={
@@ -305,13 +313,13 @@ const Day = styled.div`
 const Time = styled.div`
   display: flex;
   flex-direction: column;
-  margin-right: 20px;
+  margin-right: 10px;
 `;
 
 const Room = styled.div`
   display: flex;
   flex-direction: column;
-  margin-right: 20px;
+  margin-right: 10px;
 `;
 
 const LocalInput1 = styled(Input)`
@@ -331,7 +339,7 @@ const LocalButton1 = styled(Button)`
 `;
 
 const BottomIndex = styled.div`
-  width: 96%;
+  width: 90%;
   display: flex;
   justify-content: flex-end;
   margin: 0 0 20px 0;

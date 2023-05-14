@@ -66,6 +66,11 @@ const NewMovie: FC = () => {
     }
   };
 
+  const onCancelClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    router.push(`/adminDashboard`);
+  };
+
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
     if (file) {
@@ -91,7 +96,7 @@ const NewMovie: FC = () => {
             }}
             required
           />
-          <Label>Image</Label>
+          <Label>Imagen</Label>
           <LocalInput
             id="image"
             name="image"
@@ -222,6 +227,9 @@ const NewMovie: FC = () => {
           )}
         </Content>
         <BottomIndex>
+          <LocalButton type="button" onClick={onCancelClick}>
+            Cancelar
+          </LocalButton>
           <LocalButton
             type="submit"
             disabled={
@@ -316,7 +324,7 @@ const LocalButton1 = styled(Button)`
 `;
 
 const BottomIndex = styled.div`
-  width: 96%;
+  width: 88%;
   display: flex;
   justify-content: flex-end;
   margin: 0 0 60px 0px;

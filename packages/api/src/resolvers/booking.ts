@@ -57,7 +57,7 @@ export const bookingResolver = {
           schedule.day === args.schedule.day &&
           schedule.time === args.schedule.time &&
           schedule.room === args.schedule.room &&
-          schedule.movie === args.schedule.movie
+          schedule.movie.toString() === args.schedule.movie
         ) {
           if (schedule.capacity === 0) {
             throw new Error(ERROR.BOOKING_FULL.message);
