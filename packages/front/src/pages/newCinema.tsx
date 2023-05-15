@@ -206,7 +206,21 @@ const NewCinema: FC = () => {
             schedule.map(item => (
               <Movies key={`${item.day}-${item.time}-${item.room}`}>
                 <Item>
-                  <p>{item.day}</p>
+                  <p>
+                    {item.day === Days.Monday
+                      ? "Lunes"
+                      : item.day === Days.Tuesday
+                      ? "Martes"
+                      : item.day === Days.Wednesday
+                      ? "Miércoles"
+                      : item.day === Days.Thursday
+                      ? "Jueves"
+                      : item.day === Days.Friday
+                      ? "Viernes"
+                      : item.day === Days.Saturday
+                      ? "Sábado"
+                      : "Domingo"}
+                  </p>
                   <p>{item.time}</p>
                   <p>{item.room}</p>
                   <p>{movies.find(movie => movie.id === item.movie)?.title}</p>

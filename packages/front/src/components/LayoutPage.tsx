@@ -10,7 +10,7 @@ const LayoutPage: FC<{ children: ReactNode }> = ({ children }) => {
     <Layout>
       <Header>
         <img src="/images/icon.jpg" />
-        <Title>CARTELERA</Title>
+        <Title>CINEBRIJA</Title>
         {data?.me && (
           <LogButton
             onClick={() => {

@@ -57,7 +57,11 @@ const WebCinema = ({ id }) => {
                         <img
                           src={item.movie.image}
                           alt="movie"
-                          style={{ paddingBottom: "20px" }}
+                          style={{
+                            paddingBottom: "20px",
+                            height: "500px",
+                            width: "300px"
+                          }}
                         />
                         <ImageLink
                           href={`https://www.youtube.com/watch?v=${item.movie.trailer}`}

@@ -5,7 +5,7 @@ const MainHeader: FC = () => {
   return (
     <Header>
       <img src="/images/icon.jpg" />
-      <Title>CARTELERA</Title>
+      <Title>CINEBRIJA</Title>
     </Header>
   );
 };

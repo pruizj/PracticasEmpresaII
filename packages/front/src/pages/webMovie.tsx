@@ -44,7 +44,7 @@ const WebMovie = ({ id }) => {
           <Content>
             <Image>
               <img
-                style={{ height: "267px" }}
+                style={{ height: "350px", width: "250px" }}
                 src={data.movie.image}
                 alt="movie"
               />
@@ -226,7 +226,7 @@ const Image = styled.div`
 const LocalButton = styled(Button)`
   width: 30%;
   padding: 10px;
-  margin-top: 190%;
+  margin-top: 90%;
 `;
 
 const Info = styled.div`

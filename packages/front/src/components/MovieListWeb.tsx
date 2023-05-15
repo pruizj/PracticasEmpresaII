@@ -116,7 +116,7 @@ const MovieContainer = styled.div`
 const MovieContent = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: center;
   margin: 50px;
   p {
     margin-top: 10px;
@@ -125,11 +125,6 @@ const MovieContent = styled.div`
   h2 {
     font-family: "Courier New";
     color: #9f67ad;
-  }
-  h3 {
-    height: 300px;
-    width: 200px;
-    font-family: "Courier New";
   }
 `;
 

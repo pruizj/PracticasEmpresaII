@@ -22,7 +22,7 @@ const Movies: FC = () => {
   const { data, loading, error, refetch } = usePaginatedMoviesQuery({
     variables: {
       page,
-      pageSize: 5,
+      pageSize: 6,
       order,
       searchTitle: searchTitleFinal
     }
