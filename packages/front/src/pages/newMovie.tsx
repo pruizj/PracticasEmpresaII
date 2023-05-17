@@ -1,18 +1,12 @@
 import styled from "@emotion/styled";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
 import { ERROR } from "../../../api/src/errors";
 import Alert from "../components/Alert";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import LayoutPage from "../components/LayoutPage";
-import LocalSelect from "../components/LocalSelect";
 import router from "next/router";
-import {
-  Days,
-  Movie,
-  Schedule,
-  useCreateMovieMutation
-} from "../generated/graphql";
+import { useCreateMovieMutation } from "../generated/graphql";
 import TextArea from "../components/TextArea";
 
 const NewMovie: FC = () => {
@@ -55,7 +49,7 @@ const NewMovie: FC = () => {
           }
         }
       });
-      router.push(`/adminDashboard`);
+      router.push(`/adminDashboardMovies`);
     } catch (err) {
       console.log(err);
       if (err.message === ERROR.MOVIE_ALREADY_EXISTS.message) {
@@ -68,7 +62,7 @@ const NewMovie: FC = () => {
 
   const onCancelClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    router.push(`/adminDashboard`);
+    router.push(`/adminDashboardMovies`);
   };
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {

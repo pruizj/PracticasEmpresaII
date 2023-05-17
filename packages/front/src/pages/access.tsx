@@ -18,7 +18,10 @@ const Access = () => {
 
   const callLogin = async () => {
     const result = await login({ variables: { email, password } }).catch(e => {
-      if (e.message === ERROR.INVALID_USER_OR_PASSWORD.message) {
+      if (
+        e.message === ERROR.INVALID_USER_OR_PASSWORD.message ||
+        e.message === ERROR.USER_NOT_FOUND.message
+      ) {
         setError(true);
       }
     });
@@ -26,9 +29,9 @@ const Access = () => {
     if (result && result.data) {
       document.cookie = `token=${result.data.login.token};path=/;`;
       if (result.data.login.role === Role.Admin) {
-        router.push("/adminDashboard");
+        window.location.href = "/adminDashboardCinemas";
       } else {
-        router.push("/userDashboard");
+        window.location.href = "/userDashboardCinemas";
       }
     }
   };

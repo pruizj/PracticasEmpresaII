@@ -30,9 +30,6 @@ export default LayoutPage;
 
 const Header = styled.div`
   box-sizing: border-box;
-  position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 10.4%;
   background-color: #ffffff;
@@ -68,6 +65,5 @@ const LogButton = styled(Button)`
 
 const Content = styled.div`
   display: flex;
-  margin-top: 98px;
   min-height: calc(100vh - 98px);
 `;

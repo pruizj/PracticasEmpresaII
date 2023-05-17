@@ -49,7 +49,7 @@ const NewCinema: FC = () => {
           }
         }
       });
-      router.push(`/adminDashboard`);
+      router.push(`/adminDashboardCinemas`);
     } catch (err) {
       if (err.message === ERROR.CINEMA_ALREADY_EXISTS.message) {
         setErrorExists(true);
@@ -64,7 +64,7 @@ const NewCinema: FC = () => {
 
   const onCancelClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    router.push(`/adminDashboard`);
+    router.push(`/adminDashboardCinemas`);
   };
 
   return (

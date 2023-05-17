@@ -38,7 +38,7 @@ const EditCinema = ({ id }) => {
     });
 
     if (!errors) {
-      router.push("/adminDashboard");
+      router.push("/adminDashboardCinemas");
     } else {
       setErrorAlert(true);
       setLoadingSave(false);
@@ -67,7 +67,7 @@ const EditCinema = ({ id }) => {
   };
 
   const onCancel = () => {
-    router.push(`/adminDashboard`);
+    router.push(`/adminDashboardCinemas`);
   };
 
   return (

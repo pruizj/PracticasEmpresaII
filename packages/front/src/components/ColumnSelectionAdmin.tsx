@@ -1,38 +1,17 @@
+import { FC, ReactNode } from "react";
+import LayoutPage from "./LayoutPage";
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
-import Button from "../components/Button";
-import LayoutPage from "../components/LayoutPage";
-import Users from "../components/Users";
-import Cinemas from "../components/Cinemas";
-import Movies from "../components/Movies";
-import Bookings from "../components/Bookings";
+import Button from "./Button";
+import { useRouter } from "next/router";
 
-const isLocalStorageAvailable = () => {
-  try {
-    const testKey = "test";
-    localStorage.setItem(testKey, testKey);
-    localStorage.removeItem(testKey);
-    return true;
-  } catch (e) {
-    return false;
-  }
-};
-
-const AdminDashboardPage = () => {
-  const lastActiveSection = isLocalStorageAvailable()
-    ? (localStorage.getItem("activeSection") as
-        | "Cinemas"
-        | "Movies"
-        | "Users"
-        | "Bookings")
-    : null;
-  const [activeSection, setActiveSection] = useState<
-    "Cinemas" | "Movies" | "Users" | "Bookings"
-  >(lastActiveSection || "Cinemas");
-
-  useEffect(() => {
-    localStorage.setItem("activeSection", activeSection);
-  }, [activeSection]);
+const ColumnSelectionAdmin: FC<{
+  children: ReactNode;
+  activeSection: string;
+}> = ({ children, activeSection }) => {
+  const router = useRouter();
+  const setActiveSection = (activeSection: string) => {
+    router.push(`/adminDashboard${activeSection}`);
+  };
 
   return (
     <LayoutPage>
@@ -76,12 +55,7 @@ const AdminDashboardPage = () => {
           USUARIOS
         </Button>
       </ColumnButtons>
-      <Section>
-        {activeSection === "Cinemas" && <Cinemas />}
-        {activeSection === "Users" && <Users />}
-        {activeSection === "Movies" && <Movies />}
-        {activeSection === "Bookings" && <Bookings />}
-      </Section>
+      <Section>{children}</Section>
     </LayoutPage>
   );
 };
@@ -100,4 +74,4 @@ const ColumnButtons = styled.div`
   width: 15%;
 `;
 
-export default AdminDashboardPage;
+export default ColumnSelectionAdmin;

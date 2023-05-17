@@ -43,7 +43,10 @@ const link = isBrowser
 
 const localClient = new ApolloClient({
   link,
-  cache: new InMemoryCache()
+  cache: new InMemoryCache(),
+  headers: {
+    Authorization: `Bearer ${token}`
+  }
 });
 
 export default localClient;

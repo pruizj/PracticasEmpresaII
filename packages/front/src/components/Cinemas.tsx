@@ -19,6 +19,7 @@ const Cinemas: FC = () => {
   const [searchNameFinal, setSearchNameFinal] = useState<string>("");
   const [order, setOrder] = useState<GeneralOrderType>(GeneralOrderType.NameAz);
   const [deleteCinema] = useDeleteCinemaMutation();
+
   const { data, loading, error, refetch } = usePaginatedCinemasQuery({
     variables: {
       page,
@@ -86,14 +87,16 @@ const Cinemas: FC = () => {
           />
         </Filter>
       </FiltersDiv>
-      <CinemaList
-        cinemas={data?.paginatedCinemas?.data}
-        onDelete={async cinema => {
-          deleteCinema({
-            variables: { deleteCinemaId: cinema.id }
-          });
-        }}
-      />
+      {data && (
+        <CinemaList
+          cinemas={data?.paginatedCinemas?.data}
+          onDelete={async cinema => {
+            deleteCinema({
+              variables: { deleteCinemaId: cinema.id }
+            });
+          }}
+        />
+      )}
       {loading ? (
         <Loading />
       ) : (

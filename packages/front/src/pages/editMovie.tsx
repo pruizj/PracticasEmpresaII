@@ -44,7 +44,7 @@ const EditMovie = ({ id }) => {
     });
 
     if (!errors) {
-      router.push("/adminDashboard");
+      router.push("/adminDashboardMovies");
     } else {
       setErrorAlert(true);
       setLoadingSave(false);
@@ -72,7 +72,7 @@ const EditMovie = ({ id }) => {
   };
 
   const onCancel = () => {
-    router.push("/adminDashboard");
+    router.push("/adminDashboardMovies");
   };
 
   return (

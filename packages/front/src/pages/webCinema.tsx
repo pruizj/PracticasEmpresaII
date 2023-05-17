@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import LayoutPage from "../components/LayoutPage";
 import router from "next/router";
 import { Days, ScheduleIn, useCinemaQuery } from "../generated/graphql";
@@ -33,7 +33,7 @@ const WebCinema = ({ id }) => {
             <h2>{data.cinema.name.toUpperCase()}</h2>
             <LocalButton
               type="button"
-              onClick={() => router.push("/userDashboard")}
+              onClick={() => router.push("/userDashboardCinemas")}
             >
               Volver
             </LocalButton>

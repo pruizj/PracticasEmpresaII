@@ -10,7 +10,7 @@ const BookingSuccess = () => {
         <Success>
           <h1>Compra completada</h1>
           <p>¡La compra de tu entrada se ha completado correctamente!</p>
-          <Link href="/userDashboard">Ir a la página de inicio</Link>
+          <Link href="/userDashboardCinemas">Ir a la página de inicio</Link>
         </Success>
       </Content>
     </LayoutPage>

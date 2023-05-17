@@ -83,7 +83,7 @@ const WebMovie = ({ id }) => {
               </p>
               <LocalButton
                 type="button"
-                onClick={() => router.push("/userDashboard")}
+                onClick={() => router.push("/userDashboardMovies")}
               >
                 volver
               </LocalButton>
